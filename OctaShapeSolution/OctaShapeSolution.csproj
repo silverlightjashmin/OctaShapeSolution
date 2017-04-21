@@ -873,6 +873,8 @@
     <Content Include="Areas\CardInformationSystem\Views\Card_Requested\Index.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_Received\Edit.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_Received\Index.cshtml" />
+    <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\DeliveryRecord.cshtml" />
+    <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\AddDelivery.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
