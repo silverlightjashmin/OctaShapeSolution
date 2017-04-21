@@ -19,19 +19,23 @@ namespace OctaShapeSolution.Areas.PowerMIS.Controllers
             {
                 return RedirectToAction("DashBoard", "Admin");
             }
-            else if (Session["User_Group"].ToString()=="A")
+            else if (Session["User_Group"].ToString() == "1")//executive
             {
-                return RedirectToAction("DashBoard", "Executive");
+                return RedirectToAction("DashBoard", "User");
             }
-            else if (Session["User_Group"].ToString() == "B")
+            else if (Session["User_Group"].ToString() == "2")//departmenthead
             {
-                return RedirectToAction("DashBoard", "DepartmentHead");
+                return RedirectToAction("DashBoard", "User");
             }
-            else if (Session["User_Group"].ToString() == "c")
+            else if (Session["User_Group"].ToString() == "3")//ithead
             {
-                return RedirectToAction("DashBoard", "BranchManager");
+                return RedirectToAction("DashBoard", "User");
             }
-            else if (Session["User_Group"].ToString() == "D")
+            else if (Session["User_Group"].ToString() == "4")//itstaff
+            {
+                return RedirectToAction("DashBoard", "User");
+            }
+            else if (Session["User_Group"].ToString() == "5")//normal user
             {
                 return RedirectToAction("DashBoard", "User");
             }
