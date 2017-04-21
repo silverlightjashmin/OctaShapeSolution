@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web.Mvc;
 using OctaShape.Data;
+using OctaShape.Common;
 
 namespace OctaShapeSolution.Controllers
 {
@@ -65,20 +66,16 @@ namespace OctaShapeSolution.Controllers
                     db.User.Add(u);
                     db.SaveChanges();
 
-                    AppSettingsReader settingsReader = new AppSettingsReader();
-                    string emailid = (string)settingsReader.GetValue("EmailId", typeof(String));
-                    string password = (string)settingsReader.GetValue("Password", typeof(String));
-                    string getsmtp = (string)settingsReader.GetValue("Smtp", typeof(String));
-                    int getport = (int)settingsReader.GetValue("port", typeof(int));
+                   
+                    string Subject = "Please Confirm Your Email Id for eTicketSystem Application";
+                    string Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", u.UserName, Url.Action("VerifyEmail", "Account", new { id = u.id, Email = u.Email }, Request.Url.Scheme));
 
-                    MailMessage m = new MailMessage(emailid, u.Email);
-                    m.Subject = "Please Confirm Your Email Id for eTicketSystem Application";
-                    m.Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", u.UserName, Url.Action("Index", "VerifyEmail", new { id = u.id, Email = u.Email }, Request.Url.Scheme));
-                    m.IsBodyHtml = true;
-                    SmtpClient smtp = new SmtpClient(getsmtp, getport);
-                    smtp.Credentials = new System.Net.NetworkCredential(emailid, password);
-                    smtp.EnableSsl = true;
-                    smtp.Send(m);
+                    SendEmail se = new SendEmail();
+
+                    string messageto = u.Email;
+
+                    se.SendEmails(Subject, Body, messageto);
+
                     return RedirectToAction("Login", "Home");
                 }
                 ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName", u.BranchCode);
@@ -133,20 +130,15 @@ namespace OctaShapeSolution.Controllers
                     db.ResetPassword(username, encyptedpassword);
 
                     //send default password to user email id
-                    AppSettingsReader settingsReader = new AppSettingsReader();
-                    string emailid = (string)settingsReader.GetValue("EmailId", typeof(String));
-                    string password = (string)settingsReader.GetValue("Password", typeof(String));
-                    string getsmtp = (string)settingsReader.GetValue("Smtp", typeof(String));
-                    int getport = (int)settingsReader.GetValue("port", typeof(int));
+                  
+                    string Subject = "Password Reset for eTicketSystem";
+                    string Body = string.Format("Dear {0}<BR/>Your Password has been successfully reset. Your New Password is {1} <BR/> Please Change your Password after First Login.", username, commonpassword);
 
-                    MailMessage m = new MailMessage(emailid, email);
-                    m.Subject = "Password Reset for eTicketSystem";
-                    m.Body = string.Format("Dear {0}<BR/>Your Password has been successfully reset. Your New Password is {1} <BR/> Please Change your Password after First Login.", username, commonpassword);
-                    m.IsBodyHtml = true;
-                    SmtpClient smtp = new SmtpClient(getsmtp, getport);
-                    smtp.Credentials = new System.Net.NetworkCredential(emailid, password);
-                    smtp.EnableSsl = true;
-                    smtp.Send(m);
+                    SendEmail se = new SendEmail();
+                    string messageto = email;
+
+                    se.SendEmails(Subject, Body, messageto);
+
                     return View("ForgotPasswordConfirmation");
                 }
                 else
@@ -269,6 +261,18 @@ namespace OctaShapeSolution.Controllers
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "RoleName");
 
             return View();
+        }
+
+        public ActionResult VerifyEmail(int? id, string Email)  
+
+        {
+
+
+            db.VerifyEmail(id, Email);
+            db.SaveChanges();
+            return View();
+
+
         }
 
     }

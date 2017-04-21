@@ -632,7 +632,6 @@
     <Content Include="img\profile-widget-avatar.jpg" />
     <Content Include="img\right-arrow.png" />
     <Content Include="img\search-icon.jpg" />
-    <Content Include="index.html" />
     <Content Include="js\additional-methods.min.js" />
     <Content Include="js\bootstrap-switch.js" />
     <Content Include="js\bootstrap-wysiwyg-custom.js" />
@@ -1038,6 +1037,7 @@
     <Content Include="Views\Shared\_AdminPanelLayout.cshtml" />
     <Content Include="Views\Shared\_UserPanelLayout.cshtml" />
     <Content Include="Views\Account\AssignRole.cshtml" />
+    <Content Include="Views\Account\VerifyEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
