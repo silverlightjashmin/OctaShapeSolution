@@ -44,6 +44,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 string subject = "New Ticket Has Been Raised By :" + Session["User_Name"].ToString();
                 string Body = string.Format("Dear Admin,<BR/><br/>A New Ticket Has Been Raised By :{0}.<br/><br/> please click on the below link to View the ticket : <a href=\"{1}\" title=\"User Email Confirm\">{2}</a>",ticket.User.UserName, Url.Action("GetTicket", "Comment", new { id = ticket.id }, Request.Url.Scheme));
 
+                //try git
                 var adminemaillist = db.AdminUserList().ToList();
 
                 SendEmail se = new SendEmail();
