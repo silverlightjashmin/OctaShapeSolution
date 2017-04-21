@@ -84,10 +84,6 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 }
 
 
-                //send email to client 
-                messageto = db.User.Find(ticketcomment.Ticket.CreatedBy).Email;
-                se.SendEmails(subject, Body, messageto);
-
 
 
 

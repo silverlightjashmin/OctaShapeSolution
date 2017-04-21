@@ -42,7 +42,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
 
                 //send email to admin for new ticket raised
-                string subject = "New Ticket Has Been Raised By :" + Session["User_Name"].ToString();
+                string subject = "New Ticket Has Been Raised By : " + name;
                 string Body = string.Format("Dear Admin,<BR/><br/>A New Ticket Has Been Raised By :{0}.<br/><br/> please click on the below link to View the ticket : <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>",name, Url.Action("GetTicket", "Comment", new { id = ticket.id }, Request.Url.Scheme));
 
                 //try git
@@ -139,15 +139,20 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
 
+
+                string createby = db.User.Find(ticket.CreatedBy).UserName;
+                string Assigned = db.User.Find(ticket.AssignedTo).UserName;
+               
+
                 //send email to ticket issuer
-                string subject = string.Format("Ticket Nr {0} has been Assigned ", ticket.id);
-                string Body = string.Format("Dear {0},<BR/><br/>Your Ticket has been Assigned To :{1}.<br/><br/> please click on the below link to View your ticket : <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", ticket.User.UserName, Url.Action("GetTicket", "Comment",new { id = ticket.id }, Request.Url.Scheme));
+                string subject = string.Format("Ticket Nr :{0} has been Assigned ", ticket.id);
+                string Body = string.Format("Dear {0},<BR/><br/>Your Ticket has been Assigned To :{1}.<br/><br/> please click on the below link to View your ticket : <a href=\"{2}\" title=\"User Email Confirm\">{2}</a>",createby, Assigned, Url.Action("GetTicket", "Comment",new { id = ticket.id }, Request.Url.Scheme));
                 string messageto = db.User.Find(ticket.CreatedBy).Email;
                 SendEmail se = new SendEmail();
                 se.SendEmails(subject, Body, messageto);
 
                 //send notification to Assigned user
-                Body = string.Format("Dear {0},<BR/><br/>Ticket has been Assigned To You.<br/><br/> please click on the below link to View the ticket : <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", ticket.User.UserName, Url.Action("GetTicket", "Comment", new { id = ticket.id }, Request.Url.Scheme));
+                Body = string.Format("Dear {0},<BR/><br/>New Ticket #{1} has been Assigned To You.<br/><br/> please click on the below link to View the ticket : <a href=\"{2}\" title=\"User Email Confirm\">{2}</a>",  Assigned, ticket.id, Url.Action("GetTicket", "Comment", new { id = ticket.id }, Request.Url.Scheme));
                 messageto = db.User.Find(ticket.AssignedTo).Email;
               
                 se.SendEmails(subject, Body, messageto);
