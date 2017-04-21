@@ -1,0 +1,542 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="eTicketSystem - A Complete Support Ticket System">
+    <meta name="author" content="Jashmin Shrestha">
+    <meta name="keyword" content="eTicketSysetm, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+    <link rel="shortcut icon" href="../../img/favicon.png">
+    <title>eTicketySupportSystem</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <!-- bootstrap theme -->
+    <link href="../../css/bootstrap-theme.css" rel="stylesheet">
+    <!--external css-->
+    <!-- font icon -->
+    <link href="../../css/elegant-icons-style.css" rel="stylesheet" />
+    <link href="../../assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <!-- full calendar css-->
+    <link href="../../assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+    <!-- easy pie chart-->
+    <link href="../../assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
+    <!-- owl carousel -->
+    <link rel="stylesheet" href="../../css/owl.carousel.css" type="text/css">
+    <!-- Custom styles -->
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/style-responsive.css" rel="stylesheet" />
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+      <script src="js/respond.min.js"></script>
+      <script src="js/lte-ie7.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+
+    @foreach (var value in ViewBag.UserDetails)
+    {
+        string UserName = value.UserName;
+        string FullName = value.FullName;
+        string BranchName = value.BranchName;
+        //string Status = value.Status;
+        string RollName = value.RoleName;
+        string Email = value.Email;
+    }
+
+
+
+    <!-- container section start -->
+    <section id="container" class="">
+        <!--header start-->
+
+        <header class="header white-bg">
+            <div class="toggle-nav">
+                <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"></div>
+            </div>
+
+            <!--logo start-->
+            <a href="../User/DashBoard" class="logo">eTicket<span>Support</span> <span class="lite">V 1.0</span></a>
+            <!--logo end-->
+            <div class="nav search-row" id="top_menu">
+                <!--  search form start -->
+                <ul class="nav top-menu">
+                    <li>
+                        <form class="navbar-form">
+                            <input class="form-control" placeholder="Search" type="text">
+                        </form>
+                    </li>
+                </ul>
+                <!--  search form end -->
+            </div>
+            <div class="top-nav notification-row">
+                <!-- notificatoin dropdown start-->
+              
+                <ul class="nav pull-right top-menu">
+
+                    <!-- task notificatoin start -->
+                    <li id="mail_notificatoin_bar" class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <i class="icon-envelope-l"></i>
+                            <span class="badge bg-important">@ViewBag.TicketCount</span>
+                        </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-blue"></div>
+                            <li>
+                                <p class="blue"></p>
+                            </li>
+                            @foreach (var item in ViewBag.PendingTickets)
+                            {
+
+
+                                <li>
+                                    <a href="#">
+                                        <span class="subject">
+                                            <span class="from">@item.Title</span>
+                                            <span class="time">@item.AssignedBy</span>
+                                        </span>
+                                        <span class="message">
+                                            @item.Description
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            <li>
+                                <a href="~/eTicketSystem/Admin/ViewMyTicket">See all Pending Tickets</a>
+                            </li>
+
+
+                    </li>
+
+                </ul>
+               
+                <!-- user login dropdown start-->
+                <li class="dropdown">
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="profile-ava">
+
+                            <!-- Call User Image in this box-->
+                            <img alt="" src="../../img/avatar1_small.jpg">
+
+                        </span>
+
+                        <!--Call Username on this box-->
+
+                        <span class="username">@((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).First().UserName)</span>
+
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu extended logout">
+                        <div class="log-arrow-up"></div>
+                        <li class="eborder-top">
+                            <a href="../Profile/MYProfile"><i class="icon_profile"></i> My Profile</a>
+                        </li>
+
+
+                        <li>
+                            @Html.ActionLink("Log Out", "Logoff", "Home", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+
+                        </li>
+                        <li>
+                            @Html.ActionLink("Reset Password", "ChangePassword", "Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+
+                        </li>
+                        
+
+                    </ul>
+                </li>
+                <!-- user login dropdown end -->
+                </ul>
+
+                <!-- notificatoin dropdown end-->
+            </div>
+        </header>
+        <!--header end-->
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu">
+                    <li class="active">
+                        <a class="" href="~/eTicketSystem/User/DashBoard">
+                            <i class="icon_house_alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_desktop"></i>
+                            <span>User</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            
+                            <li><a class="" href="~/Account/ChangePassword">Reset Password</a></li>
+
+                        </ul>
+                    </li>
+
+                   
+                    <!--   -->
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon_genius"></i>
+                            <span>Tickets</span>
+                            <span class="menu-arrow arrow_carrot-right"></span>
+                        </a>
+                        <ul class="sub">
+                            <li><a class="" href="~/eTicketSystem/User/CreateTicket">Issue New Ticket</a></li>
+                            
+                            <li><a class="" href="~/eTicketSystem/User/ViewMYTicket">View Tickets</a></li>
+                            
+                        </ul>
+                    </li>
+
+
+
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+
+
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper">
+                <!--overview start-->
+                <div class="row state-overview">
+                    <div class="col-lg-4">
+                        <!--user profile info start-->
+                        <section class="panel">
+                            <div class="profile-widget profile-widget-info">
+                                <div class="panel-body">
+                                    <div class="col-lg-4 col-sm-4 profile-widget-name">
+
+                                        <h4>@((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</h4>
+                                        <div class="follow-ava">
+                                            <img src="../../img/profile-widget-avatar.jpg" alt="">
+                                        </div>
+
+                                        <h6>
+                                            @((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().RoleName)
+                                        </h6>
+
+                                    </div>
+                                    <div class="col-lg-8 col-sm-8 follow-info">
+
+                                        <p>Welcome back @((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().FirstName), Please check your pending work.</p>
+                                        <p>@((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</p>
+                                        <h6>
+                                            <span><i class="icon_clock_alt"></i>@ViewBag.Time</span>
+                                            <span><i class="icon_calendar"></i>@ViewBag.Date</span>
+                                            <span><i class="icon_pin_alt"></i>@ViewBag.Country</span>
+                                        </h6>
+                                    </div>
+                                    <div class="weather-category twt-category">
+                                        <ul>
+                                            <li class="active">
+                                                <h6>@ViewBag.HostName</h6>
+                                                <i class="icon_close_alt2"></i> Host-Name
+                                            </li>
+                                            <li>
+                                                <h6>@ViewBag.HostIp</h6>
+                                                <i class="icon_check_alt2"></i> Your Pc IP
+                                            </li>
+                                            <li>
+                                                <h6>Any data </h6>
+                                                <i class="icon_plus_alt2"></i> Anything
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <footer class="profile-widget-foot">
+                                    <div class="follow-task">
+                                        <span>
+                                            <a href="">
+                                                <i class="icon_mail_alt tooltips" data-original-title="My Mail"></i>
+                                                <span class="badge bg-important">4</span>
+                                            </a>
+                                        </span>
+                                        <span>
+                                            <a href="">
+                                                <i class="icon_percent tooltips" data-original-title="My Profit"></i>
+                                            </a>
+                                        </span>
+                                        <span>
+                                            <a href="">
+                                                <i class="icon_heart_alt tooltips" data-original-title="Favorits"></i>
+                                                <span class="badge bg-important">2</span>
+                                            </a>
+                                        </span>
+                                        <span>
+                                            <a href="">
+                                                <i class="icon_cart_alt tooltips" data-original-title="Sell"></i>
+                                            </a>
+                                        </span>
+                                        <span>
+                                            <a href="">
+                                                <i class="icon_lightbulb_alt tooltips" data-original-title="Suggesation"></i>
+                                                <span class="badge bg-important">6</span>
+                                            </a>
+                                        </span>
+                                        <span>
+                                            <a href="">
+                                                <i class="icon_piechart tooltips" data-original-title="Reports"></i>
+                                            </a>
+                                        </span>
+
+                                    </div>
+                                </footer>
+                            </div>
+                        </section>
+                        <!--user profile info end-->
+                    </div>
+                    <!-- statics start -->
+                    <h3>My Ticket Record</h3>
+
+                    <div class="state col-lg-8">
+                        <div class="row">
+
+
+                            <div class="col-lg-3 col-sm-6">
+                                <section class="panel">
+                                    <div class="symbol">
+                                        <i class="icon_tags_alt"></i>
+                                    </div>
+                                    <div class="value">
+                                        <h1>@ViewBag.TicketCount</h1>
+                                        <p>Total Assigned </p>
+                                    </div>
+                                </section>
+                            </div>
+
+
+
+                            <div class="col-lg-3 col-sm-6">
+                                <section class="panel">
+                                    <div class="symbol">
+                                        <i class="icon_tags_alt"></i>
+                                    </div>
+                                    <div class="value">
+                                        <h1>@ViewBag.OpenTicketCount</h1>
+                                        <p>Pending </p>
+                                    </div>
+                                </section>
+                            </div>
+
+
+                            <div class="col-lg-3 col-sm-6">
+                                <section class="panel">
+                                    <div class="symbol">
+                                        <i class="icon_tags_alt"></i>
+                                    </div>
+                                    <div class="value">
+                                        <h1>@ViewBag.ResolvedTicketCount</h1>
+                                        <p>Resolved Tickets </p>
+                                    </div>
+                                </section>
+                            </div>
+
+                            <div class="col-lg-3 col-sm-6">
+                                <section class="panel">
+                                    <div class="symbol">
+                                        <i class="icon_tags_alt"></i>
+                                    </div>
+                                    <div class="value">
+                                        <h1>@ViewBag.ClosedTicketCount</h1>
+                                        <p>Solved Tickets </p>
+                                    </div>
+                                </section>
+                            </div>
+
+
+                        </div>
+
+
+                        
+                    </div>
+                    <!-- statics end -->
+                </div>
+                <!--overview end-->
+                <!-- project team & activity start -->
+                <div class="row">
+                    <div class="col-lg-4">
+                       
+                    </div>
+                    <div class="col-lg-12">
+                        <!--Project Activity start-->
+                        <section class="panel">
+                            <div class="panel-body progress-panel">
+                                <div class="row">
+                                    <div class="col-lg-12 task-progress pull-left">
+                                        <h2>Ticket Status</h2>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class="profile-ava pull-right">
+                                            
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="table table-hover personal-task">
+                                <tbody>
+                                    <tr>
+                                        <th>    Date  </th>
+                                        <th>    Branch Name</th>
+                                        <th>    Ticket Title</th>
+                                        <th>    Ticket Priority</th>
+
+                                        <th>    Ticket Category</th>
+                                        <th>    Created By </th>
+
+                                    </tr>
+
+
+
+                                    @foreach (var ticket in ViewBag.TicketList)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @ticket.CreatedDate
+
+                                            </td>
+                                            <td>
+                                                @ticket.BranchCode
+                                            </td>
+                                            <td>
+                                                @ticket.Title
+                                            </td>
+
+                                            @{
+                                                int count = Convert.ToInt32(ticket.TicketPriorityId);
+
+                                            }
+
+                                            @switch (count)
+                                            {
+
+                                                case 0:
+
+
+                                                    <td>
+                                                        <span class="badge bg-info">@ticket.TicketPriorityId--Low</span>
+
+                                                    </td>
+                                                    break;
+
+                                                case 1:
+
+                                                    <td>
+                                                        <span class="badge bg-primary">@ticket.TicketPriorityId--Normal</span>
+
+                                                    </td>
+                                                    break;
+
+                                                case 2:
+
+                                                    <td>
+                                                        <span class="badge bg-success">@ticket.TicketPriorityId--Urgent</span>
+
+                                                    </td>
+                                                    break;
+
+                                                default:
+
+
+                                                    <td>
+                                                        <span class="badge bg-important">@ticket.TicketPriorityId--Emergency</span>
+
+                                                    </td>
+                                                    break;
+
+                                            }
+
+                                            <td>
+                                                @ticket.Categoryid
+                                            </td>
+
+                                            <td>
+                                                @ticket.CreatedBy
+                                            </td>
+
+
+                                        </tr>
+                                                }
+
+
+                                </tbody>
+                            </table>
+                        </section>
+                        <!--Project Activity end-->
+                    </div>
+                </div>
+                <!-- project team & activity end -->
+            </section>
+
+
+
+        </section>
+        <!--main content end-->
+    </section>
+    <!-- container section start -->
+    <!-- javascripts -->
+    <script src="../../js/jquery.js"></script>
+    <script src="../../js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="../../js/jquery-ui-1.9.2.custom.min.js"></script>
+    <!-- bootstrap -->
+    <script src="../../js/bootstrap.min.js"></script>
+    <!-- nice scroll -->
+    <script src="../../js/jquery.scrollTo.min.js"></script>
+    <script src="../../js/jquery.nicescroll.js" type="text/javascript"></script>
+    <!-- charts scripts -->
+    <script src="../../assets/jquery-knob/js/jquery.knob.js"></script>
+    <script src="../../js/jquery.sparkline.js" type="text/javascript"></script>
+    <script src="../../assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    <script src="../../js/owl.carousel.js"></script>
+    <!-- jQuery full calendar -->
+    <script src="../../assets/fullcalendar/fullcalendar/fullcalendar.min.js"></script>
+    <!--script for this page only-->
+    <script src="../../js/calendar-custom.js"></script>
+    <!-- custom select -->
+    <script src="../../js/jquery.customSelect.min.js"></script>
+    <!--custome script for all page-->
+    <script src="../../js/scripts.js"></script>
+    <!-- custom script for this page-->
+    <script src="../../js/sparkline-chart.js"></script>
+    <script src="../../js/easy-pie-chart.js"></script>
+    <script>
+
+        //knob
+        $(function () {
+            $(".knob").knob({
+                'draw': function () {
+                    $(this.i).val(this.cv + '%')
+                }
+            })
+        });
+
+        //carousel
+        $(document).ready(function () {
+            $("#owl-slider").owlCarousel({
+                navigation: true,
+                slideSpeed: 300,
+                paginationSpeed: 400,
+                singleItem: true
+
+            });
+        });
+
+        //custom select box
+
+        $(function () {
+            $('select.styled').customSelect();
+        });
+
+    </script>
+</body>
+
+</html>

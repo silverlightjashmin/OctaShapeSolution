@@ -1,0 +1,1202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="eTicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="varchar" MaxLength="50" />
+          <Property Name="IsAdmin" Type="bit" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="TicketPriorityId" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="TicketStatusId" Type="int" />
+          <Property Name="EditEnable" Type="bit" />
+          <Property Name="LastEditedOn" Type="datetime" />
+          <Property Name="AssignedBy" Type="int" />
+          <Property Name="Categoryid" Type="int" />
+          <Property Name="BranchCode" Type="varchar" MaxLength="3" />
+          <Property Name="AssignedTo" Type="int" />
+        </EntityType>
+        <EntityType Name="TicketBranch">
+          <Key>
+            <PropertyRef Name="BranchCode" />
+          </Key>
+          <Property Name="BranchCode" Type="varchar" MaxLength="3" Nullable="false" />
+          <Property Name="BranchName" Type="varchar" MaxLength="50" />
+          <Property Name="IsActive" Type="bit" />
+        </EntityType>
+        <EntityType Name="TicketCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="int" />
+        </EntityType>
+        <EntityType Name="TicketComment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="TicketComment" Type="varchar" MaxLength="500" />
+          <Property Name="CommentBy" Type="varchar" MaxLength="50" />
+          <Property Name="CommentDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="TicketImage">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TicketId" Type="int" />
+          <Property Name="TicketCommentId" Type="int" />
+          <Property Name="Url" Type="varchar" MaxLength="500" />
+          <Property Name="ImageOn" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="TicketPriority">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="TicketPriority" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="TicketStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="TicketStatus" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="500" />
+          <Property Name="LastName" Type="varchar" MaxLength="500" />
+          <Property Name="UserName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="HashPassword" Type="varchar" MaxLength="500" />
+          <Property Name="Email" Type="varchar" MaxLength="500" />
+          <Property Name="UserStatusId" Type="int" />
+          <Property Name="BranchCode" Type="varchar" MaxLength="3" />
+          <Property Name="EmailConfirmed" Type="bit" />
+        </EntityType>
+        <EntityType Name="UserLoginInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="30" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="IPAddress" Type="varchar" MaxLength="15" />
+          <Property Name="HostAddress" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="RoleId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Ticket_TicketBranch">
+          <End Role="TicketBranch" Type="Self.TicketBranch" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketBranch">
+              <PropertyRef Name="BranchCode" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="BranchCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_TicketCategory">
+          <End Role="TicketCategory" Type="Self.TicketCategory" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Categoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketCategory_TicketCategory">
+          <End Role="TicketCategory" Type="Self.TicketCategory" Multiplicity="0..1" />
+          <End Role="TicketCategory1" Type="Self.TicketCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketCategory1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketCommentTable_TicketTable1">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketComment" Type="Self.TicketComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketComment">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketImage_Ticket">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="0..1" />
+          <End Role="TicketImage" Type="Self.TicketImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketImage">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketImage_TicketComment">
+          <End Role="TicketComment" Type="Self.TicketComment" Multiplicity="0..1" />
+          <End Role="TicketImage" Type="Self.TicketImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketComment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketImage">
+              <PropertyRef Name="TicketCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketTable_TicketPriorityTable1">
+          <End Role="TicketPriority" Type="Self.TicketPriority" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketPriority">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="TicketPriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketTable_TicketStatusTable1">
+          <End Role="TicketStatus" Type="Self.TicketStatus" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="TicketStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTable_TicketBranchTable">
+          <End Role="TicketBranch" Type="Self.TicketBranch" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketBranch">
+              <PropertyRef Name="BranchCode" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="BranchCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTable_UserStatusTable1">
+          <End Role="UserStatus" Type="Self.UserStatus" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+          <Parameter Name="RoleId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AdminUserList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="FindUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetAllUserDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetCommentImage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetLastCommentId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetPendingTicketsByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTicketCountByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetTicketTotalByStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetWorkLoadPerUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="LoginByUsernamePassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="Loginauthenticate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ResetPassword" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="encryptpassword" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="SearchUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="VerifyEmail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userid" Type="int" Mode="In" />
+          <Parameter Name="emailid" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="eTicketSystemModelStoreContainer">
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketBranch" EntityType="Self.TicketBranch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketCategory" EntityType="Self.TicketCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketComment" EntityType="Self.TicketComment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketImage" EntityType="Self.TicketImage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketPriority" EntityType="Self.TicketPriority" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketStatus" EntityType="Self.TicketStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLoginInfo" EntityType="Self.UserLoginInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserStatus" EntityType="Self.UserStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Ticket_TicketBranch" Association="Self.FK_Ticket_TicketBranch">
+            <End Role="TicketBranch" EntitySet="TicketBranch" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_TicketCategory" Association="Self.FK_Ticket_TicketCategory">
+            <End Role="TicketCategory" EntitySet="TicketCategory" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_User" Association="Self.FK_Ticket_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_User1" Association="Self.FK_Ticket_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketCategory_TicketCategory" Association="Self.FK_TicketCategory_TicketCategory">
+            <End Role="TicketCategory" EntitySet="TicketCategory" />
+            <End Role="TicketCategory1" EntitySet="TicketCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketCommentTable_TicketTable1" Association="Self.FK_TicketCommentTable_TicketTable1">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketComment" EntitySet="TicketComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketImage_Ticket" Association="Self.FK_TicketImage_Ticket">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketImage" EntitySet="TicketImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketImage_TicketComment" Association="Self.FK_TicketImage_TicketComment">
+            <End Role="TicketComment" EntitySet="TicketComment" />
+            <End Role="TicketImage" EntitySet="TicketImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketTable_TicketPriorityTable1" Association="Self.FK_TicketTable_TicketPriorityTable1">
+            <End Role="TicketPriority" EntitySet="TicketPriority" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketTable_TicketStatusTable1" Association="Self.FK_TicketTable_TicketStatusTable1">
+            <End Role="TicketStatus" EntitySet="TicketStatus" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Roles" Association="Self.FK_UserRole_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="Self.FK_UserRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTable_TicketBranchTable" Association="Self.FK_UserTable_TicketBranchTable">
+            <End Role="TicketBranch" EntitySet="TicketBranch" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTable_UserStatusTable1" Association="Self.FK_UserTable_UserStatusTable1">
+            <End Role="UserStatus" EntitySet="UserStatus" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="eTicketSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="Self.UserRole" FromRole="Roles" ToRole="User" />
+          <Property Name="IsAdmin" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="TicketPriorityId" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="TicketStatusId" Type="Int32" />
+          <Property Name="EditEnable" Type="Boolean" />
+          <Property Name="LastEditedOn" Type="DateTime" Precision="3" />
+          <Property Name="AssignedBy" Type="Int32" />
+          <Property Name="Categoryid" Type="Int32" />
+          <Property Name="BranchCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="AssignedTo" Type="Int32" />
+          <NavigationProperty Name="TicketBranch" Relationship="Self.FK_Ticket_TicketBranch" FromRole="Ticket" ToRole="TicketBranch" />
+          <NavigationProperty Name="TicketCategory" Relationship="Self.FK_Ticket_TicketCategory" FromRole="Ticket" ToRole="TicketCategory" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Ticket_User" FromRole="Ticket" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Ticket_User1" FromRole="Ticket" ToRole="User" />
+          <NavigationProperty Name="TicketComment" Relationship="Self.FK_TicketCommentTable_TicketTable1" FromRole="Ticket" ToRole="TicketComment" />
+          <NavigationProperty Name="TicketImage" Relationship="Self.FK_TicketImage_Ticket" FromRole="Ticket" ToRole="TicketImage" />
+          <NavigationProperty Name="TicketPriority" Relationship="Self.FK_TicketTable_TicketPriorityTable1" FromRole="Ticket" ToRole="TicketPriority" />
+          <NavigationProperty Name="TicketStatus" Relationship="Self.FK_TicketTable_TicketStatusTable1" FromRole="Ticket" ToRole="TicketStatus" />
+        </EntityType>
+        <EntityType Name="TicketBranch">
+          <Key>
+            <PropertyRef Name="BranchCode" />
+          </Key>
+          <Property Name="BranchCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsActive" Type="Boolean" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_Ticket_TicketBranch" FromRole="TicketBranch" ToRole="Ticket" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserTable_TicketBranchTable" FromRole="TicketBranch" ToRole="User" />
+        </EntityType>
+        <EntityType Name="TicketCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ParentCategoryId" Type="Int32" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_Ticket_TicketCategory" FromRole="TicketCategory" ToRole="Ticket" />
+          <NavigationProperty Name="TicketCategory1" Relationship="Self.FK_TicketCategory_TicketCategory" FromRole="TicketCategory" ToRole="TicketCategory1" />
+          <NavigationProperty Name="TicketCategory2" Relationship="Self.FK_TicketCategory_TicketCategory" FromRole="TicketCategory1" ToRole="TicketCategory" />
+        </EntityType>
+        <EntityType Name="TicketComment">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="TicketComment1" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CommentBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CommentDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_TicketCommentTable_TicketTable1" FromRole="TicketComment" ToRole="Ticket" />
+          <NavigationProperty Name="TicketImage" Relationship="Self.FK_TicketImage_TicketComment" FromRole="TicketComment" ToRole="TicketImage" />
+        </EntityType>
+        <EntityType Name="TicketImage">
+          <Key>
+            <PropertyRef Name="ImageId" />
+          </Key>
+          <Property Name="ImageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TicketId" Type="Int32" />
+          <Property Name="TicketCommentId" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="ImageOn" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_TicketImage_Ticket" FromRole="TicketImage" ToRole="Ticket" />
+          <NavigationProperty Name="TicketComment" Relationship="Self.FK_TicketImage_TicketComment" FromRole="TicketImage" ToRole="TicketComment" />
+        </EntityType>
+        <EntityType Name="TicketPriority">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="TicketPriority1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_TicketTable_TicketPriorityTable1" FromRole="TicketPriority" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="TicketStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="TicketStatus1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_TicketTable_TicketStatusTable1" FromRole="TicketStatus" ToRole="Ticket" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HashPassword" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="UserStatusId" Type="Int32" />
+          <Property Name="BranchCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+          <Property Name="EmailConfirmed" Type="Boolean" />
+          <NavigationProperty Name="Ticket" Relationship="Self.FK_Ticket_User" FromRole="User" ToRole="Ticket" />
+          <NavigationProperty Name="Ticket1" Relationship="Self.FK_Ticket_User1" FromRole="User" ToRole="Ticket" />
+          <NavigationProperty Name="TicketBranch" Relationship="Self.FK_UserTable_TicketBranchTable" FromRole="User" ToRole="TicketBranch" />
+          <NavigationProperty Name="UserStatus" Relationship="Self.FK_UserTable_UserStatusTable1" FromRole="User" ToRole="UserStatus" />
+          <NavigationProperty Name="Roles" Relationship="Self.UserRole" FromRole="User" ToRole="Roles" />
+        </EntityType>
+        <EntityType Name="UserLoginInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <Property Name="IPAddress" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="HostAddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserTable_UserStatusTable1" FromRole="UserStatus" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Ticket_TicketBranch">
+          <End Role="TicketBranch" Type="Self.TicketBranch" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketBranch">
+              <PropertyRef Name="BranchCode" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="BranchCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_TicketCategory">
+          <End Role="TicketCategory" Type="Self.TicketCategory" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="Categoryid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="AssignedTo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Ticket_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketCommentTable_TicketTable1">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="1" />
+          <End Role="TicketComment" Type="Self.TicketComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketComment">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketImage_Ticket">
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="0..1" />
+          <End Role="TicketImage" Type="Self.TicketImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ticket">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketImage">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketTable_TicketPriorityTable1">
+          <End Role="TicketPriority" Type="Self.TicketPriority" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketPriority">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="TicketPriorityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketTable_TicketStatusTable1">
+          <End Role="TicketStatus" Type="Self.TicketStatus" Multiplicity="0..1" />
+          <End Role="Ticket" Type="Self.Ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Ticket">
+              <PropertyRef Name="TicketStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTable_TicketBranchTable">
+          <End Role="TicketBranch" Type="Self.TicketBranch" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketBranch">
+              <PropertyRef Name="BranchCode" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="BranchCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketCategory_TicketCategory">
+          <End Role="TicketCategory" Type="Self.TicketCategory" Multiplicity="0..1" />
+          <End Role="TicketCategory1" Type="Self.TicketCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketCategory">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketCategory1">
+              <PropertyRef Name="ParentCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TicketImage_TicketComment">
+          <End Role="TicketComment" Type="Self.TicketComment" Multiplicity="0..1" />
+          <End Role="TicketImage" Type="Self.TicketImage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TicketComment">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="TicketImage">
+              <PropertyRef Name="TicketCommentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTable_UserStatusTable1">
+          <End Role="UserStatus" Type="Self.UserStatus" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="UserStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserRole">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="OctaShapeSolutionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" />
+          <EntitySet Name="TicketBranch" EntityType="Self.TicketBranch" />
+          <EntitySet Name="TicketCategory" EntityType="Self.TicketCategory" />
+          <EntitySet Name="TicketComment" EntityType="Self.TicketComment" />
+          <EntitySet Name="TicketImage" EntityType="Self.TicketImage" />
+          <EntitySet Name="TicketPriority" EntityType="Self.TicketPriority" />
+          <EntitySet Name="TicketStatus" EntityType="Self.TicketStatus" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserLoginInfo" EntityType="Self.UserLoginInfo" />
+          <EntitySet Name="UserStatus" EntityType="Self.UserStatus" />
+          <AssociationSet Name="FK_Ticket_TicketBranch" Association="Self.FK_Ticket_TicketBranch">
+            <End Role="TicketBranch" EntitySet="TicketBranch" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_TicketCategory" Association="Self.FK_Ticket_TicketCategory">
+            <End Role="TicketCategory" EntitySet="TicketCategory" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_User" Association="Self.FK_Ticket_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Ticket_User1" Association="Self.FK_Ticket_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketCommentTable_TicketTable1" Association="Self.FK_TicketCommentTable_TicketTable1">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketComment" EntitySet="TicketComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketImage_Ticket" Association="Self.FK_TicketImage_Ticket">
+            <End Role="Ticket" EntitySet="Ticket" />
+            <End Role="TicketImage" EntitySet="TicketImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketTable_TicketPriorityTable1" Association="Self.FK_TicketTable_TicketPriorityTable1">
+            <End Role="TicketPriority" EntitySet="TicketPriority" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketTable_TicketStatusTable1" Association="Self.FK_TicketTable_TicketStatusTable1">
+            <End Role="TicketStatus" EntitySet="TicketStatus" />
+            <End Role="Ticket" EntitySet="Ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTable_TicketBranchTable" Association="Self.FK_UserTable_TicketBranchTable">
+            <End Role="TicketBranch" EntitySet="TicketBranch" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketCategory_TicketCategory" Association="Self.FK_TicketCategory_TicketCategory">
+            <End Role="TicketCategory" EntitySet="TicketCategory" />
+            <End Role="TicketCategory1" EntitySet="TicketCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TicketImage_TicketComment" Association="Self.FK_TicketImage_TicketComment">
+            <End Role="TicketComment" EntitySet="TicketComment" />
+            <End Role="TicketImage" EntitySet="TicketImage" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTable_UserStatusTable1" Association="Self.FK_UserTable_UserStatusTable1">
+            <End Role="UserStatus" EntitySet="UserStatus" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="UserRole" Association="Self.UserRole">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <FunctionImport Name="AddUserRole">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="RoleId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AdminUserList" ReturnType="Collection(eTicketSystemModel.AdminUserList_Result)" />
+          <FunctionImport Name="FindUserRole" ReturnType="Collection(eTicketSystemModel.FindUserRole_Result)">
+          <Parameter Name="userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllUserDetails" ReturnType="Collection(eTicketSystemModel.GetAllUserDetails_Result)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetPendingTicketsByUser" ReturnType="Collection(eTicketSystemModel.GetPendingTicketsByUser_Result)">
+          <Parameter Name="UserId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTicketCountByUser" ReturnType="Collection(eTicketSystemModel.GetTicketCountByUser_Result)">
+          <Parameter Name="userid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetTicketTotalByStatus" ReturnType="Collection(eTicketSystemModel.GetTicketTotalByStatus_Result)" />
+          <FunctionImport Name="GetWorkLoadPerUser" ReturnType="Collection(eTicketSystemModel.GetWorkLoadPerUser_Result)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="LoginByUsernamePassword" ReturnType="Collection(eTicketSystemModel.LoginByUsernamePassword_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Loginauthenticate" ReturnType="Collection(eTicketSystemModel.Loginauthenticate_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ResetPassword">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="encryptpassword" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SearchUser" ReturnType="Collection(eTicketSystemModel.SearchUser_Result)">
+          <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="VerifyEmail">
+            <Parameter Name="userid" Mode="In" Type="Int32" />
+            <Parameter Name="emailid" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetLastCommentId" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="GetCommentImage" ReturnType="Collection(eTicketSystemModel.GetCommentImage_Result)" />
+        </EntityContainer>
+        <ComplexType Name="AdminUserList_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="1001" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="AssignedTo" Nullable="true" />
+          <Property Type="Decimal" Name="WorkLoad" Nullable="true" Precision="26" Scale="12" />
+        </ComplexType>
+        <ComplexType Name="FindUserRole_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="RoleId" Nullable="false" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="IsAdmin" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetAllUserDetails_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="1001" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BranchCode" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="EmailConfirmed" Nullable="true" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetPendingTicketsByUser_Result">
+          <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="TicketPriority" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AssignedBy" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetTicketCountByUser_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="TicketCount" Nullable="true" />
+          <Property Type="Int32" Name="TicketStatusId" Nullable="true" />
+          <Property Type="Int32" Name="TicketId" Nullable="true" />
+          <Property Type="String" Name="TicketStatus" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetTicketTotalByStatus_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="TicketStatus" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="NoofTickets" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="GetWorkLoadPerUser_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Decimal" Name="workload" Nullable="true" Precision="26" Scale="12" />
+        </ComplexType>
+        <ComplexType Name="LoginByUsernamePassword_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="HashPassword" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BranchCode" Nullable="true" MaxLength="3" />
+          <Property Type="Boolean" Name="EmailConfirmed" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="Loginauthenticate_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="HashPassword" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserStatus" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BranchCode" Nullable="true" MaxLength="3" />
+          <Property Type="Boolean" Name="EmailConfirmed" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SearchUser_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="500" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="1001" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="BranchCode" Nullable="false" MaxLength="3" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="EmailConfirmed" Nullable="true" />
+          <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetCommentImage_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="TicketId" Nullable="false" />
+          <Property Type="String" Name="TicketComment" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="CommentBy" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="CommentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="ImageOn" Nullable="true" MaxLength="2" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="eTicketSystemModelStoreContainer" CdmEntityContainer="OctaShapeSolutionEntities">
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="eTicketSystemModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ticket">
+            <EntityTypeMapping TypeName="eTicketSystemModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TicketPriorityId" ColumnName="TicketPriorityId" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="TicketStatusId" ColumnName="TicketStatusId" />
+                <ScalarProperty Name="EditEnable" ColumnName="EditEnable" />
+                <ScalarProperty Name="LastEditedOn" ColumnName="LastEditedOn" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+                <ScalarProperty Name="Categoryid" ColumnName="Categoryid" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketBranch">
+            <EntityTypeMapping TypeName="eTicketSystemModel.TicketBranch">
+              <MappingFragment StoreEntitySet="TicketBranch">
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketCategory">
+            <EntityTypeMapping TypeName="eTicketSystemModel.TicketCategory">
+              <MappingFragment StoreEntitySet="TicketCategory">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="ParentCategoryId" ColumnName="ParentCategoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketComment">
+            <EntityTypeMapping TypeName="eTicketSystemModel.TicketComment">
+              <MappingFragment StoreEntitySet="TicketComment">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketComment1" ColumnName="TicketComment" />
+                <ScalarProperty Name="CommentBy" ColumnName="CommentBy" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketImage">
+            <EntityTypeMapping TypeName="eTicketSystemModel.TicketImage">
+              <MappingFragment StoreEntitySet="TicketImage">
+                <ScalarProperty Name="ImageId" ColumnName="ImageId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketCommentId" ColumnName="TicketCommentId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ImageOn" ColumnName="ImageOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketPriority">
+            <EntityTypeMapping TypeName="eTicketSystemModel.TicketPriority">
+              <MappingFragment StoreEntitySet="TicketPriority">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketPriority1" ColumnName="TicketPriority" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketStatus">
+            <EntityTypeMapping TypeName="eTicketSystemModel.TicketStatus">
+              <MappingFragment StoreEntitySet="TicketStatus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketStatus1" ColumnName="TicketStatus" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="eTicketSystemModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="HashPassword" ColumnName="HashPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserStatusId" ColumnName="UserStatusId" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLoginInfo">
+            <EntityTypeMapping TypeName="eTicketSystemModel.UserLoginInfo">
+              <MappingFragment StoreEntitySet="UserLoginInfo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="HostAddress" ColumnName="HostAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserStatus">
+            <EntityTypeMapping TypeName="eTicketSystemModel.UserStatus">
+              <MappingFragment StoreEntitySet="UserStatus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="UserRole" TypeName="eTicketSystemModel.UserRole" StoreEntitySet="UserRole">
+            <EndProperty Name="Roles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="AddUserRole" FunctionName="eTicketSystemModel.Store.AddUserRole" />
+          <FunctionImportMapping FunctionImportName="AdminUserList" FunctionName="eTicketSystemModel.Store.AdminUserList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.AdminUserList_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="AssignedTo" ColumnName="AssignedTo" />
+                <ScalarProperty Name="WorkLoad" ColumnName="WorkLoad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FindUserRole" FunctionName="eTicketSystemModel.Store.FindUserRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.FindUserRole_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllUserDetails" FunctionName="eTicketSystemModel.Store.GetAllUserDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.GetAllUserDetails_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPendingTicketsByUser" FunctionName="eTicketSystemModel.Store.GetPendingTicketsByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.GetPendingTicketsByUser_Result">
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="TicketPriority" ColumnName="TicketPriority" />
+                <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTicketCountByUser" FunctionName="eTicketSystemModel.Store.GetTicketCountByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.GetTicketCountByUser_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketCount" ColumnName="TicketCount" />
+                <ScalarProperty Name="TicketStatusId" ColumnName="TicketStatusId" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketStatus" ColumnName="TicketStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTicketTotalByStatus" FunctionName="eTicketSystemModel.Store.GetTicketTotalByStatus">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.GetTicketTotalByStatus_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketStatus" ColumnName="TicketStatus" />
+                <ScalarProperty Name="NoofTickets" ColumnName="NoofTickets" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetWorkLoadPerUser" FunctionName="eTicketSystemModel.Store.GetWorkLoadPerUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.GetWorkLoadPerUser_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="workload" ColumnName="workload" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LoginByUsernamePassword" FunctionName="eTicketSystemModel.Store.LoginByUsernamePassword">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.LoginByUsernamePassword_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="HashPassword" ColumnName="HashPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Loginauthenticate" FunctionName="eTicketSystemModel.Store.Loginauthenticate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.Loginauthenticate_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="HashPassword" ColumnName="HashPassword" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserStatus" ColumnName="UserStatus" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ResetPassword" FunctionName="eTicketSystemModel.Store.ResetPassword" />
+          <FunctionImportMapping FunctionImportName="SearchUser" FunctionName="eTicketSystemModel.Store.SearchUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.SearchUser_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="VerifyEmail" FunctionName="eTicketSystemModel.Store.VerifyEmail" />
+          <FunctionImportMapping FunctionImportName="GetLastCommentId" FunctionName="eTicketSystemModel.Store.GetLastCommentId" />
+          <FunctionImportMapping FunctionImportName="GetCommentImage" FunctionName="eTicketSystemModel.Store.GetCommentImage">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.GetCommentImage_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketComment" ColumnName="TicketComment" />
+                <ScalarProperty Name="CommentBy" ColumnName="CommentBy" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="ImageOn" ColumnName="ImageOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

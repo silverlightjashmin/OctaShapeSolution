@@ -1,0 +1,46 @@
+﻿@model IEnumerable<OctaShape.Data.TicketBranch>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/eTicketSystem/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Branches</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-hover table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsActive)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.BranchCode)    
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BranchName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.BranchCode }) |
+            @Html.ActionLink("Details", "Details", new { id=item.BranchCode }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.BranchCode })
+        </td>
+    </tr>
+}
+
+</table>

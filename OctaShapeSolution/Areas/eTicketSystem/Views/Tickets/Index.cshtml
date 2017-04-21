@@ -1,0 +1,100 @@
+﻿@model IEnumerable<OctaShape.Data.Ticket>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/eTicketSystem/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EditEnable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastEditedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AssignedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketBranch.BranchName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketCategory.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketPriority.TicketPriority1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketStatus.TicketStatus1)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EditEnable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastEditedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AssignedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketBranch.BranchName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketCategory.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketPriority.TicketPriority1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TicketStatus.TicketStatus1)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F288C451-5CCB-4B13-881D-F4BEA34371D5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OctaShape.Data</RootNamespace>
+    <AssemblyName>OctaShape.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AdminUserList_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Card_CustomerDetail.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Card_Received.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Card_RequestDetail.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Card_Requested.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Card_RequestType.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Card_StockDetail.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FindUserRole_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAllUserDetails_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetCommentImage_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetPendingTicketsByUser_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTicketCountByUser_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetTicketTotalByStatus_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetWorkLoadPerUser_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Loginauthenticate_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LoginByUsernamePassword_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OctaShapeSolutionModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OctaShapeSolutionModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OctaShapeSolutionModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OctaShape_eTicket_Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OctaShape_eTicket_Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="OctaShape_Card_Model.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OctaShape_Card_Model.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OctaShape_Card_Model.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OctaShape_Card_Model.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OctaShape_Card_Model.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roles.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SearchUser_Result.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Ticket.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketBranch.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketCategory.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketComment.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketImage.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketPriority.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TicketStatus.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserLoginInfo.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserStatus.cs">
+      <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="OctaShape_eTicket_Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OctaShape_eTicket_Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="OctaShape_eTicket_Model.edmx.diagram">
+      <DependentUpon>OctaShape_eTicket_Model.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="OctaShape_Card_Model.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>OctaShape_Card_Model.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="OctaShape_Card_Model.edmx.diagram">
+      <DependentUpon>OctaShape_Card_Model.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OctaShapeSolutionModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OctaShape_eTicket_Model.edmx</DependentUpon>
+      <LastGenOutput>OctaShapeSolutionModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="OctaShapeSolutionModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OctaShape_eTicket_Model.edmx</DependentUpon>
+      <LastGenOutput>OctaShapeSolutionModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="OctaShape_Card_Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OctaShape_Card_Model.edmx</DependentUpon>
+      <LastGenOutput>OctaShape_Card_Model.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="OctaShape_Card_Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>OctaShape_Card_Model.edmx</DependentUpon>
+      <LastGenOutput>OctaShape_Card_Model.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

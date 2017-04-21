@@ -1,0 +1,425 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="OctaShape_Card_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Card_CustomerDetail">
+          <Key>
+            <PropertyRef Name="Account_No" />
+          </Key>
+          <Property Name="Account_No" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Customer_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email_Id" Type="varchar" MaxLength="50" />
+          <Property Name="Mobile_No" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Card_Received">
+          <Key>
+            <PropertyRef Name="Received_Id" />
+          </Key>
+          <Property Name="Received_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Received_Date" Type="date" />
+          <Property Name="Card_RequestId" Type="int" />
+          <Property Name="Cards_Received" Type="int" />
+          <Property Name="Received_By" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsPin_Received" Type="bit" />
+        </EntityType>
+        <EntityType Name="Card_RequestDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Request_Date" Type="date" />
+          <Property Name="Account_No" Type="varchar" MaxLength="50" />
+          <Property Name="Customer_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmbossName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Request_Id" Type="int" />
+          <Property Name="Created_By" Type="nvarchar" MaxLength="50" />
+          <Property Name="Approved_By" Type="nvarchar" MaxLength="50" />
+          <Property Name="Card_RequestId" Type="int" />
+          <Property Name="Card_ReceivedId" Type="int" />
+        </EntityType>
+        <EntityType Name="Card_Requested">
+          <Key>
+            <PropertyRef Name="Request_Id" />
+          </Key>
+          <Property Name="Request_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Card_RequestDate" Type="date" />
+          <Property Name="Request_StardDate" Type="date" />
+          <Property Name="Request_EndDate" Type="date" />
+          <Property Name="Total_Cards" Type="int" />
+          <Property Name="Request_By" Type="nvarchar" MaxLength="50" />
+          <Property Name="Is_Received" Type="bit" />
+        </EntityType>
+        <EntityType Name="Card_RequestType">
+          <Key>
+            <PropertyRef Name="Request_Id" />
+          </Key>
+          <Property Name="Request_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Request_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Request_Charge" Type="money" />
+        </EntityType>
+        <EntityType Name="Card_StockDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="50" />
+          <Property Name="Stock_Inward" Type="int" />
+          <Property Name="Stock_Outward" Type="int" />
+        </EntityType>
+        <Association Name="FK_Card_Received_Card_Requested">
+          <End Role="Card_Requested" Type="Self.Card_Requested" Multiplicity="0..1" />
+          <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Requested">
+              <PropertyRef Name="Request_Id" />
+            </Principal>
+            <Dependent Role="Card_Received">
+              <PropertyRef Name="Card_RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_CustomerDetail">
+          <End Role="Card_CustomerDetail" Type="Self.Card_CustomerDetail" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_CustomerDetail">
+              <PropertyRef Name="Account_No" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Account_No" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_Received">
+          <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Received">
+              <PropertyRef Name="Received_Id" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Card_ReceivedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_Requested">
+          <End Role="Card_Requested" Type="Self.Card_Requested" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Requested">
+              <PropertyRef Name="Request_Id" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Card_RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_RequestType">
+          <End Role="Card_RequestType" Type="Self.Card_RequestType" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_RequestType">
+              <PropertyRef Name="Request_Id" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Request_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OctaShape_Card_ModelStoreContainer">
+          <EntitySet Name="Card_CustomerDetail" EntityType="Self.Card_CustomerDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card_Received" EntityType="Self.Card_Received" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card_RequestDetail" EntityType="Self.Card_RequestDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card_Requested" EntityType="Self.Card_Requested" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card_RequestType" EntityType="Self.Card_RequestType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Card_StockDetail" EntityType="Self.Card_StockDetail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Card_Received_Card_Requested" Association="Self.FK_Card_Received_Card_Requested">
+            <End Role="Card_Requested" EntitySet="Card_Requested" />
+            <End Role="Card_Received" EntitySet="Card_Received" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_CustomerDetail" Association="Self.FK_Card_RequestDetail_Card_CustomerDetail">
+            <End Role="Card_CustomerDetail" EntitySet="Card_CustomerDetail" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_Received" Association="Self.FK_Card_RequestDetail_Card_Received">
+            <End Role="Card_Received" EntitySet="Card_Received" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_Requested" Association="Self.FK_Card_RequestDetail_Card_Requested">
+            <End Role="Card_Requested" EntitySet="Card_Requested" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_RequestType" Association="Self.FK_Card_RequestDetail_Card_RequestType">
+            <End Role="Card_RequestType" EntitySet="Card_RequestType" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="OctaShape_Card_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Card_CustomerDetail">
+          <Key>
+            <PropertyRef Name="Account_No" />
+          </Key>
+          <Property Name="Account_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Customer_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Mobile_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Card_RequestDetail" Relationship="Self.FK_Card_RequestDetail_Card_CustomerDetail" FromRole="Card_CustomerDetail" ToRole="Card_RequestDetail" />
+        </EntityType>
+        <EntityType Name="Card_Received">
+          <Key>
+            <PropertyRef Name="Received_Id" />
+          </Key>
+          <Property Name="Received_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Received_Date" Type="DateTime" Precision="0" />
+          <Property Name="Card_RequestId" Type="Int32" />
+          <Property Name="Cards_Received" Type="Int32" />
+          <Property Name="Received_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsPin_Received" Type="Boolean" />
+          <NavigationProperty Name="Card_Requested" Relationship="Self.FK_Card_Received_Card_Requested" FromRole="Card_Received" ToRole="Card_Requested" />
+          <NavigationProperty Name="Card_RequestDetail" Relationship="Self.FK_Card_RequestDetail_Card_Received" FromRole="Card_Received" ToRole="Card_RequestDetail" />
+        </EntityType>
+        <EntityType Name="Card_RequestDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_Date" Type="DateTime" Precision="0" />
+          <Property Name="Account_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Customer_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmbossName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Request_Id" Type="Int32" />
+          <Property Name="Created_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Approved_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Card_RequestId" Type="Int32" />
+          <Property Name="Card_ReceivedId" Type="Int32" />
+          <NavigationProperty Name="Card_CustomerDetail" Relationship="Self.FK_Card_RequestDetail_Card_CustomerDetail" FromRole="Card_RequestDetail" ToRole="Card_CustomerDetail" />
+          <NavigationProperty Name="Card_Received" Relationship="Self.FK_Card_RequestDetail_Card_Received" FromRole="Card_RequestDetail" ToRole="Card_Received" />
+          <NavigationProperty Name="Card_Requested" Relationship="Self.FK_Card_RequestDetail_Card_Requested" FromRole="Card_RequestDetail" ToRole="Card_Requested" />
+          <NavigationProperty Name="Card_RequestType" Relationship="Self.FK_Card_RequestDetail_Card_RequestType" FromRole="Card_RequestDetail" ToRole="Card_RequestType" />
+        </EntityType>
+        <EntityType Name="Card_Requested">
+          <Key>
+            <PropertyRef Name="Request_Id" />
+          </Key>
+          <Property Name="Request_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Card_RequestDate" Type="DateTime" Precision="0" />
+          <Property Name="Request_StardDate" Type="DateTime" Precision="0" />
+          <Property Name="Request_EndDate" Type="DateTime" Precision="0" />
+          <Property Name="Total_Cards" Type="Int32" />
+          <Property Name="Request_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Is_Received" Type="Boolean" />
+          <NavigationProperty Name="Card_Received" Relationship="Self.FK_Card_Received_Card_Requested" FromRole="Card_Requested" ToRole="Card_Received" />
+          <NavigationProperty Name="Card_RequestDetail" Relationship="Self.FK_Card_RequestDetail_Card_Requested" FromRole="Card_Requested" ToRole="Card_RequestDetail" />
+        </EntityType>
+        <EntityType Name="Card_RequestType">
+          <Key>
+            <PropertyRef Name="Request_Id" />
+          </Key>
+          <Property Name="Request_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Request_Charge" Type="Decimal" Precision="19" Scale="4" />
+          <NavigationProperty Name="Card_RequestDetail" Relationship="Self.FK_Card_RequestDetail_Card_RequestType" FromRole="Card_RequestType" ToRole="Card_RequestDetail" />
+        </EntityType>
+        <Association Name="FK_Card_RequestDetail_Card_CustomerDetail">
+          <End Role="Card_CustomerDetail" Type="Self.Card_CustomerDetail" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_CustomerDetail">
+              <PropertyRef Name="Account_No" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Account_No" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_Received_Card_Requested">
+          <End Role="Card_Requested" Type="Self.Card_Requested" Multiplicity="0..1" />
+          <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Requested">
+              <PropertyRef Name="Request_Id" />
+            </Principal>
+            <Dependent Role="Card_Received">
+              <PropertyRef Name="Card_RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_Received">
+          <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Received">
+              <PropertyRef Name="Received_Id" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Card_ReceivedId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_Requested">
+          <End Role="Card_Requested" Type="Self.Card_Requested" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Requested">
+              <PropertyRef Name="Request_Id" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Card_RequestId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_RequestDetail_Card_RequestType">
+          <End Role="Card_RequestType" Type="Self.Card_RequestType" Multiplicity="0..1" />
+          <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_RequestType">
+              <PropertyRef Name="Request_Id" />
+            </Principal>
+            <Dependent Role="Card_RequestDetail">
+              <PropertyRef Name="Request_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="OctaShape_Card_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Card_CustomerDetail" EntityType="Self.Card_CustomerDetail" />
+          <EntitySet Name="Card_Received" EntityType="Self.Card_Received" />
+          <EntitySet Name="Card_RequestDetail" EntityType="Self.Card_RequestDetail" />
+          <EntitySet Name="Card_Requested" EntityType="Self.Card_Requested" />
+          <EntitySet Name="Card_RequestType" EntityType="Self.Card_RequestType" />
+          <AssociationSet Name="FK_Card_RequestDetail_Card_CustomerDetail" Association="Self.FK_Card_RequestDetail_Card_CustomerDetail">
+            <End Role="Card_CustomerDetail" EntitySet="Card_CustomerDetail" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_Received_Card_Requested" Association="Self.FK_Card_Received_Card_Requested">
+            <End Role="Card_Requested" EntitySet="Card_Requested" />
+            <End Role="Card_Received" EntitySet="Card_Received" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_Received" Association="Self.FK_Card_RequestDetail_Card_Received">
+            <End Role="Card_Received" EntitySet="Card_Received" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_Requested" Association="Self.FK_Card_RequestDetail_Card_Requested">
+            <End Role="Card_Requested" EntitySet="Card_Requested" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_RequestDetail_Card_RequestType" Association="Self.FK_Card_RequestDetail_Card_RequestType">
+            <End Role="Card_RequestType" EntitySet="Card_RequestType" />
+            <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
+          </AssociationSet>
+          <EntitySet Name="Card_StockDetail" EntityType="OctaShape_Card_Model.Card_StockDetail" />
+        </EntityContainer>
+        <EntityType Name="Card_StockDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Stock_Inward" Type="Int32" />
+          <Property Name="Stock_Outward" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="OctaShape_Card_ModelStoreContainer" CdmEntityContainer="OctaShape_Card_Entities">
+          <EntitySetMapping Name="Card_CustomerDetail">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_CustomerDetail">
+              <MappingFragment StoreEntitySet="Card_CustomerDetail">
+                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="Email_Id" ColumnName="Email_Id" />
+                <ScalarProperty Name="Mobile_No" ColumnName="Mobile_No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card_Received">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_Received">
+              <MappingFragment StoreEntitySet="Card_Received">
+                <ScalarProperty Name="Received_Id" ColumnName="Received_Id" />
+                <ScalarProperty Name="Received_Date" ColumnName="Received_Date" />
+                <ScalarProperty Name="Card_RequestId" ColumnName="Card_RequestId" />
+                <ScalarProperty Name="Cards_Received" ColumnName="Cards_Received" />
+                <ScalarProperty Name="Received_By" ColumnName="Received_By" />
+                <ScalarProperty Name="IsPin_Received" ColumnName="IsPin_Received" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card_RequestDetail">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_RequestDetail">
+              <MappingFragment StoreEntitySet="Card_RequestDetail">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
+                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="EmbossName" ColumnName="EmbossName" />
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="Approved_By" ColumnName="Approved_By" />
+                <ScalarProperty Name="Card_RequestId" ColumnName="Card_RequestId" />
+                <ScalarProperty Name="Card_ReceivedId" ColumnName="Card_ReceivedId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card_Requested">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_Requested">
+              <MappingFragment StoreEntitySet="Card_Requested">
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Card_RequestDate" ColumnName="Card_RequestDate" />
+                <ScalarProperty Name="Request_StardDate" ColumnName="Request_StardDate" />
+                <ScalarProperty Name="Request_EndDate" ColumnName="Request_EndDate" />
+                <ScalarProperty Name="Total_Cards" ColumnName="Total_Cards" />
+                <ScalarProperty Name="Request_By" ColumnName="Request_By" />
+                <ScalarProperty Name="Is_Received" ColumnName="Is_Received" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card_RequestType">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_RequestType">
+              <MappingFragment StoreEntitySet="Card_RequestType">
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Request_Name" ColumnName="Request_Name" />
+                <ScalarProperty Name="Request_Charge" ColumnName="Request_Charge" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card_StockDetail">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_StockDetail">
+              <MappingFragment StoreEntitySet="Card_StockDetail">
+                <ScalarProperty Name="Stock_Outward" ColumnName="Stock_Outward" />
+                <ScalarProperty Name="Stock_Inward" ColumnName="Stock_Inward" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

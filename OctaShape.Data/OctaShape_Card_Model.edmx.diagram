@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1489fa60c4ac4985a6718f620298baec" Name="Diagram1">
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_CustomerDetail" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_Received" Width="1.5" PointX="8.375" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_RequestDetail" Width="1.5" PointX="3.875" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_Requested" Width="1.5" PointX="6.125" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_RequestType" Width="1.5" PointX="0.5" PointY="2.875" IsExpanded="true" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_CustomerDetail" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_Received_Card_Requested" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_Received" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_Requested" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_RequestType" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_StockDetail" Width="1.5" PointX="0.75" PointY="5.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
