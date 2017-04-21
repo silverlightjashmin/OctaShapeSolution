@@ -15,6 +15,7 @@ namespace OctaShape.Data
     public partial class Card_StockDetail
     {
         public int Id { get; set; }
+        public Nullable<System.DateTime> Tran_Date { get; set; }
         public string Description { get; set; }
         public Nullable<int> Stock_Inward { get; set; }
         public Nullable<int> Stock_Outward { get; set; }

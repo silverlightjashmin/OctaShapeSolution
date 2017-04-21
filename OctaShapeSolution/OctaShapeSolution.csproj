@@ -157,10 +157,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\CardInformationSystem\CardInformationSystemAreaRegistration.cs" />
-    <Compile Include="Areas\CardInformationSystem\Controllers\Card_StockDetailController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\AdminController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\Card_RequestDetailController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\Card_RequestTypeController.cs" />
+    <Compile Include="Areas\CardInformationSystem\Controllers\Card_StockDetailController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\HomeController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\UserController.cs" />
     <Compile Include="Areas\eTicketSystem\Controllers\AdminController.cs" />

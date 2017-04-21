@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using OctaShape.Data;
 
-namespace OctaShapeSolution.Areas.CardInformationSystem
+namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 {
     public class Card_StockDetailController : Controller
     {
@@ -46,7 +46,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Description,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
+        public ActionResult Create([Bind(Include = "Id,Tran_Date,Description,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Description,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
+        public ActionResult Edit([Bind(Include = "Id,Tran_Date,Description,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
         {
             if (ModelState.IsValid)
             {

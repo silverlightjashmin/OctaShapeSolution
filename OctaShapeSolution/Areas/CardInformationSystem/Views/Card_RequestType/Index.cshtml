@@ -1,26 +1,33 @@
 ﻿@model IEnumerable<OctaShape.Data.Card_RequestType>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Card Information System - Card Request Type";
+    Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Index</h2>
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Card Request Type</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
 
-<p>
-    @Html.ActionLink("Create New", "Create",null, new { @class = "btn btn-primary" })
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Request_Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Request_Charge)
-        </th>
-        <th></th>
-    </tr>
+    <p>
+        @Html.ActionLink("Create New", "Create",null, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Request_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Request_Charge)
+            </th>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
+        @foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Request_Name)
@@ -36,4 +43,7 @@
     </tr>
 }
 
-</table>
+    </table>
+
+
+</div>
