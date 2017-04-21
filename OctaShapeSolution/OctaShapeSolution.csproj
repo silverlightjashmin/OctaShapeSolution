@@ -157,7 +157,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\CardInformationSystem\CardInformationSystemAreaRegistration.cs" />
-    <Compile Include="Areas\CardInformationSystem\Card_StockDetailController.cs" />
+    <Compile Include="Areas\CardInformationSystem\Controllers\Card_StockDetailController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\AdminController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\Card_RequestDetailController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\Card_RequestTypeController.cs" />
