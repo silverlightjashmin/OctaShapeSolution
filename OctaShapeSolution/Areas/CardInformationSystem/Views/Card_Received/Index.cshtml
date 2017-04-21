@@ -1,0 +1,64 @@
+﻿@model IEnumerable<OctaShape.Data.Card_Received>
+
+@{
+    ViewBag.Title = "Card Information System - Card Received";
+    Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Card Received From Issuer Details</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Received_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cards_Received)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Received_By)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsPin_Received)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Card_Requested.Request_By)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Received_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cards_Received)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Received_By)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPin_Received)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Card_Requested.Request_By)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Received_Id }) |
+                   
+                </td>
+            </tr>
+        }
+
+    </table>
+    </div>
