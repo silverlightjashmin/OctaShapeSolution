@@ -25,7 +25,6 @@ namespace OctaShape.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Card_CustomerDetail> Card_CustomerDetail { get; set; }
         public virtual DbSet<Card_Received> Card_Received { get; set; }
         public virtual DbSet<Card_RequestDetail> Card_RequestDetail { get; set; }
         public virtual DbSet<Card_Requested> Card_Requested { get; set; }

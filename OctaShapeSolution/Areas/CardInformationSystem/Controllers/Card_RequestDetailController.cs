@@ -17,7 +17,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_RequestDetail
         public ActionResult Index()
         {
-            var card_RequestDetail = db.Card_RequestDetail.Include(c => c.Card_CustomerDetail).Include(c => c.Card_Received).Include(c => c.Card_Requested).Include(c => c.Card_RequestType);
+            var card_RequestDetail = db.Card_RequestDetail.Include(c => c.Card_Received).Include(c => c.Card_Requested).Include(c => c.Card_RequestType).Where(X=>X.Branch_Code==Session["Branch_Code"].ToString());
             return View(card_RequestDetail.ToList());
         }
 

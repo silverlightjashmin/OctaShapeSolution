@@ -54,9 +54,6 @@
     <Compile Include="AdminUserList_Result.cs">
       <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Card_CustomerDetail.cs">
-      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="Card_Received.cs">
       <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
     </Compile>
