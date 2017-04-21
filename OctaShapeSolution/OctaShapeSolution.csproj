@@ -862,7 +862,6 @@
     <Content Include="Areas\CardInformationSystem\Views\Card_RequestType\Index.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\Create.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\Delete.cshtml" />
-    <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\Details.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\Edit.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_RequestDetail\Index.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_StockDetail\Create.cshtml" />
