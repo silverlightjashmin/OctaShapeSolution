@@ -876,6 +876,7 @@
     <Content Include="Areas\CardInformationSystem\Views\Card_RequestType\Index.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_ReceivedDetails\UploadReceivedCards.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_Requested\DownloadCardRequest.cshtml" />
+    <Content Include="Areas\eTicketSystem\Views\User\ViewTickets.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />

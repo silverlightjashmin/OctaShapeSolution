@@ -79,9 +79,21 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
         {
             //id for ticket closed in ticketstatus table is 4
             int ticketclosed = 4;
-
+            
             int userid = Convert.ToInt32(Session["User_Id"]);
+
             var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.CreatedBy == userid);
+            return View(ticket.ToList());
+        }
+
+        public ActionResult ViewTickets()
+        {
+            //id for ticket closed in ticketstatus table is 4
+            int ticketclosed = 4;
+            string Branch_Code = Session["Branch_Code"].ToString();
+            
+
+            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.BranchCode == Branch_Code);
             return View(ticket.ToList());
         }
 
