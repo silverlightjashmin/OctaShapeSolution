@@ -17,7 +17,8 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_StockDetail
         public ActionResult Index()
         {
-            return View(db.Card_StockDetail.ToList());
+            var card_StockDetail = db.Card_StockDetail.Include(c => c.Card_Received);
+            return View(card_StockDetail.ToList());
         }
 
         // GET: CardInformationSystem/Card_StockDetail/Details/5
@@ -38,6 +39,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_StockDetail/Create
         public ActionResult Create()
         {
+            ViewBag.Reference_No = new SelectList(db.Card_Received, "Received_Id", "Received_By");
             return View();
         }
 
@@ -46,7 +48,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Tran_Date,Description,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
+        public ActionResult Create([Bind(Include = "Id,Tran_Date,Description,Reference_No,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
         {
             if (ModelState.IsValid)
             {
@@ -55,6 +57,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 return RedirectToAction("Index");
             }
 
+            ViewBag.Reference_No = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_StockDetail.Reference_No);
             return View(card_StockDetail);
         }
 
@@ -70,6 +73,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Reference_No = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_StockDetail.Reference_No);
             return View(card_StockDetail);
         }
 
@@ -78,7 +82,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Tran_Date,Description,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
+        public ActionResult Edit([Bind(Include = "Id,Tran_Date,Description,Reference_No,Stock_Inward,Stock_Outward")] Card_StockDetail card_StockDetail)
         {
             if (ModelState.IsValid)
             {
@@ -86,6 +90,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Reference_No = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_StockDetail.Reference_No);
             return View(card_StockDetail);
         }
 

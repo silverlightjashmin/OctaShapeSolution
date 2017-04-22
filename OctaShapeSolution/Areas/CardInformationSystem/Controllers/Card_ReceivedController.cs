@@ -17,7 +17,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_Received
         public ActionResult Index()
         {
-            var card_Received = db.Card_Received.Include(c => c.Card_Requested);
+            var card_Received = db.Card_Received.Include(c => c.Card_ReceivedDetails);
             return View(card_Received.ToList());
         }
 
@@ -39,7 +39,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_Received/Create
         public ActionResult Create()
         {
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By");
+            ViewBag.Received_Id = new SelectList(db.Card_ReceivedDetails, "Received_Id", "Branch_Code");
             return View();
         }
 
@@ -48,7 +48,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Received_Id,Received_Date,Card_RequestId,Cards_Received,Received_By,IsPin_Received")] Card_Received card_Received)
+        public ActionResult Create([Bind(Include = "Received_Id,Received_Date,Total_CardsReceived,Received_By,IsPin_Received")] Card_Received card_Received)
         {
             if (ModelState.IsValid)
             {
@@ -57,7 +57,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By", card_Received.Card_RequestId);
+            ViewBag.Received_Id = new SelectList(db.Card_ReceivedDetails, "Received_Id", "Branch_Code", card_Received.Received_Id);
             return View(card_Received);
         }
 
@@ -73,7 +73,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By", card_Received.Card_RequestId);
+            ViewBag.Received_Id = new SelectList(db.Card_ReceivedDetails, "Received_Id", "Branch_Code", card_Received.Received_Id);
             return View(card_Received);
         }
 
@@ -82,7 +82,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Received_Id,Received_Date,Card_RequestId,Cards_Received,Received_By,IsPin_Received")] Card_Received card_Received)
+        public ActionResult Edit([Bind(Include = "Received_Id,Received_Date,Total_CardsReceived,Received_By,IsPin_Received")] Card_Received card_Received)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By", card_Received.Card_RequestId);
+            ViewBag.Received_Id = new SelectList(db.Card_ReceivedDetails, "Received_Id", "Branch_Code", card_Received.Received_Id);
             return View(card_Received);
         }
 

@@ -1,70 +1,63 @@
 ﻿@model IEnumerable<OctaShape.Data.Card_Requested>
 
 @{
-    ViewBag.Title = "Card Information System - Card Requested ";
-    Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Index";
 }
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Card Requested To Issuer</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <p>
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Card_RequestDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Request_StardDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Request_EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Total_Cards)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Request_By)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Is_Received)
-            </th>
-            <th></th>
-        </tr>
+<h2>Index</h2>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Card_RequestDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Request_StardDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Request_EndDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Total_Cards)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Request_By)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Is_Received)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Request_Id }) |
-                   
-                </td>
-            </tr>
-        }
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Card_RequestDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Request_StardDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Request_EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Total_CardsRequested)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Request_By)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Card_Received.Received_By)
+        </th>
+        <th></th>
+    </tr>
 
-    </table>
-    </div>
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Card_RequestDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request_StardDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request_EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Total_CardsRequested)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Request_By)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Card_Received.Received_By)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Request_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Request_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Request_Id })
+        </td>
+    </tr>
+}
+
+</table>

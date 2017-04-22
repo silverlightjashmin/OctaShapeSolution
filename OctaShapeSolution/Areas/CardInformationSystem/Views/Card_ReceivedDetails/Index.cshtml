@@ -1,0 +1,63 @@
+﻿@model IEnumerable<OctaShape.Data.Card_ReceivedDetails>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Branch_Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Account_No)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Card_No)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Expiry_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Delivered_Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Card_Received.Received_By)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Branch_Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Account_No)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Card_No)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Expiry_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Delivered_Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Card_Received.Received_By)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Received_Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Received_Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Received_Id })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,42 +1,34 @@
 ﻿@model OctaShape.Data.Card_RequestType
 
 @{
-    ViewBag.Title = "Card Information System - Card Request Type";
-    Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Details";
 }
 
+<h2>Details</h2>
 
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Card Request Type Details</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <div>
-       
+<div>
+    <h4>Card_RequestType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_Name)
+        </dt>
 
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.Request_Name)
-            </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Request_Name)
+        </dd>
 
-            <dd>
-                @Html.DisplayFor(model => model.Request_Name)
-            </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Request_Charge)
+        </dt>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Request_Charge)
-            </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Request_Charge)
+        </dd>
 
-            <dd>
-                @Html.DisplayFor(model => model.Request_Charge)
-            </dd>
-
-        </dl>
-    </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Request_Id }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-    </div>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Request_Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
