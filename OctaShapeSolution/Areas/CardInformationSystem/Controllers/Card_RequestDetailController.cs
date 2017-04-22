@@ -13,6 +13,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
     public class Card_RequestDetailController : Controller
     {
         private OctaShape_Card_Entities db = new OctaShape_Card_Entities();
+        private OctaShapeSolutionEntities db1 = new OctaShapeSolutionEntities();
 
         // GET: CardInformationSystem/Card_RequestDetail
         public ActionResult Index()
@@ -39,8 +40,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_RequestDetail/Create
         public ActionResult Create()
         {
-            ViewBag.Card_ReceivedId = new SelectList(db.Card_Received, "Received_Id", "Received_By");
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By");
+            ViewBag.BranchCode = new SelectList(db1.TicketBranch, "BranchCode", "BranchName");
             ViewBag.Request_Id = new SelectList(db.Card_RequestType, "Request_Id", "Request_Name");
             return View();
         }
@@ -59,8 +59,8 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Card_ReceivedId = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_RequestDetail.Card_ReceivedId);
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By", card_RequestDetail.Card_RequestId);
+            ViewBag.BranchCode = new SelectList(db1.TicketBranch, "BranchCode", "BranchName");
+
             ViewBag.Request_Id = new SelectList(db.Card_RequestType, "Request_Id", "Request_Name", card_RequestDetail.Request_Id);
             return View(card_RequestDetail);
         }
@@ -77,8 +77,6 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Card_ReceivedId = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_RequestDetail.Card_ReceivedId);
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By", card_RequestDetail.Card_RequestId);
             ViewBag.Request_Id = new SelectList(db.Card_RequestType, "Request_Id", "Request_Name", card_RequestDetail.Request_Id);
             return View(card_RequestDetail);
         }
@@ -96,9 +94,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Card_ReceivedId = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_RequestDetail.Card_ReceivedId);
-            ViewBag.Card_RequestId = new SelectList(db.Card_Requested, "Request_Id", "Request_By", card_RequestDetail.Card_RequestId);
-            ViewBag.Request_Id = new SelectList(db.Card_RequestType, "Request_Id", "Request_Name", card_RequestDetail.Request_Id);
+          ViewBag.Request_Id = new SelectList(db.Card_RequestType, "Request_Id", "Request_Name", card_RequestDetail.Request_Id);
             return View(card_RequestDetail);
         }
 
@@ -136,5 +132,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             }
             base.Dispose(disposing);
         }
+
+       
     }
 }

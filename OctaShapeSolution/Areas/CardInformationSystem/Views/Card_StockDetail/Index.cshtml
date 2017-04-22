@@ -1,57 +1,64 @@
 ﻿@model IEnumerable<OctaShape.Data.Card_StockDetail>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Card Information System - Card Stock Record ";
+    Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
 }
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">Card Stock Record</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <p>
+        @Html.ActionLink("Add New Stock Record", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tran_Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock_Inward)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Stock_Outward)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Card_Received.Received_By)
+            </th>
+            <th></th>
+        </tr>
 
-<h2>Index</h2>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tran_Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock_Inward)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Stock_Outward)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Card_Received.Received_By)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                   
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Tran_Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock_Inward)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock_Outward)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Card_Received.Received_By)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tran_Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stock_Inward)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Stock_Outward)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Card_Received.Received_By)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
-
-</table>
+    </table>
+    </div>

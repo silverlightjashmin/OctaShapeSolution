@@ -8,12 +8,12 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">New Customer Request</h1>
+            <h1 class="page-header">Customer Request Details</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <p>
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("New Card Application", "Create", null, new { @class = "btn btn-primary" })
     </p>
     <table class="table">
         <tr>
@@ -21,11 +21,12 @@
                 @Html.DisplayNameFor(model => model.Request_Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Customer_Name)
+                @Html.DisplayNameFor(model => model.Branch_Code)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.EmbossName)
+                @Html.DisplayNameFor(model => model.Customer_Name)
             </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.Created_By)
             </th>
@@ -46,11 +47,12 @@
                     @Html.DisplayFor(modelItem => item.Request_Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Customer_Name)
+                    @Html.DisplayFor(modelItem => item.Branch_Code)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EmbossName)
+                    @Html.DisplayFor(modelItem => item.Customer_Name)
                 </td>
+               
                 <td>
                     @Html.DisplayFor(modelItem => item.Created_By)
                 </td>
@@ -63,7 +65,14 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }) |
+
+                    @{
+                        if (Session["User_Group"].ToString() != "User")
+                        {
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        }
+                    }
+                  
                 </td>
             </tr>
         }

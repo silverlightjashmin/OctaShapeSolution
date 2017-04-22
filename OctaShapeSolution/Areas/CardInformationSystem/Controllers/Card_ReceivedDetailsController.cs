@@ -22,44 +22,14 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         }
 
         // GET: CardInformationSystem/Card_ReceivedDetails/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Card_ReceivedDetails card_ReceivedDetails = db.Card_ReceivedDetails.Find(id);
-            if (card_ReceivedDetails == null)
-            {
-                return HttpNotFound();
-            }
-            return View(card_ReceivedDetails);
-        }
+      
 
         // GET: CardInformationSystem/Card_ReceivedDetails/Create
-        public ActionResult Create()
-        {
-            ViewBag.Received_Id = new SelectList(db.Card_Received, "Received_Id", "Received_By");
-            return View();
-        }
-
+      
         // POST: CardInformationSystem/Card_ReceivedDetails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Received_Id,Branch_Code,Account_No,Card_No,Expiry_Date,Delivered_Date")] Card_ReceivedDetails card_ReceivedDetails)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Card_ReceivedDetails.Add(card_ReceivedDetails);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.Received_Id = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_ReceivedDetails.Received_Id);
-            return View(card_ReceivedDetails);
-        }
+       
 
         // GET: CardInformationSystem/Card_ReceivedDetails/Edit/5
         public ActionResult Edit(int? id)
@@ -73,8 +43,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Received_Id = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_ReceivedDetails.Received_Id);
-            return View(card_ReceivedDetails);
+           return View(card_ReceivedDetails);
         }
 
         // POST: CardInformationSystem/Card_ReceivedDetails/Edit/5
@@ -90,35 +59,14 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.Received_Id = new SelectList(db.Card_Received, "Received_Id", "Received_By", card_ReceivedDetails.Received_Id);
             return View(card_ReceivedDetails);
         }
 
         // GET: CardInformationSystem/Card_ReceivedDetails/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Card_ReceivedDetails card_ReceivedDetails = db.Card_ReceivedDetails.Find(id);
-            if (card_ReceivedDetails == null)
-            {
-                return HttpNotFound();
-            }
-            return View(card_ReceivedDetails);
-        }
+       
 
         // POST: CardInformationSystem/Card_ReceivedDetails/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Card_ReceivedDetails card_ReceivedDetails = db.Card_ReceivedDetails.Find(id);
-            db.Card_ReceivedDetails.Remove(card_ReceivedDetails);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+       
 
         protected override void Dispose(bool disposing)
         {
@@ -127,6 +75,11 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult UploadReceivedCards()
+        {
+            return View();
         }
     }
 }
