@@ -16,6 +16,7 @@ namespace OctaShape.Data
     {
         public int Id { get; set; }
         public Nullable<System.DateTime> Request_Date { get; set; }
+        public string Branch_Code { get; set; }
         public string Account_No { get; set; }
         public string Customer_Name { get; set; }
         public string EmbossName { get; set; }
@@ -24,9 +25,6 @@ namespace OctaShape.Data
         public string Approved_By { get; set; }
         public Nullable<int> Card_RequestId { get; set; }
         public Nullable<int> Card_ReceivedId { get; set; }
-        public string Branch_Code { get; set; }
-        public string Card_Number { get; set; }
-        public Nullable<System.DateTime> Delivered_Date { get; set; }
     
         public virtual Card_Received Card_Received { get; set; }
         public virtual Card_Requested Card_Requested { get; set; }

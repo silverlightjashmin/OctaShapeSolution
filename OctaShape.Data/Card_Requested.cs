@@ -17,7 +17,6 @@ namespace OctaShape.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Card_Requested()
         {
-            this.Card_Received = new HashSet<Card_Received>();
             this.Card_RequestDetail = new HashSet<Card_RequestDetail>();
         }
     
@@ -25,12 +24,11 @@ namespace OctaShape.Data
         public Nullable<System.DateTime> Card_RequestDate { get; set; }
         public Nullable<System.DateTime> Request_StardDate { get; set; }
         public Nullable<System.DateTime> Request_EndDate { get; set; }
-        public Nullable<int> Total_Cards { get; set; }
+        public Nullable<int> Total_CardsRequested { get; set; }
         public string Request_By { get; set; }
-        public Nullable<bool> Is_Received { get; set; }
+        public Nullable<int> Card_ReceivedId { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Card_Received> Card_Received { get; set; }
+        public virtual Card_Received Card_Received { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Card_RequestDetail> Card_RequestDetail { get; set; }
     }

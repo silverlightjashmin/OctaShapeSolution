@@ -57,6 +57,9 @@
     <Compile Include="Card_Received.cs">
       <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Card_ReceivedDetails.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Card_RequestDetail.cs">
       <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
     </Compile>

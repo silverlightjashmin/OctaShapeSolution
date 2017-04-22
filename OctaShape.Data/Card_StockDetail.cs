@@ -17,7 +17,10 @@ namespace OctaShape.Data
         public int Id { get; set; }
         public Nullable<System.DateTime> Tran_Date { get; set; }
         public string Description { get; set; }
+        public Nullable<int> Reference_No { get; set; }
         public Nullable<int> Stock_Inward { get; set; }
         public Nullable<int> Stock_Outward { get; set; }
+    
+        public virtual Card_Received Card_Received { get; set; }
     }
 }
