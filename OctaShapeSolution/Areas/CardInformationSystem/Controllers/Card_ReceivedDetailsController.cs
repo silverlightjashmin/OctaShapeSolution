@@ -79,6 +79,10 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
         public ActionResult UploadReceivedCards()
         {
+
+            // code here for records upload
+
+
             return View();
         }
     }

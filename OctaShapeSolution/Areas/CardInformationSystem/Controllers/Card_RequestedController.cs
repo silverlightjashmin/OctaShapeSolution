@@ -68,6 +68,9 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
         public ActionResult DownloadCardRequest()
         {
+
+            // code here for card request send to issuer
+
             return View();
         }
     }

@@ -13,7 +13,7 @@
         <!-- /.col-lg-12 -->
     </div>
     <p>
-        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Upload Card Received Data", "UploadReceivedCards","Card_Receive", null, new { @class = "btn btn-primary" })
     </p>
     <table class="table">
         <tr>
@@ -21,7 +21,7 @@
                 @Html.DisplayNameFor(model => model.Received_Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Cards_Received)
+                @Html.DisplayNameFor(model => model.Total_CardsReceived)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Received_By)
@@ -29,9 +29,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.IsPin_Received)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Card_Requested.Request_By)
-            </th>
+            
             <th></th>
         </tr>
 
@@ -42,7 +40,7 @@
                     @Html.DisplayFor(modelItem => item.Received_Date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Cards_Received)
+                    @Html.DisplayFor(modelItem => item.Total_CardsReceived)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Received_By)
@@ -50,9 +48,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.IsPin_Received)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Card_Requested.Request_By)
-                </td>
+               
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Received_Id }) |
                    
