@@ -1,5 +1,6 @@
 ﻿using OctaShape.Common;
 using OctaShape.Data;
+using OctaShapeSolution.Models;
 using System;
 using System.Data.Entity;
 using System.Globalization;
@@ -8,6 +9,7 @@ using System.Net;
 using System.Web.Mvc;
 namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 {
+    [AuthorizeChecker]
     public class UserController : Controller
     {
         private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();

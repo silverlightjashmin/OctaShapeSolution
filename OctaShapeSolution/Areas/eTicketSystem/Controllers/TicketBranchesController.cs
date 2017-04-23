@@ -3,9 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using OctaShape.Data;
+using OctaShapeSolution.Models;
 
 namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 {
+    [AuthorizeChecker]
     public class TicketBranchesController : Controller
     {
         private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();

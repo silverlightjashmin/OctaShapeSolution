@@ -1,15 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using OctaShape.Data;
+using OctaShapeSolution.Areas.CardInformationSystem.Models;
+using System.Web.UI.WebControls;
+using OctaShapeSolution.Models;
 
 namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 {
+    [AuthorizeChecker]
     public class Card_RequestedController : Controller
     {
         private OctaShape_Card_Entities db = new OctaShape_Card_Entities();
@@ -66,12 +68,54 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             base.Dispose(disposing);
         }
 
+
+      
         public ActionResult DownloadCardRequest()
         {
 
-            // code here for card request send to issuer
+            DateTime RequestStartDate = DateTime.Now.Date;
+            DateTime RequestEndDate = DateTime.Now.Date;
+
+            var RequestStartDatevar = db.Card_Requested.OrderByDescending(x => x.Request_EndDate).FirstOrDefault();
+
+            if(RequestStartDatevar==null)
+            {
+                 RequestStartDate = DateTime.Now.Date;
+                 RequestEndDate = DateTime.Now.Date;
+            }
+            else
+            {
+                RequestStartDate = RequestStartDatevar.Request_EndDate.Value.Date;
+                RequestEndDate = DateTime.Now.Date;
+
+                
+            }
+
+            ViewBag.StartDate = RequestStartDate;
+
+          
+
+            
 
             return View();
+
         }
-    }
+
+        [HttpPost]
+        public ActionResult DownloadCardRequest(CardRequestDate CardRequestDate)    
+        {
+                var CardRequestDate1 = db.Card_RequestDetail.Where(x => x.Request_Date > CardRequestDate.StartDate && x.Request_Date < CardRequestDate.EndDate);
+                ViewBag.PartialData = CardRequestDate1.ToList();
+                    
+
+               // var ExportData   =db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString()).ToList();
+            
+            return View();
+
+        }
+
+        }
+
+    
+
 }

@@ -147,6 +147,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetRequestData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="OctaShape_Card_ModelStoreContainer">
           <EntitySet Name="Card_Received" EntityType="Self.Card_Received" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_ReceivedDetails" EntityType="Self.Card_ReceivedDetails" Schema="dbo" store:Type="Tables" />
@@ -214,6 +219,11 @@
             <End Role="Card_RequestType" EntitySet="Card_RequestType" />
             <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
           </AssociationSet>
+          <FunctionImport Name="GetRequestData" ReturnType="Collection(OctaShape_Card_Model.GetRequestData_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Card_Requested">
           <Key>
@@ -369,6 +379,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetRequestData_Result">
+          <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="Account_No" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Customer_Name" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -449,6 +464,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetRequestData" FunctionName="OctaShape_Card_Model.Store.GetRequestData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OctaShape_Card_Model.GetRequestData_Result">
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

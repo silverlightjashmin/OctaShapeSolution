@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using OctaShape.Data;
+using OctaShapeSolution.Models;
 
 namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 {
+    [AuthorizeChecker]
     public class Card_StockDetailController : Controller
     {
         private OctaShape_Card_Entities db = new OctaShape_Card_Entities();

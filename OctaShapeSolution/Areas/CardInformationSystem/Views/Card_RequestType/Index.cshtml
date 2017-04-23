@@ -13,7 +13,7 @@
     </div>
 
     <p>
-        @Html.ActionLink("Add New Request Type", "Create")
+        @Html.ActionLink("Add New Request Type", "Create", null, new { @class = "btn btn-primary" }))
     </p>
     <table class="table">
         <tr>
@@ -36,9 +36,8 @@
                     @Html.DisplayFor(modelItem => item.Request_Charge)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Request_Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Request_Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Request_Id })
+                    @Html.ActionLink("Update", "Edit", new { id = item.Request_Id }) |
+                   
                 </td>
             </tr>
         }

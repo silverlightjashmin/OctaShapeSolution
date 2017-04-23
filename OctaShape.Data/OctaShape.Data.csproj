@@ -84,6 +84,9 @@
     <Compile Include="GetPendingTicketsByUser_Result.cs">
       <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GetRequestData_Result.cs">
+      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetTicketCountByUser_Result.cs">
       <DependentUpon>OctaShapeSolutionModel.tt</DependentUpon>
     </Compile>

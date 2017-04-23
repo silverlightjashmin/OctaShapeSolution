@@ -4,9 +4,11 @@ using System.Web.Mvc;
 using OctaShapeSolution.Common;
 using OctaShapeSolution.Models;
 using OctaShape.Data;
+using System.Web;
 
 namespace OctaShapeSolution.Controllers
 {
+    [AuthorizeChecker]
     public class LoginController : Controller
     {
         private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
@@ -90,17 +92,37 @@ namespace OctaShapeSolution.Controllers
                         Session["Branch_Code"] = Branch_Code;
                         Session["IsAdmin"] = IsAdmin;
 
-/*
-                        //get host id and host name
-                        string hostname = Dns.GetHostName();
-                        IPHostEntry ipHostInfo = Dns.GetHostEntry(hostname);
-                        string HostId= ipHostInfo.AddressList[2].ToString();
+                        /*
 
-                        //save user login session 
-                        db.AddUserLoginSession(User_Name, hostname, HostId, DateTime.Now);
-                        db.SaveChanges();
 
-    */
+                                                //save user login session 
+                                                db.AddUserLoginSession(User_Name, hostname, HostId, DateTime.Now);
+                                                db.SaveChanges();
+
+
+                            */
+
+                        if(user.RememberMe==true)
+                        {
+                            HttpCookie User_NameCookie = new HttpCookie("User_Name");
+                            HttpCookie HashKey_Cookie = new HttpCookie("Hash_Key");
+
+                            DateTime now = DateTime.Now;
+
+                            // Set the cookie value.
+                            User_NameCookie.Value = User_Name;
+                            HashKey_Cookie.Value = encryptedpassword;
+                            // Set the cookie expiration date.
+                            User_NameCookie.Expires = now.AddDays(1); // For a cookie to effectively never expire
+                            HashKey_Cookie.Expires = now.AddDays(1);
+                            // Add the cookie.
+
+                            Response.Cookies.Add(User_NameCookie);
+                            Response.Cookies.Add(HashKey_Cookie);
+
+                        }
+                        
+
                         return RedirectToAction("DashBoard", "DashBoard");
                     }
                     

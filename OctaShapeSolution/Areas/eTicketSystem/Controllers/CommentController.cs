@@ -6,9 +6,11 @@ using System.Web;
 using System.Web.Mvc;
 using OctaShape.Data;
 using OctaShape.Common;
+using OctaShapeSolution.Models;
 
 namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 {
+    [AuthorizeChecker]
     public class CommentController : System.Web.Mvc.Controller
     {
 
