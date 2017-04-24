@@ -275,6 +275,20 @@ namespace OctaShapeSolution.Controllers
 
         }
 
+        public ActionResult CallDayEnd()
+        {
+            ViewBag.Branch_Name = db.TicketBranch.Find(Session["Branch_Code"].ToString()).BranchName;
+
+            
+
+
+            return View();
+        }
+
+       
+       
+           
+
     }
 
         

@@ -29,7 +29,8 @@
         <AssociationConnector Association="eTicketSystemModel.FK_TicketImage_TicketComment" ManuallyRouted="false" />
         <AssociationConnector Association="eTicketSystemModel.FK_UserTable_UserStatusTable1" ManuallyRouted="false" />
         <AssociationConnector Association="eTicketSystemModel.UserRole" ManuallyRouted="false" />
-      </Diagram>
+        <EntityTypeShape EntityType="eTicketSystemModel.Day_EndDetail" Width="1.5" PointX="6.375" PointY="0.75" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

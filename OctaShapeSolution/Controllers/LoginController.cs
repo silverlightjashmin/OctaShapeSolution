@@ -8,7 +8,7 @@ using System.Web;
 
 namespace OctaShapeSolution.Controllers
 {
-    [AuthorizeChecker]
+   
     public class LoginController : Controller
     {
         private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();

@@ -147,6 +147,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="CallDayEnd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="branchcode" Type="char" Mode="In" />
+        </Function>
         <Function Name="GetRequestData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StartDate" Type="date" Mode="In" />
           <Parameter Name="EndDate" Type="date" Mode="In" />
@@ -219,10 +223,14 @@
             <End Role="Card_RequestType" EntitySet="Card_RequestType" />
             <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
           </AssociationSet>
-          <FunctionImport Name="GetRequestData" ReturnType="Collection(OctaShape_Card_Model.GetRequestData_Result)">
+          <FunctionImport Name="GetRequestData" EntitySet="Card_RequestDetail" ReturnType="Collection(OctaShape_Card_Model.Card_RequestDetail)">
             <Parameter Name="StartDate" Mode="In" Type="DateTime" />
             <Parameter Name="EndDate" Mode="In" Type="DateTime" />
             <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="CallDayEnd">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="branchcode" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="Card_Requested">
@@ -383,6 +391,14 @@
           <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
           <Property Type="String" Name="Account_No" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Customer_Name" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Request_Date" Nullable="true" />
+          <Property Type="String" Name="EmbossName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Request_Id" Nullable="true" />
+          <Property Type="String" Name="Created_By" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Approved_By" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Card_RequestId" Nullable="true" />
+          <Property Type="Int32" Name="Card_ReceivedId" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -465,14 +481,8 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetRequestData" FunctionName="OctaShape_Card_Model.Store.GetRequestData">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="OctaShape_Card_Model.GetRequestData_Result">
-                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
-                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
-                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
-              </ComplexTypeMapping>
-            </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="CallDayEnd" FunctionName="OctaShape_Card_Model.Store.CallDayEnd" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

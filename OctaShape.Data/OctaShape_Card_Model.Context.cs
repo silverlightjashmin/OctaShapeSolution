@@ -34,7 +34,7 @@ namespace OctaShape.Data
         public virtual DbSet<Card_RequestType> Card_RequestType { get; set; }
         public virtual DbSet<Card_StockDetail> Card_StockDetail { get; set; }
     
-        public virtual ObjectResult<GetRequestData_Result> GetRequestData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName)
+        public virtual ObjectResult<Card_RequestDetail> GetRequestData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName)
         {
             var startDateParameter = startDate.HasValue ?
                 new ObjectParameter("StartDate", startDate) :
@@ -48,7 +48,37 @@ namespace OctaShape.Data
                 new ObjectParameter("UserName", userName) :
                 new ObjectParameter("UserName", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRequestData_Result>("GetRequestData", startDateParameter, endDateParameter, userNameParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Card_RequestDetail>("GetRequestData", startDateParameter, endDateParameter, userNameParameter);
+        }
+    
+        public virtual ObjectResult<Card_RequestDetail> GetRequestData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName, MergeOption mergeOption)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Card_RequestDetail>("GetRequestData", mergeOption, startDateParameter, endDateParameter, userNameParameter);
+        }
+    
+        public virtual int CallDayEnd(string username, string branchcode)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var branchcodeParameter = branchcode != null ?
+                new ObjectParameter("branchcode", branchcode) :
+                new ObjectParameter("branchcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CallDayEnd", usernameParameter, branchcodeParameter);
         }
     }
 }

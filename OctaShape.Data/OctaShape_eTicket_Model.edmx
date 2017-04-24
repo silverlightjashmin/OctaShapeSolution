@@ -5,6 +5,16 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="eTicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Day_EndDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Request_Date" Type="date" />
+          <Property Name="Branch_Code" Type="char" MaxLength="3" />
+          <Property Name="Request_Time" Type="time" Precision="7" />
+          <Property Name="Created_By" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="Id" />
@@ -297,6 +307,10 @@
           <Parameter Name="RoleId" Type="int" Mode="In" />
         </Function>
         <Function Name="AdminUserList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="CallForDayEnd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="varchar" Mode="In" />
+          <Parameter Name="branchcode" Type="char" Mode="In" />
+        </Function>
         <Function Name="FindUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="int" Mode="In" />
         </Function>
@@ -335,6 +349,7 @@
           <Parameter Name="emailid" Type="varchar" Mode="In" />
         </Function>
         <EntityContainer Name="eTicketSystemModelStoreContainer">
+          <EntitySet Name="Day_EndDetail" EntityType="Self.Day_EndDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TicketBranch" EntityType="Self.TicketBranch" Schema="dbo" store:Type="Tables" />
@@ -799,7 +814,12 @@
           </FunctionImport>
           <FunctionImport Name="GetLastCommentId" ReturnType="Collection(Int32)" />
           <FunctionImport Name="GetCommentImage" ReturnType="Collection(eTicketSystemModel.GetCommentImage_Result)" />
-        </EntityContainer>
+          <FunctionImport Name="CallForDayEnd" ReturnType="Collection(eTicketSystemModel.CallForDayEnd_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="branchcode" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Day_EndDetail" EntityType="eTicketSystemModel.Day_EndDetail" />
+          </EntityContainer>
         <ComplexType Name="AdminUserList_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="FullName" Nullable="true" MaxLength="1001" />
@@ -897,7 +917,24 @@
           <Property Type="DateTime" Name="CommentDate" Nullable="true" Precision="23" />
           <Property Type="String" Name="ImageOn" Nullable="true" MaxLength="2" />
         </ComplexType>
-      </Schema>
+        <ComplexType Name="CallForDayEnd_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Request_Date" Nullable="true" />
+          <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
+          <Property Type="Time" Name="Request_Time" Nullable="true" />
+          <Property Type="String" Name="Created_By" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="Day_EndDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_Date" Type="DateTime" Precision="0" />
+          <Property Name="Branch_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Request_Time" Type="Time" Precision="7" />
+          <Property Name="Created_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1176,7 +1213,29 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-        </EntityContainerMapping>
+          <FunctionImportMapping FunctionImportName="CallForDayEnd" FunctionName="eTicketSystemModel.Store.CallForDayEnd">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="eTicketSystemModel.CallForDayEnd_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Request_Time" ColumnName="Request_Time" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="Day_EndDetail">
+            <EntityTypeMapping TypeName="eTicketSystemModel.Day_EndDetail">
+              <MappingFragment StoreEntitySet="Day_EndDetail">
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="Request_Time" ColumnName="Request_Time" />
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

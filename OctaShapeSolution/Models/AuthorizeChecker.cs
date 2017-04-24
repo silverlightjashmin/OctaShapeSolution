@@ -20,8 +20,13 @@ namespace OctaShapeSolution.Models
 
             if (User_Id == null)
             {
-                    authorize = true; /* return true if Entity has current user(active) with specific role */
+                    authorize = false; /* return true if Entity has current user(active) with specific role */
                 }
+            else
+            {
+                authorize = true;
+
+            }
             
             return authorize;
         }

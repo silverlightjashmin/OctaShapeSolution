@@ -8,6 +8,9 @@ using OctaShape.Data;
 using OctaShapeSolution.Areas.CardInformationSystem.Models;
 using System.Web.UI.WebControls;
 using OctaShapeSolution.Models;
+using System.IO;
+using System.Collections.Generic;
+using OctaShape.Common;
 
 namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 {
@@ -78,39 +81,61 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
             var RequestStartDatevar = db.Card_Requested.OrderByDescending(x => x.Request_EndDate).FirstOrDefault();
 
-            if(RequestStartDatevar==null)
+
+
+            CardRequestDate d = new CardRequestDate();
+            
+
+            if (RequestStartDatevar==null)
             {
-                 RequestStartDate = DateTime.Now.Date;
-                 RequestEndDate = DateTime.Now.Date;
+                d.StartDate = DateTime.Now.Date;
+                 d.EndDate = DateTime.Now.Date;
             }
             else
             {
-                RequestStartDate = RequestStartDatevar.Request_EndDate.Value.Date;
-                RequestEndDate = DateTime.Now.Date;
+                d.StartDate = RequestStartDatevar.Request_EndDate.Value.Date;
+                d.EndDate = DateTime.Now.Date;
 
                 
             }
+            d.Card_RequestDetail = new List<Card_RequestDetail>();
 
-            ViewBag.StartDate = RequestStartDate;
 
-          
 
-            
 
-            return View();
+
+
+            return View(d);
 
         }
 
         [HttpPost]
         public ActionResult DownloadCardRequest(CardRequestDate CardRequestDate)    
         {
-                var CardRequestDate1 = db.Card_RequestDetail.Where(x => x.Request_Date > CardRequestDate.StartDate && x.Request_Date < CardRequestDate.EndDate);
-                ViewBag.PartialData = CardRequestDate1.ToList();
-                    
+            //    var CardRequestDate1 = db.Card_RequestDetail.Where(x => x.Request_Date > CardRequestDate.StartDate && x.Request_Date < CardRequestDate.EndDate);
+            //ViewBag.PartialData = CardRequestDate1.ToList();
 
-               // var ExportData   =db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString()).ToList();
-            
-            return View();
+
+           var ExportData = db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString()).ToList();
+
+
+            CardRequestDate d = new CardRequestDate();
+
+            d.StartDate = CardRequestDate.StartDate;
+            d.EndDate = CardRequestDate.EndDate;
+            d.Card_RequestDetail = ExportData;
+
+
+
+            //call notepad trf code
+            ExportToText ett= new ExportToText();
+
+            ett.ToText(ExportData,d.StartDate.Date.ToString("yyyy-MM-dd"));
+           
+
+            return View(d);
+
+
 
         }
 

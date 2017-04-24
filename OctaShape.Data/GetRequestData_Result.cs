@@ -16,5 +16,13 @@ namespace OctaShape.Data
         public string Branch_Code { get; set; }
         public string Account_No { get; set; }
         public string Customer_Name { get; set; }
+        public int Id { get; set; }
+        public Nullable<System.DateTime> Request_Date { get; set; }
+        public string EmbossName { get; set; }
+        public Nullable<int> Request_Id { get; set; }
+        public string Created_By { get; set; }
+        public string Approved_By { get; set; }
+        public Nullable<int> Card_RequestId { get; set; }
+        public Nullable<int> Card_ReceivedId { get; set; }
     }
 }
