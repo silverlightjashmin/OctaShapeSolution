@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Vbe.Interop;
+using System;
 using System.Configuration;
 using System.Net.Mail;
 
@@ -10,13 +11,21 @@ namespace OctaShape.Common
        
   
 
-    public void SendEmails(string subject,string Body,string messageto)  
-    {
-            AppSettingsReader settingsReader = new AppSettingsReader();
-            string emailid = (string)settingsReader.GetValue("EmailId", typeof(String));
-            string password = (string)settingsReader.GetValue("Password", typeof(String));
-            string getsmtp = (string)settingsReader.GetValue("Smtp", typeof(String));
-            int getport = (int)settingsReader.GetValue("port", typeof(int));
+    public void SendEmails(string subject,string Body,string messageto)
+        {
+
+            string emailid = ConfigurationManager.AppSettings["EmailId"];
+            string password= ConfigurationManager.AppSettings["Password"];
+            string getsmtp= ConfigurationManager.AppSettings["Smtp"];
+            int getport= Convert.ToInt32(ConfigurationManager.AppSettings["port"]);
+
+           
+            //AppSettingsReader settingsReader = new AppSettingsReader();
+
+            //string emailid = (string)settingsReader.GetValue("EmailId", typeof(String));
+            //string password = (string)settingsReader.GetValue("Password", typeof(String));
+            //string getsmtp = (string)settingsReader.GetValue("Smtp", typeof(String));
+            //int getport = (int)settingsReader.GetValue("port", typeof(int));
 
             MailMessage m = new MailMessage(emailid, messageto);
 

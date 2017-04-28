@@ -16,9 +16,9 @@ namespace OctaShape.Data
         public int id { get; set; }
         public int TicketId { get; set; }
         public string TicketComment { get; set; }
+        public Nullable<System.DateTime> CommentDate { get; set; }
         public string CommentBy { get; set; }
         public string Url { get; set; }
-        public Nullable<System.DateTime> CommentDate { get; set; }
         public string ImageOn { get; set; }
     }
 }

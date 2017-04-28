@@ -1,35 +1,43 @@
 ﻿@model OctaShape.Data.TicketCategory
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Category Details";
     Layout = "~/Areas/eTicketSystem/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                @ViewBag.Title
+            </header>
+            <div class="panel-body">
+                <div>
+                   
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CategoryName)
+                        </dt>
 
-<div>
-    <h4>TicketCategory</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        
-        <dd>
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.CategoryName)
+                        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketCategory2.CategoryName)
-        </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TicketCategory2.CategoryName)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketCategory2.CategoryName)
-        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.TicketCategory2.CategoryName)
+                        </dd>
 
-    </dl>
+                    </dl>
+                </div>
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
+            </div>
+        </section>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }, new { @class = "btn btn-primary" }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

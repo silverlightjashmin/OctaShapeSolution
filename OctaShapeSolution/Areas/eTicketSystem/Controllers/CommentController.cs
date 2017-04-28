@@ -14,7 +14,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
     public class CommentController : System.Web.Mvc.Controller
     {
 
-        private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
         // GET: Comment
 
         [HttpPost]
@@ -62,7 +62,17 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 tc.TicketId = ticketcomment.TicketId;
                 tc.TicketCommentId = ticketcomment.id;
                 tc.Url = path;
-                tc.ImageOn = file.FileName;
+
+                if(file!=null)
+                {
+                    tc.ImageOn = file.FileName;
+                    
+                }
+                else
+                {
+                    tc.ImageOn = null;
+                }
+              
 
 
                 db.TicketImage.Add(tc);
@@ -71,7 +81,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 //send email to admin for new Comments
 
                 string subject = "New Comments Has Been Posted By :" + Session["User_Name"].ToString();
-                string Body = string.Format("Dear Admin,<BR/><br/>A New Comment on Ticket Nr {0} Has Been Posted By :{1}.<br/><br/> please click on the below link to View the Comments : <a href=\"{2}\" title=\"User Email Confirm\">{2}</a>", ticketcomment.TicketId, Session["User_Name"].ToString(), Url.Action("GetTicket", "Comment", new { id = ticketcomment.TicketId }, Request.Url.Scheme));
+                string Body = string.Format("Dear Admin,<BR/><br/>A New Comment on Ticket #{0} Has Been Posted By :{1}.<br/><br/> please click on the below link to View the Comments : <a href=\"{2}\" title=\"User Email Confirm\">{2}</a>", ticketcomment.TicketId, Session["User_Name"].ToString(), Url.Action("GetTicket", "Comment", new { id = ticketcomment.TicketId }, Request.Url.Scheme));
 
                 var adminemaillist = db.AdminUserList().ToList();
 

@@ -15,7 +15,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
     public class Card_RequestDetailController : Controller
     {
         private OctaShape_Card_Entities db = new OctaShape_Card_Entities();
-        private OctaShapeSolutionEntities db1 = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db1 = new OctaShape_eTicket_Entities();
 
         // GET: CardInformationSystem/Card_RequestDetail
         public ActionResult Index()

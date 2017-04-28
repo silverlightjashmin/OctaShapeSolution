@@ -6,87 +6,95 @@
 
 }
 
-<h2>
-    List Of Tickets
-</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                @ViewBag.Title
+            </header>
+            <div class="panel-body">
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </th>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.LastEditedOn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketBranch.BranchName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketCategory.CategoryName)
-        </th>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.TicketPriority.TicketPriority1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketStatus.TicketStatus1)
-        </th>
-        <th></th>
-    </tr>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.LastEditedOn)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User1.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketBranch.BranchName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketCategory.CategoryName)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketPriority.TicketPriority1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketStatus.TicketStatus1)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "EditTicket", new { id = item.id }) 
-               
-            </td>
-            <td>
-                @Html.ActionLink("Expand","GetTicket","Comment", new { id = item.id },null)
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedDate)
+                        </th>
 
-            </td>
-        </tr>
-    }
+                        <th>
+                            @Html.DisplayNameFor(model => model.LastEditedOn)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedBy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketBranch.BranchName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketCategory.CategoryName)
+                        </th>
 
-</table>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketPriority.TicketPriority1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketStatus.TicketStatus1)
+                        </th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreatedDate)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.LastEditedOn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User1.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketBranch.BranchName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketCategory.CategoryName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketPriority.TicketPriority1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketStatus.TicketStatus1)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditTicket", new { id = item.id })
+
+                            </td>
+                            <td>
+                                @Html.ActionLink("Expand", "GetTicket", "Comment", new { id = item.id }, null)
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </section>
+    </div>
+</div>

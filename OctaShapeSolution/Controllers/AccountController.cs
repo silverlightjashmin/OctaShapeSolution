@@ -1,24 +1,23 @@
 ﻿
 using OctaShapeSolution.Models;
-using OctaShapeSolution.Common;
+using OctaShape.Common;
 using System;
-using System.Configuration;
 using System.Linq;
-using System.Net.Mail;
 using System.Web.Mvc;
 using OctaShape.Data;
-using OctaShape.Common;
+
 
 namespace OctaShapeSolution.Controllers
 {
+    [AuthorizeChecker]
     public class AccountController : Controller
     {
-        private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
 
         //Set UserStatus as per DB
         private class GetStatus
         {
-            public int Registerd = 1;            
+            public int Registerd = 1;
             public int Verified = 2;
             public int Locked = 3;
             public int Blocked = 4;
@@ -26,13 +25,13 @@ namespace OctaShapeSolution.Controllers
         }
 
         // GET: Account
-      public ActionResult RegisterUser()
+        public ActionResult RegisterUser()
         {
-          
-                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
+
+            ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
             return View();
-                       
-           
+
+
         }
 
         // POST:User
@@ -51,7 +50,7 @@ namespace OctaShapeSolution.Controllers
             u.EmailConfirmed = false;
 
             //call encryption
-            var encyptedpassword =Encryption.Encrypt(RVM.UserName + RVM.Password, true);
+            var encyptedpassword = Encryption.Encrypt(RVM.UserName + RVM.Password, true);
             u.HashPassword = encyptedpassword;
 
             try
@@ -62,11 +61,11 @@ namespace OctaShapeSolution.Controllers
                 if (ModelState.IsValid)
                 {
 
-                    
+
                     db.User.Add(u);
                     db.SaveChanges();
 
-                   
+
                     string Subject = "Please Confirm Your Email Id for eTicketSystem Application";
                     string Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", u.UserName, Url.Action("VerifyEmail", "Account", new { id = u.id, Email = u.Email }, Request.Url.Scheme));
 
@@ -93,10 +92,10 @@ namespace OctaShapeSolution.Controllers
 
 
 
-               
 
-            
-            
+
+
+
         }
 
         // GET: /Account/ForgotPassword
@@ -130,7 +129,7 @@ namespace OctaShapeSolution.Controllers
                     db.ResetPassword(username, encyptedpassword);
 
                     //send default password to user email id
-                  
+
                     string Subject = "Password Reset for eTicketSystem";
                     string Body = string.Format("Dear {0}<BR/>Your Password has been successfully reset. Your New Password is {1} <BR/> Please Change your Password after First Login.", username, commonpassword);
 
@@ -148,9 +147,9 @@ namespace OctaShapeSolution.Controllers
                 }
 
 
-                    // Don't reveal that the user does not exist or is not confirmed
+                // Don't reveal that the user does not exist or is not confirmed
 
-                }
+            }
             //error msg 
 
             return View(FPVM);
@@ -163,7 +162,7 @@ namespace OctaShapeSolution.Controllers
             string username = Session["User_Name"].ToString();
 
             if (username != null)
-            { 
+            {
                 return View();
             }
             else
@@ -172,12 +171,12 @@ namespace OctaShapeSolution.Controllers
                 ModelState.AddModelError("", "You are not logged in. Please Login First.");
                 return RedirectToAction("Authenticate", "Login");
             }
-                
 
-            
+
+
         }
-           
-        
+
+
 
 
         [HttpPost]
@@ -185,37 +184,37 @@ namespace OctaShapeSolution.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ChangePassword(ChangePasswordViewModel cpvm)
         {
-        if (ModelState.IsValid)
-        {
-            string username = Session["User_Name"].ToString();
-
-            if (username != null)
+            if (ModelState.IsValid)
             {
-                //Reset the password to default password and send email
+                string username = Session["User_Name"].ToString();
 
-                var encyptedpassword = Encryption.Encrypt(username + cpvm.Password, true);
-
-                //update password to default
-                db.ResetPassword(username, encyptedpassword);
-
-                if (Session["User_Group"].ToString() == "Admin")
+                if (username != null)
                 {
-                    return RedirectToAction("DashBoard", "DashBoard");
+                    //Reset the password to default password and send email
+
+                    var encyptedpassword = Encryption.Encrypt(username + cpvm.Password, true);
+
+                    //update password to default
+                    db.ResetPassword(username, encyptedpassword);
+
+                    if (Session["User_Group"].ToString() == "Admin")
+                    {
+                        return RedirectToAction("DashBoard", "DashBoard");
+                    }
+                    else
+                        return RedirectToAction("UserDashBoard", "UserDashBoard");
+
                 }
                 else
-                    return RedirectToAction("UserDashBoard", "UserDashBoard");
-
-            }
-            else
-            {
-                ModelState.AddModelError("", "You are not logged in. Please Login First.");
-                return RedirectToAction("Login", "Home");
-            }
+                {
+                    ModelState.AddModelError("", "You are not logged in. Please Login First.");
+                    return RedirectToAction("Login", "Home");
+                }
 
 
-        } // Don't reveal that the user does not exist or is not confirmed
+            } // Don't reveal that the user does not exist or is not confirmed
 
-            
+
             //error msg 
 
             return View(cpvm);
@@ -263,7 +262,7 @@ namespace OctaShapeSolution.Controllers
             return View();
         }
 
-        public ActionResult VerifyEmail(int? id, string Email)  
+        public ActionResult VerifyEmail(int? id, string Email)
 
         {
 
@@ -277,22 +276,102 @@ namespace OctaShapeSolution.Controllers
 
         public ActionResult CallDayEnd()
         {
+
+
+            ViewBag.Branch_Code = Session["Branch_Code"].ToString();
+
             ViewBag.Branch_Name = db.TicketBranch.Find(Session["Branch_Code"].ToString()).BranchName;
 
-            
+            DateTime date = DateTime.Now.Date;
 
+            var exportdata = db.GetDayEndStatus().ToList();
+
+            bool status = false;
+
+            if (exportdata.Count()>=1)
+            {
+                status = Convert.ToBoolean(exportdata.Where(x => x.Branch_Code == Session["Branch_Code"].ToString()).FirstOrDefault().Is_DayEnd);
+
+            }
+
+            //pendin day end confirmation branch count
+            ViewBag.pendingbranch = db.GetPendingBranch().Count();
+
+            ViewBag.pendingbranchdetails = db.GetPendingBranch().ToList();
+
+            //data for line chart
+
+            var totallist = db.Day_EndDetail.ToList();
+
+            var rdate = (from temp in totallist
+                         where temp.Branch_Code == Session["Branch_Code"].ToString()
+                         orderby temp.Request_Date descending
+                         select temp.Request_Date.Value.ToShortDateString()).Take(7).ToList();
+
+                var rtime    = (from temp in totallist
+                                where temp.Branch_Code == Session["Branch_Code"].ToString()
+                                orderby temp.Request_Date descending
+                                select temp.Request_Time.Value.TotalHours).Take(7).ToList();
+
+                string UserName1 = string.Join(" \",\"", rdate);
+
+                string WorkLoad1 = string.Join(",", rtime);
+                string fl = UserName1.Insert(0, "\"");
+                string ll = fl.Insert(fl.Length, "\"");
+                ViewBag.M = ll.Trim();
+                ViewBag.P = WorkLoad1.Trim();
+
+
+             
+
+
+
+            if (status == true)
+
+            {
+                ViewBag.Status = "ON";
+                ViewBag.message = "Day End Operation Flag";
+            }
+            else
+            {
+                ViewBag.Status = "OFF";
+                ViewBag.message = "Day End Operation Flag";
+            }
+
+            ViewBag.Data = exportdata;
+
+
+            
 
             return View();
         }
 
-       
-       
-           
 
-    }
+        public ActionResult AddDayEndStat()
+        {
+            db.CallForDayEnd(Session["User_Name"].ToString(), Session["Branch_Code"].ToString()).ToList();
+            db.SaveChanges();
+
+            
+
+
+
+            return RedirectToAction("CallDayEnd");
+        }
+
+        public ActionResult DayEndStatOff()
+        {
+
+            db.DayEndStatOff(Session["Branch_Code"].ToString());
+            db.SaveChanges();
+            return RedirectToAction("CallDayEnd");
+        }
 
         
-
     }
 
-    
+
+
+}
+
+

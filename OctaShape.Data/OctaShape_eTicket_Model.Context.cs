@@ -15,10 +15,10 @@ namespace OctaShape.Data
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class OctaShapeSolutionEntities : DbContext
+    public partial class OctaShape_eTicket_Entities : DbContext
     {
-        public OctaShapeSolutionEntities()
-            : base("name=OctaShapeSolutionEntities")
+        public OctaShape_eTicket_Entities()
+            : base("name=OctaShape_eTicket_Entities")
         {
         }
     
@@ -27,6 +27,7 @@ namespace OctaShape.Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Day_EndDetail> Day_EndDetail { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Ticket> Ticket { get; set; }
         public virtual DbSet<TicketBranch> TicketBranch { get; set; }
@@ -57,6 +58,19 @@ namespace OctaShape.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AdminUserList_Result>("AdminUserList");
         }
     
+        public virtual ObjectResult<CallForDayEnd_Result> CallForDayEnd(string username, string branchcode)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var branchcodeParameter = branchcode != null ?
+                new ObjectParameter("branchcode", branchcode) :
+                new ObjectParameter("branchcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<CallForDayEnd_Result>("CallForDayEnd", usernameParameter, branchcodeParameter);
+        }
+    
         public virtual ObjectResult<FindUserRole_Result> FindUserRole(Nullable<int> userid)
         {
             var useridParameter = userid.HasValue ?
@@ -75,6 +89,16 @@ namespace OctaShape.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetAllUserDetails_Result>("GetAllUserDetails", userNameParameter);
         }
     
+        public virtual ObjectResult<GetCommentImage_Result> GetCommentImage()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCommentImage_Result>("GetCommentImage");
+        }
+    
+        public virtual ObjectResult<Nullable<int>> GetLastCommentId()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetLastCommentId");
+        }
+    
         public virtual ObjectResult<GetPendingTicketsByUser_Result> GetPendingTicketsByUser(Nullable<int> userId)
         {
             var userIdParameter = userId.HasValue ?
@@ -82,6 +106,23 @@ namespace OctaShape.Data
                 new ObjectParameter("UserId", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetPendingTicketsByUser_Result>("GetPendingTicketsByUser", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetRequestData_Result> GetRequestData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetRequestData_Result>("GetRequestData", startDateParameter, endDateParameter, userNameParameter);
         }
     
         public virtual ObjectResult<GetTicketCountByUser_Result> GetTicketCountByUser(Nullable<int> userid)
@@ -168,14 +209,28 @@ namespace OctaShape.Data
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("VerifyEmail", useridParameter, emailidParameter);
         }
     
-        public virtual ObjectResult<Nullable<int>> GetLastCommentId()
+        public virtual ObjectResult<GetDayEndStatus_Result> GetDayEndStatus()
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<int>>("GetLastCommentId");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetDayEndStatus_Result>("GetDayEndStatus");
         }
     
-        public virtual ObjectResult<GetCommentImage_Result> GetCommentImage()
+        public virtual int DayEndStatOff(string branchcode)
         {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetCommentImage_Result>("GetCommentImage");
+            var branchcodeParameter = branchcode != null ?
+                new ObjectParameter("branchcode", branchcode) :
+                new ObjectParameter("branchcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DayEndStatOff", branchcodeParameter);
+        }
+    
+        public virtual ObjectResult<TicketBranch> GetPendingBranch()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TicketBranch>("GetPendingBranch");
+        }
+    
+        public virtual ObjectResult<TicketBranch> GetPendingBranch(MergeOption mergeOption)
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TicketBranch>("GetPendingBranch", mergeOption);
         }
     }
 }

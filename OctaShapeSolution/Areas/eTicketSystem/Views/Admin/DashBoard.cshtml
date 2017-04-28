@@ -66,6 +66,7 @@
                 </ul>
                 <!--  search form end -->
             </div>
+
             <div class="top-nav notification-row">
                 <!-- notificatoin dropdown start-->
                 <ul class="nav pull-right top-menu">
@@ -101,59 +102,62 @@
                                 <a href="../Admin/ViewMyTicket">See all Pending Tickets</a>
                             </li>
 
+                        </ul>
+
 
                     </li>
 
+
+
+
+                    <li class="dropdown">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="profile-ava">
+
+                                <!-- Call User Image in this box-->
+                                <img alt="" src="../../../../img/avatar1_small.jpg">
+
+                            </span>
+
+                            <!--Call Username on this box-->
+
+                            <span class="username">@((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).First().UserName)</span>
+
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu extended logout">
+                            <div class="log-arrow-up"></div>
+                            <li class="eborder-top">
+                                <a href="../Profile/MYProfile"><i class="icon_profile"></i> My Profile</a>
+                            </li>
+
+
+                            <li>
+                                @Html.ActionLink("Log Out", "Logoff", "Home", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+
+                            </li>
+                            <li>
+                                @Html.ActionLink("Reset Password", "ChangePassword", "Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+
+                            </li>
+                            <li>
+                                <a href="../Admin/ViewMyTicket"><i class="icon_key_alt"></i> My Tickets</a>
+
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
-
-
-                <!-- task notificatoin end -->
-                <!-- user login dropdown start-->
-                <li class="dropdown">
-                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="profile-ava">
-
-                            <!-- Call User Image in this box-->
-                            <img alt="" src="../../../../img/avatar1_small.jpg">
-
-                        </span>
-
-                        <!--Call Username on this box-->
-
-                        <span class="username">@((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).First().UserName)</span>
-
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu extended logout">
-                        <div class="log-arrow-up"></div>
-                        <li class="eborder-top">
-                            <a href="../Profile/MYProfile"><i class="icon_profile"></i> My Profile</a>
-                        </li>
-
-
-                        <li>
-                            @Html.ActionLink("Log Out", "Logoff", "Home", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
-
-                        </li>
-                        <li>
-                            @Html.ActionLink("Reset Password", "ChangePassword", "Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
-
-                        </li>
-                        <li>
-                            <a href="../Admin/ViewMyTicket"><i class="icon_key_alt"></i> My Tickets</a>
-
-                        </li>
-
-                    </ul>
-                </li>
                 <!-- user login dropdown end -->
-                </ul>
+               
 
                 <!-- notificatoin dropdown end-->
             </div>
         </header>
         <!--header end-->
+
         <!--sidebar start-->
+
         <aside>
             <div id="sidebar" class="nav-collapse ">
                 <!-- sidebar menu start-->

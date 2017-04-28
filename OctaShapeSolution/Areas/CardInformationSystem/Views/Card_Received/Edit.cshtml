@@ -8,7 +8,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Edit Card Received Detils</h1>
+            <h1 class="page-header">Edit Card Received Details</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -24,31 +24,25 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Received_Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-4">
                     @Html.EditorFor(model => model.Received_Date, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Received_Date, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Card_RequestId, "Card_RequestId", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("Card_RequestId", null, htmlAttributes: new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Card_RequestId, "", new { @class = "text-danger" })
-                </div>
-            </div>
+         
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Cards_Received, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Cards_Received, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Cards_Received, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.Total_CardsReceived, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.Total_CardsReceived, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Total_CardsReceived, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.Received_By, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-4">
                     @Html.EditorFor(model => model.Received_By, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Received_By, "", new { @class = "text-danger" })
                 </div>
@@ -56,7 +50,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.IsPin_Received, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-4">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.IsPin_Received)
                         @Html.ValidationMessageFor(model => model.IsPin_Received, "", new { @class = "text-danger" })

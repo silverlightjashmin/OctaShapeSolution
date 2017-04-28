@@ -4,19 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1489fa60c4ac4985a6718f620298baec" Name="Diagram1" ZoomLevel="77">
+      <Diagram DiagramId="1489fa60c4ac4985a6718f620298baec" Name="Diagram1" ZoomLevel="77" ShowGrid="false" SnapToGrid="true">
         <EntityTypeShape EntityType="OctaShape_Card_Model.Card_Requested" Width="1.5" PointX="6.125" PointY="1.5" />
         <EntityTypeShape EntityType="OctaShape_Card_Model.Card_Received" Width="1.5" PointX="0.5" PointY="0.75" />
-        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_ReceivedDetails" Width="1.5" PointX="0.5" PointY="4.5" />
         <EntityTypeShape EntityType="OctaShape_Card_Model.Card_RequestDetail" Width="2.125" PointX="2.875" PointY="2.375" />
         <EntityTypeShape EntityType="OctaShape_Card_Model.Card_RequestType" Width="1.5" PointX="8.5" PointY="4.25" />
         <EntityTypeShape EntityType="OctaShape_Card_Model.Card_StockDetail" Width="1.5" PointX="9.375" PointY="0.625" />
-        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received" />
         <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_Received" />
         <AssociationConnector Association="OctaShape_Card_Model.FK_Card_Requested_Card_Received" />
         <AssociationConnector Association="OctaShape_Card_Model.FK_Card_StockDetail_Card_Received" />
         <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_Requested" />
         <AssociationConnector Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_RequestType" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_Activate" Width="1.5" PointX="8.25" PointY="7.125" />
+        <EntityTypeShape EntityType="OctaShape_Card_Model.Card_ReceivedDetails" Width="1.5" PointX="5.625" PointY="7" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Activate" />
+        <AssociationConnector Association="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

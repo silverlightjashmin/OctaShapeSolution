@@ -14,13 +14,17 @@ namespace OctaShape.Data
     
     public partial class Card_ReceivedDetails
     {
+        public int Id { get; set; }
         public int Received_Id { get; set; }
         public string Branch_Code { get; set; }
         public string Account_No { get; set; }
         public string Card_No { get; set; }
         public Nullable<System.DateTime> Expiry_Date { get; set; }
         public Nullable<System.DateTime> Delivered_Date { get; set; }
+        public Nullable<bool> Is_Activated { get; set; }
+        public Nullable<int> Activation_Id { get; set; }
     
+        public virtual Card_Activate Card_Activate { get; set; }
         public virtual Card_Received Card_Received { get; set; }
     }
 }

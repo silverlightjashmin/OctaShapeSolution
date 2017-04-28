@@ -4,33 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a2b1346c327d4a73a744b892dd27c347" Name="Diagram1">
-        <EntityTypeShape EntityType="eTicketSystemModel.Roles" Width="1.5" PointX="3.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.Ticket" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.TicketBranch" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.TicketCategory" Width="1.5" PointX="0.75" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.TicketComment" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.TicketImage" Width="1.5" PointX="8.5" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.TicketPriority" Width="1.5" PointX="0.75" PointY="11.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.TicketStatus" Width="1.5" PointX="0.75" PointY="14.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.User" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.UserLoginInfo" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="eTicketSystemModel.UserStatus" Width="1.5" PointX="3.75" PointY="12.375" IsExpanded="true" />
-        <AssociationConnector Association="eTicketSystemModel.FK_Ticket_TicketBranch" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_Ticket_TicketCategory" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_Ticket_User" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_Ticket_User1" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_TicketCommentTable_TicketTable1" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_TicketImage_Ticket" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_TicketTable_TicketPriorityTable1" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_TicketTable_TicketStatusTable1" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_UserTable_TicketBranchTable" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_TicketCategory_TicketCategory" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_TicketImage_TicketComment" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.FK_UserTable_UserStatusTable1" ManuallyRouted="false" />
-        <AssociationConnector Association="eTicketSystemModel.UserRole" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="eTicketSystemModel.Day_EndDetail" Width="1.5" PointX="6.375" PointY="0.75" />
-        </Diagram>
+      <Diagram DiagramId="bf04f7fcd38b47669af7f90daf3e6390" Name="Diagram1">
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.Day_EndDetail" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.Roles" Width="1.5" PointX="3.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.Ticket" Width="1.5" PointX="3" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.TicketBranch" Width="1.5" PointX="0.75" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.TicketCategory" Width="1.5" PointX="0.75" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.TicketComment" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.TicketImage" Width="1.5" PointX="8.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.TicketPriority" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.TicketStatus" Width="1.5" PointX="0.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.User" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.UserLoginInfo" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="OctaShape_eTicket_Model.UserStatus" Width="1.5" PointX="3.75" PointY="12.5" IsExpanded="true" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_Ticket_TicketBranch" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_Ticket_TicketCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_Ticket_User" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_Ticket_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_TicketCommentTable_TicketTable1" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_TicketImage_Ticket" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_TicketTable_TicketPriorityTable1" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_TicketTable_TicketStatusTable1" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_UserTable_TicketBranchTable" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_TicketCategory_TicketCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_TicketImage_TicketComment" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.FK_UserTable_UserStatusTable1" ManuallyRouted="false" />
+        <AssociationConnector Association="OctaShape_eTicket_Model.UserRole" ManuallyRouted="false" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -13,7 +13,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
     [AuthorizeChecker]
     public class AdminController : System.Web.Mvc.Controller
     {
-        private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
      
 
         public ActionResult CreateTicket()

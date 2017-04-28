@@ -3,7 +3,7 @@ using System.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace OctaShapeSolution.Common
+namespace OctaShape.Common  
 {
 
     public class Encryption

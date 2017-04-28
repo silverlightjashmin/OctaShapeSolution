@@ -1,77 +1,88 @@
 ﻿@model IEnumerable<OctaShape.Data.Ticket>
 @{
-    //ViewBag.Title = "Assign Ticket To User";
+    ViewBag.Title = "Assign Ticket To User";
     Layout = "~/Areas/eTicketSystem/Views/Shared/_AdminLayout.cshtml";
 }
 
 
 
-<h2>List of New Tickets</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                @ViewBag.Title
+            </header>
+            <div class="panel-body">
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
 
-       
-        <th>
-            @Html.DisplayNameFor(model => model.CreatedBy)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketBranch.BranchName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketCategory.CategoryName)
-        </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.TicketPriority.TicketPriority1)
-        </th>
-        
-        <th>
-            @Html.DisplayNameFor(model => model.AssignedTo)
-        </th>
-        <th></th>
-    </tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedBy)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketBranch.BranchName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketCategory.CategoryName)
+                        </th>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicketPriority.TicketPriority1)
+                        </th>
 
-         
+                        <th>
+                            @Html.DisplayNameFor(model => model.AssignedTo)
+                        </th>
+                        <th></th>
+                    </tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.User1.UserName)
-            </td>
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketBranch.BranchName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketCategory.CategoryName)
-            </td>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketPriority.TicketPriority1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.UserName)
-            </td>
-            <td>
-                @Html.ActionLink("Get Ticket Details", "EditTicket", new { id = item.id })
 
-            </td>
-        </tr>
-    }
 
-</table>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User1.UserName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketBranch.BranchName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketCategory.CategoryName)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketPriority.TicketPriority1)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.User.UserName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Get Ticket Details", "EditTicket", new { id = item.id })
+
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+
+            </div>
+        </section>
+    </div>
+</div>

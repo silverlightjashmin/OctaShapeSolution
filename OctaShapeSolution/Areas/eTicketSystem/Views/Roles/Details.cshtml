@@ -5,31 +5,32 @@
     Layout = "~/Areas/eTicketSystem/Views/Shared/_AdminLayout.cshtml";
 }
 
-<!DOCTYPE html>
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                @ViewBag.Title
+            </header>
+            <div class="panel-body">
+                <div>
+                    <h4>Roles</h4>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RoleName)
+                        </dt>
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Details</title>
-</head>
-<body>
-    <div>
-        <h4>Roles</h4>
-        <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.RoleName)
-            </dt>
-    
-            <dd>
-                @Html.DisplayFor(model => model.RoleName)
-            </dd>
-    
-        </dl>
+                        <dd>
+                            @Html.DisplayFor(model => model.RoleName)
+                        </dd>
+
+                    </dl>
+                </div>
+                <p>
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
+                    @Html.ActionLink("Back to List", "Index")
+                </p>
+            </div>
+        </section>
     </div>
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary" }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
-</body>
-</html>
+</div>

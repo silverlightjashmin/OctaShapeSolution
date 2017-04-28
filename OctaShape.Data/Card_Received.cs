@@ -20,6 +20,7 @@ namespace OctaShape.Data
             this.Card_RequestDetail = new HashSet<Card_RequestDetail>();
             this.Card_Requested = new HashSet<Card_Requested>();
             this.Card_StockDetail = new HashSet<Card_StockDetail>();
+            this.Card_ReceivedDetails = new HashSet<Card_ReceivedDetails>();
         }
     
         public int Received_Id { get; set; }
@@ -28,12 +29,13 @@ namespace OctaShape.Data
         public string Received_By { get; set; }
         public Nullable<bool> IsPin_Received { get; set; }
     
-        public virtual Card_ReceivedDetails Card_ReceivedDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Card_RequestDetail> Card_RequestDetail { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Card_Requested> Card_Requested { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Card_StockDetail> Card_StockDetail { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Card_ReceivedDetails> Card_ReceivedDetails { get; set; }
     }
 }

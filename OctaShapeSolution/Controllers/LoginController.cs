@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
-using OctaShapeSolution.Common;
+using OctaShape.Common;
 using OctaShapeSolution.Models;
 using OctaShape.Data;
 using System.Web;
@@ -11,7 +11,7 @@ namespace OctaShapeSolution.Controllers
    
     public class LoginController : Controller
     {
-        private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
         
         // GET: Login
         public ActionResult Authenticate()
@@ -113,7 +113,7 @@ namespace OctaShapeSolution.Controllers
                             User_NameCookie.Value = User_Name;
                             HashKey_Cookie.Value = encryptedpassword;
                             // Set the cookie expiration date.
-                            User_NameCookie.Expires = now.AddDays(1); // For a cookie to effectively never expire
+                            User_NameCookie.Expires = now.AddDays(1); // 
                             HashKey_Cookie.Expires = now.AddDays(1);
                             // Add the cookie.
 

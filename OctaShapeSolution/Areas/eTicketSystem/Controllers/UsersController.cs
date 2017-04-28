@@ -6,14 +6,14 @@ using System.Web.Mvc;
 using System.Net.Mail;
 
 using System.Configuration;
-using OctaShapeSolution.Common;
+using OctaShape.Common;
 using OctaShape.Data;
 
 namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 {
     public class UsersController : Controller
     {
-        private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
 
         // GET: Users
 

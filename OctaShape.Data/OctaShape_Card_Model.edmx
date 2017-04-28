@@ -5,11 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="OctaShape_Card_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Card_Activate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Activate_Date" Type="date" />
+          <Property Name="Activate_Start" Type="date" />
+          <Property Name="Activate_End" Type="date" />
+          <Property Name="No_ofCards" Type="int" />
+          <Property Name="Activated_By" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Card_Received">
           <Key>
             <PropertyRef Name="Received_Id" />
           </Key>
-          <Property Name="Received_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Received_Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Received_Date" Type="date" />
           <Property Name="Total_CardsReceived" Type="int" />
           <Property Name="Received_By" Type="nvarchar" MaxLength="50" />
@@ -17,14 +28,17 @@
         </EntityType>
         <EntityType Name="Card_ReceivedDetails">
           <Key>
-            <PropertyRef Name="Received_Id" />
+            <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Received_Id" Type="int" Nullable="false" />
           <Property Name="Branch_Code" Type="char" MaxLength="3" />
           <Property Name="Account_No" Type="varchar" MaxLength="50" />
           <Property Name="Card_No" Type="varchar" MaxLength="50" />
           <Property Name="Expiry_Date" Type="date" />
           <Property Name="Delivered_Date" Type="date" />
+          <Property Name="Is_Activated" Type="bit" />
+          <Property Name="Activation_Id" Type="int" />
         </EntityType>
         <EntityType Name="Card_RequestDetail">
           <Key>
@@ -73,11 +87,21 @@
           <Property Name="Stock_Inward" Type="int" />
           <Property Name="Stock_Outward" Type="int" />
         </EntityType>
-        <Association Name="FK_Card_ReceivedDetails_Card_Received">
-          <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Card_ReceivedDetails" Type="Self.Card_ReceivedDetails" Multiplicity="0..1" />
+        <Association Name="FK_Card_ReceivedDetails_Card_Activate">
+          <End Role="Card_Activate" Type="Self.Card_Activate" Multiplicity="0..1" />
+          <End Role="Card_ReceivedDetails" Type="Self.Card_ReceivedDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Activate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card_ReceivedDetails">
+              <PropertyRef Name="Activation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_ReceivedDetails_Card_Received1">
+          <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="1" />
+          <End Role="Card_ReceivedDetails" Type="Self.Card_ReceivedDetails" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Card_Received">
               <PropertyRef Name="Received_Id" />
@@ -87,7 +111,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Card_RequestDetail_Card_Received">
+        <Association Name="FK_Card_RequestDetail_Card_Received1">
           <End Role="Card_Received" Type="Self.Card_Received" Multiplicity="0..1" />
           <End Role="Card_RequestDetail" Type="Self.Card_RequestDetail" Multiplicity="*" />
           <ReferentialConstraint>
@@ -147,27 +171,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="CallDayEnd" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="username" Type="varchar" Mode="In" />
-          <Parameter Name="branchcode" Type="char" Mode="In" />
+        <Function Name="ApproveCardApplication" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+          <Parameter Name="account_no" Type="varchar" Mode="In" />
+          <Parameter Name="approved_by" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetActivationData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetRequestData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="StartDate" Type="date" Mode="In" />
           <Parameter Name="EndDate" Type="date" Mode="In" />
           <Parameter Name="UserName" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="ImportData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="binid" Type="varchar" Mode="In" />
+          <Parameter Name="openingdate" Type="varchar" Mode="In" />
+          <Parameter Name="actype" Type="varchar" Mode="In" />
+          <Parameter Name="imported" Type="varchar" Mode="In" />
+          <Parameter Name="currency" Type="varchar" Mode="In" />
+          <Parameter Name="remarks" Type="varchar" Mode="In" />
+          <Parameter Name="existingcardno" Type="varchar" Mode="In" />
+        </Function>
         <EntityContainer Name="OctaShape_Card_ModelStoreContainer">
+          <EntitySet Name="Card_Activate" EntityType="Self.Card_Activate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_Received" EntityType="Self.Card_Received" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_ReceivedDetails" EntityType="Self.Card_ReceivedDetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_RequestDetail" EntityType="Self.Card_RequestDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_Requested" EntityType="Self.Card_Requested" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_RequestType" EntityType="Self.Card_RequestType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Card_StockDetail" EntityType="Self.Card_StockDetail" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Card_ReceivedDetails_Card_Received" Association="Self.FK_Card_ReceivedDetails_Card_Received">
+          <AssociationSet Name="FK_Card_ReceivedDetails_Card_Activate" Association="Self.FK_Card_ReceivedDetails_Card_Activate">
+            <End Role="Card_Activate" EntitySet="Card_Activate" />
+            <End Role="Card_ReceivedDetails" EntitySet="Card_ReceivedDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_ReceivedDetails_Card_Received1" Association="Self.FK_Card_ReceivedDetails_Card_Received1">
             <End Role="Card_Received" EntitySet="Card_Received" />
             <End Role="Card_ReceivedDetails" EntitySet="Card_ReceivedDetails" />
           </AssociationSet>
-          <AssociationSet Name="FK_Card_RequestDetail_Card_Received" Association="Self.FK_Card_RequestDetail_Card_Received">
+          <AssociationSet Name="FK_Card_RequestDetail_Card_Received1" Association="Self.FK_Card_RequestDetail_Card_Received1">
             <End Role="Card_Received" EntitySet="Card_Received" />
             <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
           </AssociationSet>
@@ -195,14 +239,9 @@
         <EntityContainer Name="OctaShape_Card_Entities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Card_Requested" EntityType="OctaShape_Card_Model.Card_Requested" />
           <EntitySet Name="Card_Received" EntityType="OctaShape_Card_Model.Card_Received" />
-          <EntitySet Name="Card_ReceivedDetails" EntityType="OctaShape_Card_Model.Card_ReceivedDetails" />
           <EntitySet Name="Card_RequestDetail" EntityType="OctaShape_Card_Model.Card_RequestDetail" />
           <EntitySet Name="Card_RequestType" EntityType="OctaShape_Card_Model.Card_RequestType" />
           <EntitySet Name="Card_StockDetail" EntityType="OctaShape_Card_Model.Card_StockDetail" />
-          <AssociationSet Name="FK_Card_ReceivedDetails_Card_Received" Association="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received">
-            <End Role="Card_Received" EntitySet="Card_Received" />
-            <End Role="Card_ReceivedDetails" EntitySet="Card_ReceivedDetails" />
-          </AssociationSet>
           <AssociationSet Name="FK_Card_RequestDetail_Card_Received" Association="OctaShape_Card_Model.FK_Card_RequestDetail_Card_Received">
             <End Role="Card_Received" EntitySet="Card_Received" />
             <End Role="Card_RequestDetail" EntitySet="Card_RequestDetail" />
@@ -232,6 +271,35 @@
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="branchcode" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Card_Activate" EntityType="OctaShape_Card_Model.Card_Activate" />
+          <EntitySet Name="Card_ReceivedDetails" EntityType="OctaShape_Card_Model.Card_ReceivedDetails" />
+          <AssociationSet Name="FK_Card_ReceivedDetails_Card_Activate" Association="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Activate">
+            <End Role="Card_Activate" EntitySet="Card_Activate" />
+            <End Role="Card_ReceivedDetails" EntitySet="Card_ReceivedDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Card_ReceivedDetails_Card_Received1" Association="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received1">
+            <End Role="Card_Received" EntitySet="Card_Received" />
+            <End Role="Card_ReceivedDetails" EntitySet="Card_ReceivedDetails" />
+          </AssociationSet>
+          <FunctionImport Name="GetActivationData" EntitySet="Card_ReceivedDetails" ReturnType="Collection(OctaShape_Card_Model.Card_ReceivedDetails)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ApproveCardApplication">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+            <Parameter Name="account_no" Mode="In" Type="String" />
+            <Parameter Name="approved_by" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ImportData" ReturnType="Collection(OctaShape_Card_Model.ImportData_Result)">
+            <Parameter Name="binid" Mode="In" Type="String" />
+            <Parameter Name="openingdate" Mode="In" Type="String" />
+            <Parameter Name="actype" Mode="In" Type="String" />
+            <Parameter Name="imported" Mode="In" Type="String" />
+            <Parameter Name="currency" Mode="In" Type="String" />
+            <Parameter Name="remarks" Mode="In" Type="String" />
+            <Parameter Name="existingcardno" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="Card_Requested">
           <Key>
@@ -256,22 +324,10 @@
           <Property Name="Total_CardsReceived" Type="Int32" />
           <Property Name="Received_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IsPin_Received" Type="Boolean" />
-          <NavigationProperty Name="Card_ReceivedDetails" Relationship="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received" FromRole="Card_Received" ToRole="Card_ReceivedDetails" />
           <NavigationProperty Name="Card_RequestDetail" Relationship="OctaShape_Card_Model.FK_Card_RequestDetail_Card_Received" FromRole="Card_Received" ToRole="Card_RequestDetail" />
           <NavigationProperty Name="Card_Requested" Relationship="OctaShape_Card_Model.FK_Card_Requested_Card_Received" FromRole="Card_Received" ToRole="Card_Requested" />
           <NavigationProperty Name="Card_StockDetail" Relationship="OctaShape_Card_Model.FK_Card_StockDetail_Card_Received" FromRole="Card_Received" ToRole="Card_StockDetail" />
-        </EntityType>
-        <EntityType Name="Card_ReceivedDetails">
-          <Key>
-            <PropertyRef Name="Received_Id" />
-          </Key>
-          <Property Name="Received_Id" Type="Int32" Nullable="false" />
-          <Property Name="Branch_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="Account_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Expiry_Date" Type="DateTime" Precision="0" />
-          <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Card_Received" Relationship="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received" FromRole="Card_ReceivedDetails" ToRole="Card_Received" />
+          <NavigationProperty Name="Card_ReceivedDetails" Relationship="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received1" FromRole="Card_Received" ToRole="Card_ReceivedDetails" />
         </EntityType>
         <EntityType Name="Card_RequestDetail">
           <Key>
@@ -313,20 +369,6 @@
           <Property Name="Stock_Outward" Type="Int32" />
           <NavigationProperty Name="Card_Received" Relationship="OctaShape_Card_Model.FK_Card_StockDetail_Card_Received" FromRole="Card_StockDetail" ToRole="Card_Received" />
         </EntityType>
-        <Association Name="FK_Card_ReceivedDetails_Card_Received">
-          <End Type="OctaShape_Card_Model.Card_Received" Role="Card_Received" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="OctaShape_Card_Model.Card_ReceivedDetails" Role="Card_ReceivedDetails" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Card_Received">
-              <PropertyRef Name="Received_Id" />
-            </Principal>
-            <Dependent Role="Card_ReceivedDetails">
-              <PropertyRef Name="Received_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Card_RequestDetail_Card_Received">
           <End Type="OctaShape_Card_Model.Card_Received" Role="Card_Received" Multiplicity="0..1" />
           <End Type="OctaShape_Card_Model.Card_RequestDetail" Role="Card_RequestDetail" Multiplicity="*" />
@@ -400,6 +442,81 @@
           <Property Type="Int32" Name="Card_RequestId" Nullable="true" />
           <Property Type="Int32" Name="Card_ReceivedId" Nullable="true" />
         </ComplexType>
+        <EntityType Name="Card_Activate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Activate_Date" Type="DateTime" Precision="0" />
+          <Property Name="Activate_Start" Type="DateTime" Precision="0" />
+          <Property Name="Activate_End" Type="DateTime" Precision="0" />
+          <Property Name="No_ofCards" Type="Int32" />
+          <Property Name="Activated_By" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Card_ReceivedDetails" Relationship="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Activate" FromRole="Card_Activate" ToRole="Card_ReceivedDetails" />
+        </EntityType>
+        <EntityType Name="Card_ReceivedDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Received_Id" Type="Int32" Nullable="false" />
+          <Property Name="Branch_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Account_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Card_No" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Expiry_Date" Type="DateTime" Precision="0" />
+          <Property Name="Delivered_Date" Type="DateTime" Precision="0" />
+          <Property Name="Is_Activated" Type="Boolean" />
+          <Property Name="Activation_Id" Type="Int32" />
+          <NavigationProperty Name="Card_Activate" Relationship="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Activate" FromRole="Card_ReceivedDetails" ToRole="Card_Activate" />
+          <NavigationProperty Name="Card_Received" Relationship="OctaShape_Card_Model.FK_Card_ReceivedDetails_Card_Received1" FromRole="Card_ReceivedDetails" ToRole="Card_Received" />
+        </EntityType>
+        <Association Name="FK_Card_ReceivedDetails_Card_Activate">
+          <End Type="OctaShape_Card_Model.Card_Activate" Role="Card_Activate" Multiplicity="0..1" />
+          <End Type="OctaShape_Card_Model.Card_ReceivedDetails" Role="Card_ReceivedDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Activate">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Card_ReceivedDetails">
+              <PropertyRef Name="Activation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Card_ReceivedDetails_Card_Received1">
+          <End Type="OctaShape_Card_Model.Card_Received" Role="Card_Received" Multiplicity="1" />
+          <End Type="OctaShape_Card_Model.Card_ReceivedDetails" Role="Card_ReceivedDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Card_Received">
+              <PropertyRef Name="Received_Id" />
+            </Principal>
+            <Dependent Role="Card_ReceivedDetails">
+              <PropertyRef Name="Received_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetActivationData_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Received_Id" Nullable="false" />
+          <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="Account_No" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Card_No" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Expiry_Date" Nullable="true" />
+          <Property Type="DateTime" Name="Delivered_Date" Nullable="true" />
+          <Property Type="Boolean" Name="Is_Activated" Nullable="true" />
+          <Property Type="Int32" Name="Activation_Id" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="ImportData_Result">
+          <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="Account_No" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Customer_Name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BINO" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="OPENINGDATE" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="ACTYPE" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="IMPORTED" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="CURRENCY" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="REMARKS" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EXISTINGCARDNO" Nullable="true" MaxLength="50" />
+          </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -426,18 +543,6 @@
                 <ScalarProperty Name="Received_By" ColumnName="Received_By" />
                 <ScalarProperty Name="Total_CardsReceived" ColumnName="Total_CardsReceived" />
                 <ScalarProperty Name="Received_Date" ColumnName="Received_Date" />
-                <ScalarProperty Name="Received_Id" ColumnName="Received_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Card_ReceivedDetails">
-            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_ReceivedDetails">
-              <MappingFragment StoreEntitySet="Card_ReceivedDetails">
-                <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
-                <ScalarProperty Name="Expiry_Date" ColumnName="Expiry_Date" />
-                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
-                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
-                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
                 <ScalarProperty Name="Received_Id" ColumnName="Received_Id" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -482,7 +587,52 @@
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetRequestData" FunctionName="OctaShape_Card_Model.Store.GetRequestData">
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="CallDayEnd" FunctionName="OctaShape_Card_Model.Store.CallDayEnd" />
+          <EntitySetMapping Name="Card_Activate">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_Activate">
+              <MappingFragment StoreEntitySet="Card_Activate">
+                <ScalarProperty Name="Activated_By" ColumnName="Activated_By" />
+                <ScalarProperty Name="No_ofCards" ColumnName="No_ofCards" />
+                <ScalarProperty Name="Activate_End" ColumnName="Activate_End" />
+                <ScalarProperty Name="Activate_Start" ColumnName="Activate_Start" />
+                <ScalarProperty Name="Activate_Date" ColumnName="Activate_Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Card_ReceivedDetails">
+            <EntityTypeMapping TypeName="OctaShape_Card_Model.Card_ReceivedDetails">
+              <MappingFragment StoreEntitySet="Card_ReceivedDetails">
+                <ScalarProperty Name="Activation_Id" ColumnName="Activation_Id" />
+                <ScalarProperty Name="Is_Activated" ColumnName="Is_Activated" />
+                <ScalarProperty Name="Delivered_Date" ColumnName="Delivered_Date" />
+                <ScalarProperty Name="Expiry_Date" ColumnName="Expiry_Date" />
+                <ScalarProperty Name="Card_No" ColumnName="Card_No" />
+                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Received_Id" ColumnName="Received_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetActivationData" FunctionName="OctaShape_Card_Model.Store.GetActivationData">
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ApproveCardApplication" FunctionName="OctaShape_Card_Model.Store.ApproveCardApplication" />
+          <FunctionImportMapping FunctionImportName="ImportData" FunctionName="OctaShape_Card_Model.Store.ImportData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OctaShape_Card_Model.ImportData_Result">
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="BINO" ColumnName="BINO" />
+                <ScalarProperty Name="OPENINGDATE" ColumnName="OPENINGDATE" />
+                <ScalarProperty Name="ACTYPE" ColumnName="ACTYPE" />
+                <ScalarProperty Name="IMPORTED" ColumnName="IMPORTED" />
+                <ScalarProperty Name="CURRENCY" ColumnName="CURRENCY" />
+                <ScalarProperty Name="REMARKS" ColumnName="REMARKS" />
+                <ScalarProperty Name="EXISTINGCARDNO" ColumnName="EXISTINGCARDNO" />
+                </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

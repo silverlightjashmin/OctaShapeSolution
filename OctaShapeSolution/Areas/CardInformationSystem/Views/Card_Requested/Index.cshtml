@@ -61,7 +61,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Update", "Edit", new { id = item.Request_Id }) |
-                   
+                    @Html.ActionLink("Card Received", "UploadReceivedCards","Card_ReceivedDetails",null, new { id = item.Request_Id }) |
                 </td>
             </tr>
         }

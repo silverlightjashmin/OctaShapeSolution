@@ -13,7 +13,7 @@
         <!-- /.col-lg-12 -->
     </div>
     <p>
-        @Html.ActionLink("Upload ATM Card Received Data", "UploadReceivedCards","Card_Receive", null, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Upload ATM Card Received Data", "UploadReceivedCards","Card_ReceivedDetails", null, new { @class = "btn btn-primary" })
     </p>
     <table class="table">
         <tr>
@@ -50,7 +50,7 @@
                 </td>
                
                 <td>
-                    @Html.ActionLink("Update", "Edit", new { id = item.Received_Id }) |
+                    @Html.ActionLink("Received Pin", "Edit", new { id = item.Received_Id }) |
                    
                 </td>
             </tr>

@@ -10,7 +10,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
     [AuthorizeChecker]
     public class TicketBranchesController : Controller
     {
-        private OctaShapeSolutionEntities db = new OctaShapeSolutionEntities();
+        private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
 
         // GET: TicketBranches
         public ActionResult Index()

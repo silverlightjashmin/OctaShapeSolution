@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="eTicketSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="OctaShape_eTicket_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Day_EndDetail">
           <Key>
             <PropertyRef Name="Id" />
@@ -14,6 +14,7 @@
           <Property Name="Branch_Code" Type="char" MaxLength="3" />
           <Property Name="Request_Time" Type="time" Precision="7" />
           <Property Name="Created_By" Type="nvarchar" MaxLength="50" />
+          <Property Name="Is_DayEnd" Type="bit" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -311,6 +312,9 @@
           <Parameter Name="username" Type="varchar" Mode="In" />
           <Parameter Name="branchcode" Type="char" Mode="In" />
         </Function>
+        <Function Name="DayEndStatOff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="branchcode" Type="char" Mode="In" />
+        </Function>
         <Function Name="FindUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="int" Mode="In" />
         </Function>
@@ -318,9 +322,16 @@
           <Parameter Name="UserName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetCommentImage" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetDayEndStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetLastCommentId" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="GetPendingBranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="GetPendingTicketsByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UserId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetRequestData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="StartDate" Type="date" Mode="In" />
+          <Parameter Name="EndDate" Type="date" Mode="In" />
+          <Parameter Name="UserName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="GetTicketCountByUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="int" Mode="In" />
@@ -348,7 +359,7 @@
           <Parameter Name="userid" Type="int" Mode="In" />
           <Parameter Name="emailid" Type="varchar" Mode="In" />
         </Function>
-        <EntityContainer Name="eTicketSystemModelStoreContainer">
+        <EntityContainer Name="OctaShape_eTicket_ModelStoreContainer">
           <EntitySet Name="Day_EndDetail" EntityType="Self.Day_EndDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
@@ -422,15 +433,26 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="eTicketSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="OctaShape_eTicket_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Day_EndDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Request_Date" Type="DateTime" Precision="0" />
+          <Property Name="Branch_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="Request_Time" Type="Time" Precision="7" />
+          <Property Name="Created_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Is_DayEnd" Type="Boolean" />
+        </EntityType>
         <EntityType Name="Roles">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="User" Relationship="Self.UserRole" FromRole="Roles" ToRole="User" />
           <Property Name="IsAdmin" Type="Boolean" />
+          <NavigationProperty Name="User" Relationship="Self.UserRole" FromRole="Roles" ToRole="User" />
         </EntityType>
         <EntityType Name="Ticket">
           <Key>
@@ -708,7 +730,8 @@
           <End Role="Roles" Type="Self.Roles" Multiplicity="*" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="OctaShapeSolutionEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="OctaShape_eTicket_Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Day_EndDetail" EntityType="Self.Day_EndDetail" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Ticket" EntityType="Self.Ticket" />
           <EntitySet Name="TicketBranch" EntityType="Self.TicketBranch" />
@@ -776,28 +799,39 @@
             <Parameter Name="UserId" Mode="In" Type="Int32" />
             <Parameter Name="RoleId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="AdminUserList" ReturnType="Collection(eTicketSystemModel.AdminUserList_Result)" />
-          <FunctionImport Name="FindUserRole" ReturnType="Collection(eTicketSystemModel.FindUserRole_Result)">
+          <FunctionImport Name="AdminUserList" ReturnType="Collection(OctaShape_eTicket_Model.AdminUserList_Result)" />
+          <FunctionImport Name="CallForDayEnd" ReturnType="Collection(OctaShape_eTicket_Model.CallForDayEnd_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="branchcode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="FindUserRole" ReturnType="Collection(OctaShape_eTicket_Model.FindUserRole_Result)">
           <Parameter Name="userid" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetAllUserDetails" ReturnType="Collection(eTicketSystemModel.GetAllUserDetails_Result)">
+          <FunctionImport Name="GetAllUserDetails" ReturnType="Collection(OctaShape_eTicket_Model.GetAllUserDetails_Result)">
           <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetPendingTicketsByUser" ReturnType="Collection(eTicketSystemModel.GetPendingTicketsByUser_Result)">
+          <FunctionImport Name="GetCommentImage" ReturnType="Collection(OctaShape_eTicket_Model.GetCommentImage_Result)" />
+          <FunctionImport Name="GetLastCommentId" ReturnType="Collection(Int32)" />
+          <FunctionImport Name="GetPendingTicketsByUser" ReturnType="Collection(OctaShape_eTicket_Model.GetPendingTicketsByUser_Result)">
           <Parameter Name="UserId" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetTicketCountByUser" ReturnType="Collection(eTicketSystemModel.GetTicketCountByUser_Result)">
+          <FunctionImport Name="GetRequestData" ReturnType="Collection(OctaShape_eTicket_Model.GetRequestData_Result)">
+            <Parameter Name="StartDate" Mode="In" Type="DateTime" />
+            <Parameter Name="EndDate" Mode="In" Type="DateTime" />
+            <Parameter Name="UserName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetTicketCountByUser" ReturnType="Collection(OctaShape_eTicket_Model.GetTicketCountByUser_Result)">
           <Parameter Name="userid" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="GetTicketTotalByStatus" ReturnType="Collection(eTicketSystemModel.GetTicketTotalByStatus_Result)" />
-          <FunctionImport Name="GetWorkLoadPerUser" ReturnType="Collection(eTicketSystemModel.GetWorkLoadPerUser_Result)">
+          <FunctionImport Name="GetTicketTotalByStatus" ReturnType="Collection(OctaShape_eTicket_Model.GetTicketTotalByStatus_Result)" />
+          <FunctionImport Name="GetWorkLoadPerUser" ReturnType="Collection(OctaShape_eTicket_Model.GetWorkLoadPerUser_Result)">
           <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="LoginByUsernamePassword" ReturnType="Collection(eTicketSystemModel.LoginByUsernamePassword_Result)">
+          <FunctionImport Name="LoginByUsernamePassword" ReturnType="Collection(OctaShape_eTicket_Model.LoginByUsernamePassword_Result)">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="Loginauthenticate" ReturnType="Collection(eTicketSystemModel.Loginauthenticate_Result)">
+          <FunctionImport Name="Loginauthenticate" ReturnType="Collection(OctaShape_eTicket_Model.Loginauthenticate_Result)">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
@@ -805,21 +839,19 @@
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="encryptpassword" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SearchUser" ReturnType="Collection(eTicketSystemModel.SearchUser_Result)">
+          <FunctionImport Name="SearchUser" ReturnType="Collection(OctaShape_eTicket_Model.SearchUser_Result)">
           <Parameter Name="UserName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="VerifyEmail">
             <Parameter Name="userid" Mode="In" Type="Int32" />
             <Parameter Name="emailid" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="GetLastCommentId" ReturnType="Collection(Int32)" />
-          <FunctionImport Name="GetCommentImage" ReturnType="Collection(eTicketSystemModel.GetCommentImage_Result)" />
-          <FunctionImport Name="CallForDayEnd" ReturnType="Collection(eTicketSystemModel.CallForDayEnd_Result)">
-            <Parameter Name="username" Mode="In" Type="String" />
-            <Parameter Name="branchcode" Mode="In" Type="String" />
+          <FunctionImport Name="GetDayEndStatus" ReturnType="Collection(OctaShape_eTicket_Model.GetDayEndStatus_Result)" />
+          <FunctionImport Name="DayEndStatOff">
+          <Parameter Name="branchcode" Mode="In" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Day_EndDetail" EntityType="eTicketSystemModel.Day_EndDetail" />
-          </EntityContainer>
+          <FunctionImport Name="GetPendingBranch" EntitySet="TicketBranch" ReturnType="Collection(OctaShape_eTicket_Model.TicketBranch)" />
+        </EntityContainer>
         <ComplexType Name="AdminUserList_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
           <Property Type="String" Name="FullName" Nullable="true" MaxLength="1001" />
@@ -829,6 +861,15 @@
           <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
           <Property Type="Int32" Name="AssignedTo" Nullable="true" />
           <Property Type="Decimal" Name="WorkLoad" Nullable="true" Precision="26" Scale="12" />
+        </ComplexType>
+        <ComplexType Name="CallForDayEnd_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Request_Date" Nullable="true" />
+          <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
+          <Property Type="Time" Name="Request_Time" Nullable="true" />
+          <Property Type="String" Name="Created_By" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="Is_DayEnd" Nullable="true" />
         </ComplexType>
         <ComplexType Name="FindUserRole_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -850,12 +891,34 @@
           <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <ComplexType Name="GetCommentImage_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="TicketId" Nullable="false" />
+          <Property Type="String" Name="TicketComment" Nullable="true" MaxLength="500" />
+          <Property Type="DateTime" Name="CommentDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="CommentBy" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Url" Nullable="true" MaxLength="500" />
+          <Property Type="String" Name="ImageOn" Nullable="true" MaxLength="200" />
+        </ComplexType>
         <ComplexType Name="GetPendingTicketsByUser_Result">
           <Property Type="String" Name="Title" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Description" Nullable="true" MaxLength="500" />
           <Property Type="String" Name="TicketPriority" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="AssignedBy" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="GetRequestData_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="DateTime" Name="Request_Date" Nullable="true" />
+          <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
+          <Property Type="String" Name="Account_No" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Customer_Name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EmbossName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Request_Id" Nullable="true" />
+          <Property Type="String" Name="Created_By" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Approved_By" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Card_RequestId" Nullable="true" />
+          <Property Type="Int32" Name="Card_ReceivedId" Nullable="true" />
         </ComplexType>
         <ComplexType Name="GetTicketCountByUser_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -908,49 +971,44 @@
           <Property Type="String" Name="RoleName" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <ComplexType Name="GetCommentImage_Result">
-          <Property Type="Int32" Name="id" Nullable="false" />
-          <Property Type="Int32" Name="TicketId" Nullable="false" />
-          <Property Type="String" Name="TicketComment" Nullable="true" MaxLength="500" />
-          <Property Type="String" Name="CommentBy" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Url" Nullable="true" MaxLength="500" />
-          <Property Type="DateTime" Name="CommentDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="ImageOn" Nullable="true" MaxLength="2" />
-        </ComplexType>
-        <ComplexType Name="CallForDayEnd_Result">
+        <ComplexType Name="GetDayEndStatus_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="DateTime" Name="Request_Date" Nullable="true" />
           <Property Type="String" Name="Branch_Code" Nullable="true" MaxLength="3" />
           <Property Type="Time" Name="Request_Time" Nullable="true" />
           <Property Type="String" Name="Created_By" Nullable="true" MaxLength="50" />
+          <Property Type="Boolean" Name="Is_DayEnd" Nullable="true" />
+          <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
         </ComplexType>
-        <EntityType Name="Day_EndDetail">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Request_Date" Type="DateTime" Precision="0" />
-          <Property Name="Branch_Code" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
-          <Property Name="Request_Time" Type="Time" Precision="7" />
-          <Property Name="Created_By" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="eTicketSystemModelStoreContainer" CdmEntityContainer="OctaShapeSolutionEntities">
+        <EntityContainerMapping StorageEntityContainer="OctaShape_eTicket_ModelStoreContainer" CdmEntityContainer="OctaShape_eTicket_Entities">
+          <EntitySetMapping Name="Day_EndDetail">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.Day_EndDetail">
+              <MappingFragment StoreEntitySet="Day_EndDetail">
+                <ScalarProperty Name="Is_DayEnd" ColumnName="Is_DayEnd" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Request_Time" ColumnName="Request_Time" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Roles">
-            <EntityTypeMapping TypeName="eTicketSystemModel.Roles">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.Roles">
               <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Ticket">
-            <EntityTypeMapping TypeName="eTicketSystemModel.Ticket">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.Ticket">
               <MappingFragment StoreEntitySet="Ticket">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
@@ -969,7 +1027,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TicketBranch">
-            <EntityTypeMapping TypeName="eTicketSystemModel.TicketBranch">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.TicketBranch">
               <MappingFragment StoreEntitySet="TicketBranch">
                 <ScalarProperty Name="BranchCode" ColumnName="BranchCode" />
                 <ScalarProperty Name="BranchName" ColumnName="BranchName" />
@@ -978,7 +1036,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TicketCategory">
-            <EntityTypeMapping TypeName="eTicketSystemModel.TicketCategory">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.TicketCategory">
               <MappingFragment StoreEntitySet="TicketCategory">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
@@ -987,7 +1045,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TicketComment">
-            <EntityTypeMapping TypeName="eTicketSystemModel.TicketComment">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.TicketComment">
               <MappingFragment StoreEntitySet="TicketComment">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="TicketId" ColumnName="TicketId" />
@@ -998,7 +1056,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TicketImage">
-            <EntityTypeMapping TypeName="eTicketSystemModel.TicketImage">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.TicketImage">
               <MappingFragment StoreEntitySet="TicketImage">
                 <ScalarProperty Name="ImageId" ColumnName="ImageId" />
                 <ScalarProperty Name="TicketId" ColumnName="TicketId" />
@@ -1009,7 +1067,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TicketPriority">
-            <EntityTypeMapping TypeName="eTicketSystemModel.TicketPriority">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.TicketPriority">
               <MappingFragment StoreEntitySet="TicketPriority">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="TicketPriority1" ColumnName="TicketPriority" />
@@ -1017,7 +1075,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TicketStatus">
-            <EntityTypeMapping TypeName="eTicketSystemModel.TicketStatus">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.TicketStatus">
               <MappingFragment StoreEntitySet="TicketStatus">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="TicketStatus1" ColumnName="TicketStatus" />
@@ -1027,7 +1085,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="eTicketSystemModel.User">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.User">
               <MappingFragment StoreEntitySet="User">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -1042,7 +1100,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserLoginInfo">
-            <EntityTypeMapping TypeName="eTicketSystemModel.UserLoginInfo">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.UserLoginInfo">
               <MappingFragment StoreEntitySet="UserLoginInfo">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -1053,14 +1111,14 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="UserStatus">
-            <EntityTypeMapping TypeName="eTicketSystemModel.UserStatus">
+            <EntityTypeMapping TypeName="OctaShape_eTicket_Model.UserStatus">
               <MappingFragment StoreEntitySet="UserStatus">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="UserRole" TypeName="eTicketSystemModel.UserRole" StoreEntitySet="UserRole">
+          <AssociationSetMapping Name="UserRole" TypeName="OctaShape_eTicket_Model.UserRole" StoreEntitySet="UserRole">
             <EndProperty Name="Roles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
@@ -1068,10 +1126,10 @@
               <ScalarProperty Name="id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <FunctionImportMapping FunctionImportName="AddUserRole" FunctionName="eTicketSystemModel.Store.AddUserRole" />
-          <FunctionImportMapping FunctionImportName="AdminUserList" FunctionName="eTicketSystemModel.Store.AdminUserList">
+          <FunctionImportMapping FunctionImportName="AddUserRole" FunctionName="OctaShape_eTicket_Model.Store.AddUserRole" />
+          <FunctionImportMapping FunctionImportName="AdminUserList" FunctionName="OctaShape_eTicket_Model.Store.AdminUserList">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.AdminUserList_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.AdminUserList_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
@@ -1083,9 +1141,22 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="FindUserRole" FunctionName="eTicketSystemModel.Store.FindUserRole">
+          <FunctionImportMapping FunctionImportName="CallForDayEnd" FunctionName="OctaShape_eTicket_Model.Store.CallForDayEnd">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.FindUserRole_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.CallForDayEnd_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Request_Time" ColumnName="Request_Time" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="Is_DayEnd" ColumnName="Is_DayEnd" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="FindUserRole" FunctionName="OctaShape_eTicket_Model.Store.FindUserRole">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.FindUserRole_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -1094,9 +1165,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetAllUserDetails" FunctionName="eTicketSystemModel.Store.GetAllUserDetails">
+          <FunctionImportMapping FunctionImportName="GetAllUserDetails" FunctionName="OctaShape_eTicket_Model.Store.GetAllUserDetails">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.GetAllUserDetails_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetAllUserDetails_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -1111,9 +1182,23 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetPendingTicketsByUser" FunctionName="eTicketSystemModel.Store.GetPendingTicketsByUser">
+          <FunctionImportMapping FunctionImportName="GetCommentImage" FunctionName="OctaShape_eTicket_Model.Store.GetCommentImage">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.GetPendingTicketsByUser_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetCommentImage_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TicketComment" ColumnName="TicketComment" />
+                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
+                <ScalarProperty Name="CommentBy" ColumnName="CommentBy" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="ImageOn" ColumnName="ImageOn" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetLastCommentId" FunctionName="OctaShape_eTicket_Model.Store.GetLastCommentId" />
+          <FunctionImportMapping FunctionImportName="GetPendingTicketsByUser" FunctionName="OctaShape_eTicket_Model.Store.GetPendingTicketsByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetPendingTicketsByUser_Result">
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="TicketPriority" ColumnName="TicketPriority" />
@@ -1122,9 +1207,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetTicketCountByUser" FunctionName="eTicketSystemModel.Store.GetTicketCountByUser">
+          <FunctionImportMapping FunctionImportName="GetRequestData" FunctionName="OctaShape_eTicket_Model.Store.GetRequestData">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.GetTicketCountByUser_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetRequestData_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
+                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
+                <ScalarProperty Name="Account_No" ColumnName="Account_No" />
+                <ScalarProperty Name="Customer_Name" ColumnName="Customer_Name" />
+                <ScalarProperty Name="EmbossName" ColumnName="EmbossName" />
+                <ScalarProperty Name="Request_Id" ColumnName="Request_Id" />
+                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="Approved_By" ColumnName="Approved_By" />
+                <ScalarProperty Name="Card_RequestId" ColumnName="Card_RequestId" />
+                <ScalarProperty Name="Card_ReceivedId" ColumnName="Card_ReceivedId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetTicketCountByUser" FunctionName="OctaShape_eTicket_Model.Store.GetTicketCountByUser">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetTicketCountByUser_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="TicketCount" ColumnName="TicketCount" />
                 <ScalarProperty Name="TicketStatusId" ColumnName="TicketStatusId" />
@@ -1133,26 +1235,26 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetTicketTotalByStatus" FunctionName="eTicketSystemModel.Store.GetTicketTotalByStatus">
+          <FunctionImportMapping FunctionImportName="GetTicketTotalByStatus" FunctionName="OctaShape_eTicket_Model.Store.GetTicketTotalByStatus">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.GetTicketTotalByStatus_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetTicketTotalByStatus_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="TicketStatus" ColumnName="TicketStatus" />
                 <ScalarProperty Name="NoofTickets" ColumnName="NoofTickets" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="GetWorkLoadPerUser" FunctionName="eTicketSystemModel.Store.GetWorkLoadPerUser">
+          <FunctionImportMapping FunctionImportName="GetWorkLoadPerUser" FunctionName="OctaShape_eTicket_Model.Store.GetWorkLoadPerUser">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.GetWorkLoadPerUser_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetWorkLoadPerUser_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="workload" ColumnName="workload" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="LoginByUsernamePassword" FunctionName="eTicketSystemModel.Store.LoginByUsernamePassword">
+          <FunctionImportMapping FunctionImportName="LoginByUsernamePassword" FunctionName="OctaShape_eTicket_Model.Store.LoginByUsernamePassword">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.LoginByUsernamePassword_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.LoginByUsernamePassword_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -1165,9 +1267,9 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="Loginauthenticate" FunctionName="eTicketSystemModel.Store.Loginauthenticate">
+          <FunctionImportMapping FunctionImportName="Loginauthenticate" FunctionName="OctaShape_eTicket_Model.Store.Loginauthenticate">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.Loginauthenticate_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.Loginauthenticate_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -1180,10 +1282,10 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ResetPassword" FunctionName="eTicketSystemModel.Store.ResetPassword" />
-          <FunctionImportMapping FunctionImportName="SearchUser" FunctionName="eTicketSystemModel.Store.SearchUser">
+          <FunctionImportMapping FunctionImportName="ResetPassword" FunctionName="OctaShape_eTicket_Model.Store.ResetPassword" />
+          <FunctionImportMapping FunctionImportName="SearchUser" FunctionName="OctaShape_eTicket_Model.Store.SearchUser">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.SearchUser_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.SearchUser_Result">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
@@ -1198,44 +1300,23 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="VerifyEmail" FunctionName="eTicketSystemModel.Store.VerifyEmail" />
-          <FunctionImportMapping FunctionImportName="GetLastCommentId" FunctionName="eTicketSystemModel.Store.GetLastCommentId" />
-          <FunctionImportMapping FunctionImportName="GetCommentImage" FunctionName="eTicketSystemModel.Store.GetCommentImage">
+          <FunctionImportMapping FunctionImportName="VerifyEmail" FunctionName="OctaShape_eTicket_Model.Store.VerifyEmail" />
+          <FunctionImportMapping FunctionImportName="GetDayEndStatus" FunctionName="OctaShape_eTicket_Model.Store.GetDayEndStatus">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.GetCommentImage_Result">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
-                <ScalarProperty Name="TicketComment" ColumnName="TicketComment" />
-                <ScalarProperty Name="CommentBy" ColumnName="CommentBy" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="CommentDate" ColumnName="CommentDate" />
-                <ScalarProperty Name="ImageOn" ColumnName="ImageOn" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="CallForDayEnd" FunctionName="eTicketSystemModel.Store.CallForDayEnd">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="eTicketSystemModel.CallForDayEnd_Result">
+              <ComplexTypeMapping TypeName="OctaShape_eTicket_Model.GetDayEndStatus_Result">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
                 <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
                 <ScalarProperty Name="Request_Time" ColumnName="Request_Time" />
                 <ScalarProperty Name="Created_By" ColumnName="Created_By" />
+                <ScalarProperty Name="Is_DayEnd" ColumnName="Is_DayEnd" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <EntitySetMapping Name="Day_EndDetail">
-            <EntityTypeMapping TypeName="eTicketSystemModel.Day_EndDetail">
-              <MappingFragment StoreEntitySet="Day_EndDetail">
-                <ScalarProperty Name="Created_By" ColumnName="Created_By" />
-                <ScalarProperty Name="Request_Time" ColumnName="Request_Time" />
-                <ScalarProperty Name="Branch_Code" ColumnName="Branch_Code" />
-                <ScalarProperty Name="Request_Date" ColumnName="Request_Date" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          </EntityContainerMapping>
+          <FunctionImportMapping FunctionImportName="DayEndStatOff" FunctionName="OctaShape_eTicket_Model.Store.DayEndStatOff" />
+          <FunctionImportMapping FunctionImportName="GetPendingBranch" FunctionName="OctaShape_eTicket_Model.Store.GetPendingBranch" />
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

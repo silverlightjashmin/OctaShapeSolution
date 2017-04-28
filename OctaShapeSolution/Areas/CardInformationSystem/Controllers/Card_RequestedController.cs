@@ -11,6 +11,7 @@ using OctaShapeSolution.Models;
 using System.IO;
 using System.Collections.Generic;
 using OctaShape.Common;
+using static OctaShape.Common.ExportToExcel;
 
 namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 {
@@ -101,7 +102,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             d.Card_RequestDetail = new List<Card_RequestDetail>();
 
 
-
+            
 
 
 
@@ -109,37 +110,60 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
         }
 
+
         [HttpPost]
         public ActionResult DownloadCardRequest(CardRequestDate CardRequestDate)    
         {
-            //    var CardRequestDate1 = db.Card_RequestDetail.Where(x => x.Request_Date > CardRequestDate.StartDate && x.Request_Date < CardRequestDate.EndDate);
-            //ViewBag.PartialData = CardRequestDate1.ToList();
-
-
-           var ExportData = db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString()).ToList();
-
+            //var ExportData = db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString()).ToList();
+            var ExportData = db.Card_RequestDetail.Where(x => x.Request_Date >= CardRequestDate.StartDate && x.Request_Date <= CardRequestDate.EndDate).ToList();
 
             CardRequestDate d = new CardRequestDate();
 
             d.StartDate = CardRequestDate.StartDate;
             d.EndDate = CardRequestDate.EndDate;
             d.Card_RequestDetail = ExportData;
-
-
-
-            //call notepad trf code
-            ExportToText ett= new ExportToText();
-
-            ett.ToText(ExportData,d.StartDate.Date.ToString("yyyy-MM-dd"));
-           
-
             return View(d);
-
-
-
         }
 
+
+        /*
+        public ActionResult DumpData(CardRequestDate CardRequestDate)
+        {
+            var ExportData = db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString()).ToList();
+            //call notepad trf code
+            ExportToText ett = new ExportToText();
+
+            ett.ToText(ExportData, CardRequestDate.StartDate.Date.ToString("yyyy-MM-dd"));
+            return RedirectToAction("DownloadCardRequest");
         }
+        */
+        public ActionResult Export2Excel(CardRequestDate CardRequestDate)  
+        {
+    
+           string BINNO="605101";
+           string OPENINGDATE = "";
+           string ACTYPE = "Savings";
+           string IMPORTED = "";
+           string CURRENCY="524";
+           string REMARKS="";
+           string EXISTINGCARDNO="";
+
+
+            var ExportData = db.GetRequestData(CardRequestDate.StartDate, CardRequestDate.EndDate, Session["User_Name"].ToString());
+
+            var ImportData = db.ImportData(BINNO, OPENINGDATE, ACTYPE, IMPORTED, CURRENCY, REMARKS, EXISTINGCARDNO).ToList();
+
+            ExportToExcel ete = new ExportToExcel();
+            ListtoDataTableConverter converter = new ListtoDataTableConverter();
+            DataTable dt = converter.ToDataTable(ImportData);
+            
+
+            ete.Excel2(dt,CardRequestDate.StartDate.Date.ToString("yyyy-MM-dd"));
+
+            return RedirectToAction("DownloadCardRequest");
+        }
+
+    }
 
     
 

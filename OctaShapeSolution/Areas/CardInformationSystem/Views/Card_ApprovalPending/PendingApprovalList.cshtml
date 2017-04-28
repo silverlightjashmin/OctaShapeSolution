@@ -1,0 +1,178 @@
+﻿@model IEnumerable<OctaShape.Data.Card_RequestDetail>
+
+@{
+    ViewBag.Title = "Card Information System - Pending Approval List ";
+    Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+
+    <title>@ViewBag.Title</title>
+
+</head>
+
+<body>
+
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Card Approval Pending List</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+
+                        @*@if (ViewBag.PartialData != null)
+                            {
+                                @Html.Partial("_ListData", (List<OctaShape.Data.Card_RequestDetail>)ViewBag.PartialData)
+                            }*@
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Id)
+                                    </th>
+                                    <th> @Html.DisplayNameFor(model => model.Request_Date)
+                                        </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Branch_Code)
+
+
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Account_No)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Customer_Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Created_By)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Approved_By)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+            {
+                                    <tr >
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Request_Date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Branch_Code)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Account_No)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Customer_Name)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Created_By)
+                                        </td>
+                                        <td>
+                                            @*
+                                           <button type="button" class="btn btn-info btn-circle"><i class="fa fa-check"></i></button>
+                                           *@
+                                            <button>Approve</button>
+                                        </td>
+
+
+                                    </tr>
+                                }
+
+
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+
+
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <!-- /.row -->
+        <!-- /.row -->
+        <!-- /.row -->
+    </div>
+
+
+
+
+
+
+</body>
+
+
+</html>
+    <!-- jQuery -->
+<script src="~/vendor/jquery/jquery.min.js"></script>
+    <!-- DataTables JavaScript -->
+<script src="~/vendor/datatables/js/jquery.dataTables.min.js"></script>
+<script src="~/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+<script src="~/vendor/datatables-responsive/dataTables.responsive.js"></script>
+  <script>
+$(document).ready(function() {
+    var table = $('#dataTables-example').DataTable();
+
+    $('#dataTables-example tbody').on('click', 'button', function () {
+
+        var data = table.row($(this).parents('tr')).data();
+
+         var sid = data[0];
+        var number = data[3];
+
+        console.log(sid);
+
+        $.ajax({
+            type: "GET",
+            url:"ApproveApplication/"+sid+"?Account_No="+number,
+            //url:"@Url.Action("ApproveApplication","Card_ApprovalPending")",
+            contentType: 'application/json; charset=utf-8',
+           // data: 'id=' + sid + ',Account_No=' + number,
+
+            datatype:"json",
+
+
+            success : function (response) {
+                alert("success");
+                location.reload(true);
+            }
+        });
+
+
+    });
+} );
+</script>

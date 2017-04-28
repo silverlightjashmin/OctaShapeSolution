@@ -29,10 +29,11 @@ namespace OctaShape.Data
     
         public virtual DbSet<Card_Requested> Card_Requested { get; set; }
         public virtual DbSet<Card_Received> Card_Received { get; set; }
-        public virtual DbSet<Card_ReceivedDetails> Card_ReceivedDetails { get; set; }
         public virtual DbSet<Card_RequestDetail> Card_RequestDetail { get; set; }
         public virtual DbSet<Card_RequestType> Card_RequestType { get; set; }
         public virtual DbSet<Card_StockDetail> Card_StockDetail { get; set; }
+        public virtual DbSet<Card_Activate> Card_Activate { get; set; }
+        public virtual DbSet<Card_ReceivedDetails> Card_ReceivedDetails { get; set; }
     
         public virtual ObjectResult<Card_RequestDetail> GetRequestData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName)
         {
@@ -79,6 +80,90 @@ namespace OctaShape.Data
                 new ObjectParameter("branchcode", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CallDayEnd", usernameParameter, branchcodeParameter);
+        }
+    
+        public virtual ObjectResult<Card_ReceivedDetails> GetActivationData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Card_ReceivedDetails>("GetActivationData", startDateParameter, endDateParameter, userNameParameter);
+        }
+    
+        public virtual ObjectResult<Card_ReceivedDetails> GetActivationData(Nullable<System.DateTime> startDate, Nullable<System.DateTime> endDate, string userName, MergeOption mergeOption)
+        {
+            var startDateParameter = startDate.HasValue ?
+                new ObjectParameter("StartDate", startDate) :
+                new ObjectParameter("StartDate", typeof(System.DateTime));
+    
+            var endDateParameter = endDate.HasValue ?
+                new ObjectParameter("EndDate", endDate) :
+                new ObjectParameter("EndDate", typeof(System.DateTime));
+    
+            var userNameParameter = userName != null ?
+                new ObjectParameter("UserName", userName) :
+                new ObjectParameter("UserName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Card_ReceivedDetails>("GetActivationData", mergeOption, startDateParameter, endDateParameter, userNameParameter);
+        }
+    
+        public virtual int ApproveCardApplication(Nullable<int> id, string account_no, string approved_by)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            var account_noParameter = account_no != null ?
+                new ObjectParameter("account_no", account_no) :
+                new ObjectParameter("account_no", typeof(string));
+    
+            var approved_byParameter = approved_by != null ?
+                new ObjectParameter("approved_by", approved_by) :
+                new ObjectParameter("approved_by", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ApproveCardApplication", idParameter, account_noParameter, approved_byParameter);
+        }
+    
+        public virtual ObjectResult<ImportData_Result> ImportData(string binid, string openingdate, string actype, string imported, string currency, string remarks, string existingcardno)
+        {
+            var binidParameter = binid != null ?
+                new ObjectParameter("binid", binid) :
+                new ObjectParameter("binid", typeof(string));
+    
+            var openingdateParameter = openingdate != null ?
+                new ObjectParameter("openingdate", openingdate) :
+                new ObjectParameter("openingdate", typeof(string));
+    
+            var actypeParameter = actype != null ?
+                new ObjectParameter("actype", actype) :
+                new ObjectParameter("actype", typeof(string));
+    
+            var importedParameter = imported != null ?
+                new ObjectParameter("imported", imported) :
+                new ObjectParameter("imported", typeof(string));
+    
+            var currencyParameter = currency != null ?
+                new ObjectParameter("currency", currency) :
+                new ObjectParameter("currency", typeof(string));
+    
+            var remarksParameter = remarks != null ?
+                new ObjectParameter("remarks", remarks) :
+                new ObjectParameter("remarks", typeof(string));
+    
+            var existingcardnoParameter = existingcardno != null ?
+                new ObjectParameter("existingcardno", existingcardno) :
+                new ObjectParameter("existingcardno", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ImportData_Result>("ImportData", binidParameter, openingdateParameter, actypeParameter, importedParameter, currencyParameter, remarksParameter, existingcardnoParameter);
         }
     }
 }

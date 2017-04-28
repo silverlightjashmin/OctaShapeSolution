@@ -14,8 +14,7 @@ namespace OctaShapeSolution.Models
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             var User_Id = httpContext.Session["User_Id"];
-
-           
+                    
                 bool authorize = false;
 
             if (User_Id == null)
