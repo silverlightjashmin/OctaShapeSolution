@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <setParameter name="IIS Web Application Name" value="Default Web Site/OctaShapeSolution_deploy" />
+  <setParameter name="OctaShape_Card_Entities-Web.config Connection String" value="metadata=res://*/OctaShape_Card_Model.csdl|res://*/OctaShape_Card_Model.ssdl|res://*/OctaShape_Card_Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=jashmin;initial catalog=eTicketSystem;user id=sa;password=jashmin86527;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+  <setParameter name="OctaShape_eTicket_Entities-Web.config Connection String" value="metadata=res://*/OctaShape_eTicket_Model.csdl|res://*/OctaShape_eTicket_Model.ssdl|res://*/OctaShape_eTicket_Model.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=jashmin;initial catalog=eTicketSystem;user id=sa;password=jashmin86527;MultipleActiveResultSets=True;App=EntityFramework&quot;" />
+</parameters>

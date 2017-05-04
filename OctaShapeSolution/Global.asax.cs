@@ -13,6 +13,7 @@ namespace OctaShapeSolution
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+           //GlobalFilters.Filters.Add(new Areas.eTicketSystem.Models.LayoutData(),0);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);

@@ -79,18 +79,7 @@ namespace OctaShape.Common
                 osheet.Cells[2, 0] = "Bank Name";
                 osheet.Cells[1, 1] = DateTime.Now.ToString("yyyy-MM-dd");
                 osheet.Cells[2, 1] = "Shangrila Development Bank Limited";
-                /*
-              osheet.Cells[3,0] = "BIN NO";
-              osheet.Cells[3, 1] = "BRANCH";
-              osheet.Cells[3, 2] = "A/C NO";
-              osheet.Cells[3, 3] = "OPENING DATE";
-              osheet.Cells[3, 4] = "ACTYPE";
-              osheet.Cells[3, 5] = "IMPORTED";
-              osheet.Cells[3, 6] = "CURRENCY";
-              osheet.Cells[3, 7] = "CUSTOMER NAME";
-              osheet.Cells[3, 8] = "REMARKS";
-              osheet.Cells[3, 9] = "EXISTING CARD NO";
-              */
+          
                 //auto column name
                 foreach (DataColumn dc in table.Columns)
                 {

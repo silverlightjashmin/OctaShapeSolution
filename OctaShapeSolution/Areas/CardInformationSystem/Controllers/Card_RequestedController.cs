@@ -163,6 +163,28 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
             return RedirectToAction("DownloadCardRequest");
         }
 
+
+        public ActionResult Export2Pdf()
+        {
+            string BINNO = "605101";
+            string OPENINGDATE = "";
+            string ACTYPE = "Savings";
+            string IMPORTED = "";
+            string CURRENCY = "524";
+            string REMARKS = "";
+            string EXISTINGCARDNO = "";
+
+            var ImportData = db.ImportData(BINNO, OPENINGDATE, ACTYPE, IMPORTED, CURRENCY, REMARKS, EXISTINGCARDNO).ToList();
+
+            ExportToPDF ete = new ExportToPDF();
+            ListtoDataTableConverter converter = new ListtoDataTableConverter();
+            DataTable dt = converter.ToDataTable(ImportData);
+
+
+            ete.Export2pdf(dt,DateTime.Now.Date.ToString("yyyy-MM-dd"));
+
+            return RedirectToAction("DownloadCardRequest");
+        }
     }
 
     

@@ -102,6 +102,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -192,7 +193,6 @@
     <Compile Include="Areas\eTicketSystem\Controllers\UserStatusController.cs" />
     <Compile Include="Areas\eTicketSystem\eTicketSystemAreaRegistration.cs" />
     <Compile Include="Areas\eTicketSystem\Models\ImageContent.cs" />
-    <Compile Include="Areas\eTicketSystem\Models\LayoutData.cs" />
     <Compile Include="Areas\PowerMIS\Controllers\AdminController.cs" />
     <Compile Include="Areas\PowerMIS\Controllers\BranchManagerController.cs" />
     <Compile Include="Areas\PowerMIS\Controllers\DepartmentHeadController.cs" />
@@ -589,7 +589,6 @@
     <Content Include="assets\morris.js-0.4.3\spec\vendor\raphael-2.1.0.min.js" />
     <Content Include="assets\morris.js-0.4.3\spec\vendor\sinon-1.5.0.js" />
     <Content Include="assets\morris.js-0.4.3\spec\vendor\sinon-chai-2.1.2.js" />
-    <Content Include="buttons.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="css\bootstrap-theme.css" />
@@ -604,7 +603,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\ElegantIcons.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="form_component.html" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="img\arrow-up.png" />
@@ -897,6 +895,9 @@
     <Content Include="Areas\CardInformationSystem\Views\Card_Activate\DownloadActivationRequest.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_Activate\Index.cshtml" />
     <Content Include="Areas\CardInformationSystem\Views\Card_ApprovalPending\PendingApprovalList.cshtml" />
+    <Content Include="Areas\eTicketSystem\Views\Admin\CommonAdmin.cshtml" />
+    <Content Include="Areas\eTicketSystem\Views\User\CommonUser.cshtml" />
+    <None Include="Properties\PublishProfiles\OctaShapeSolution.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
     <Content Include="Scripts\Chart.min.js" />
@@ -1075,7 +1076,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\eTicketSystem\Views\LayoutData\" />
     <Folder Include="Areas\PowerMIS\Models\" />
     <Folder Include="assets\jquery-file-upload\server\php\files\thumbnail\" />
     <Folder Include="img\Comment_Image\" />

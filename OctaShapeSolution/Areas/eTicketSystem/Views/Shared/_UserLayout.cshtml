@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -6,7 +7,7 @@
     <meta name="description" content="eTicketSystem - A Complete Support Ticket System">
     <meta name="author" content="Jashmin Shrestha">
     <meta name="keyword" content="eTicketSysetm, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="../../img/favicon.png">
+    <link rel="shortcut icon" href="~/img/favicon.png">
     <title>eTicketySupportSystem</title>
 
     <!-- Bootstrap CSS -->
@@ -50,84 +51,65 @@
                 </ul>
                 <!--  search form end -->
             </div>
+            @*
             <div class="top-nav notification-row">
                 <!-- notificatoin dropdown start-->
                 <ul class="nav pull-right top-menu">
 
-                    <!-- inbox notificatoin start-->
-
+                    <!-- task notificatoin start -->
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-envelope-l"></i>
-                            <span class="badge bg-important">5</span>
+                            <span class="badge bg-important">  @ViewBag.Ticketcount  </span>
                         </a>
                         <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
-                                <p class="blue">You have 5 new messages</p>
+                                <p class="blue"></p>
                             </li>
+
+
+                            @foreach (var item in ViewBag.PendingTickets)
+                            {
+
+
+                                <li>
+                                    <a href="#">
+                                        <span class="subject">
+                                            <span class="from">@item.Title</span>
+                                            <span class="time">@item.AssignedBy</span>
+                                        </span>
+                                        <span class="message">
+                                            @item.Description
+                                        </span>
+                                    </a>
+                                </li>
+                            }
                             <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="../../img/avatar-mini.jpg"></span>
-                                    <span class="subject">
-                                        <span class="from">Greg  Martin</span>
-                                        <span class="time">1 min</span>
-                                    </span>
-                                    <span class="message">
-                                        I really like this admin panel.
-                                    </span>
-                                </a>
+                                <a href="../User/ViewMyTicket">See all Pending Tickets</a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="../../img/avatar-mini2.jpg"></span>
-                                    <span class="subject">
-                                        <span class="from">Bob   Mckenzie</span>
-                                        <span class="time">5 mins</span>
-                                    </span>
-                                    <span class="message">
-                                        Hi, What is next project plan?
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="../../img/avatar-mini3.jpg"></span>
-                                    <span class="subject">
-                                        <span class="from">Phillip   Park</span>
-                                        <span class="time">2 hrs</span>
-                                    </span>
-                                    <span class="message">
-                                        I am like to buy this Admin Template.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="photo"><img alt="avatar" src="../../img/avatar-mini4.jpg"></span>
-                                    <span class="subject">
-                                        <span class="from">Ray   Munoz</span>
-                                        <span class="time">1 day</span>
-                                    </span>
-                                    <span class="message">
-                                        Icon fonts are great.
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">See all messages</a>
-                            </li>
+
                         </ul>
+
+
                     </li>
 
-                    <!-- inbox notificatoin end -->
-                    <!-- user login dropdown start-->
+
+
+
                     <li class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="profile-ava">
-                                <img alt="" src="../../img/avatar1_small.jpg">
+
+                                <!-- Call User Image in this box-->
+                                <img alt="" src="../../../../img/avatar1_small.jpg">
+
                             </span>
-                            <span class="username">Dynamic name(User)</span>
+
+                            <!--Call Username on this box-->
+
+                            <span class="username"> @((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).First().UserName) </span>
+
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu extended logout">
@@ -146,15 +128,18 @@
 
                             </li>
                             <li>
-                                <a href="../User/ViewMyTicket"><i class="icon_key_alt"></i> My Tickets</a>
+                                <a href="../Admin/ViewMyTicket"><i class="icon_key_alt"></i> My Tickets</a>
+
                             </li>
 
                         </ul>
                     </li>
-                    <!-- user login dropdown end -->
                 </ul>
                 <!-- notificatoin dropdown end-->
             </div>
+
+            *@
+            @Html.Action("CommonUser", "User")
         </header>
         <!--header end-->
         <!--sidebar start-->
@@ -222,12 +207,12 @@
     </section>
     <!-- container section end -->
     <!-- javascripts -->
-    <script src="../../js/jquery.js"></script>
-    <script src="../../js/bootstrap.min.js"></script>
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
     <!-- nice scroll -->
-    <script src="../../js/jquery.scrollTo.min.js"></script>
-    <script src="../../js/jquery.nicescroll.js" type="text/javascript"></script><!--custome script for all page-->
-    <script src="../../js/scripts.js"></script>
+    <script src="~/js/jquery.scrollTo.min.js"></script>
+    <script src="~/js/jquery.nicescroll.js" type="text/javascript"></script><!--custome script for all page-->
+    <script src="~/js/scripts.js"></script>
 
 </body>
 </html>

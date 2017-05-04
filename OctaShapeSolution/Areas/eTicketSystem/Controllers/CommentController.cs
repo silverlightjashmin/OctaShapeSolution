@@ -15,6 +15,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
     {
 
         private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
+        string FileName = "";
         // GET: Comment
 
         [HttpPost]
@@ -39,14 +40,17 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                     if (file.ContentLength > 0)
                     {
                         //for checking
+
                         if (Path.GetExtension(file.FileName).ToLower() == ".jpg"
                            || Path.GetExtension(file.FileName).ToLower() == ".png"
                             || Path.GetExtension(file.FileName).ToLower() == ".gif"
                             || Path.GetExtension(file.FileName).ToLower() == ".jpeg")
-                            {
 
-                            
-                            path = Path.Combine(Server.MapPath("~/img/Comment_image"), file.FileName);
+                        {
+
+                            FileName = "ImageId_" + ticketcomment.TicketId.ToString() + ticketcomment.id.ToString() + Path.GetExtension(file.FileName).ToLower();
+
+                            path = Path.Combine(Server.MapPath("~/img/Comment_image"), FileName);
                             file.SaveAs(path);
                             
 
@@ -57,6 +61,10 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
 
                 }
+                else
+                {
+                    path = "";
+                }
 
                 TicketImage tc = new TicketImage();
                 tc.TicketId = ticketcomment.TicketId;
@@ -65,7 +73,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
                 if(file!=null)
                 {
-                    tc.ImageOn = file.FileName;
+                    tc.ImageOn = FileName;
                     
                 }
                 else
@@ -139,6 +147,8 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             ViewBag.Comments = Comments;
        
             ViewBag.TicketDetails = ticket;
+            ViewBag.AssignedBy = db.User.Find(ticket.AssignedBy).UserName;
+
             return View(); 
         }
 

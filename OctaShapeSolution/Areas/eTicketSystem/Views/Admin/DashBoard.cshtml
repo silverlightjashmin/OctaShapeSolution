@@ -7,7 +7,7 @@
     <meta name="description" content="eTicketSystem - A Complete Support Ticket System">
     <meta name="author" content="Jashmin Shrestha">
     <meta name="keyword" content="eTicketSysetm, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="../../../../img/favicon.png">
+    <link rel="shortcut icon" href="~/img/favicon.png">
     <title>eTicketySupportSystem</title>
 
    
@@ -115,7 +115,7 @@
                             <span class="profile-ava">
 
                                 <!-- Call User Image in this box-->
-                                <img alt="" src="../../../../img/avatar1_small.jpg">
+                                <img alt="" src="~/img/avatar1_small.jpg">
 
                             </span>
 
@@ -133,11 +133,11 @@
 
 
                             <li>
-                                @Html.ActionLink("Log Out", "Logoff", "Home", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+                                @Html.ActionLink("Log Out", "Logoff", "../Login", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
 
                             </li>
                             <li>
-                                @Html.ActionLink("Reset Password", "ChangePassword", "Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+                                @Html.ActionLink("Reset Password", "ChangePassword", "../Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
 
                             </li>
                             <li>
@@ -275,7 +275,7 @@
 
                                         <h4>@((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</h4>
                                         <div class="follow-ava">
-                                            <img src="../../../../img/profile-widget-avatar.jpg" alt="">
+                                            <img src="~/img/profile-widget-avatar.jpg" alt="">
                                         </div>
 
                                         <h6>
@@ -310,7 +310,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <footer class="profile-widget-foot">
+                          @*     <footer class="profile-widget-foot">
                                     <div class="follow-task">
                                         <span>
                                             <a href="">
@@ -347,7 +347,7 @@
                                         </span>
 
                                     </div>
-                                </footer>
+                                </footer> *@
                             </div>
                         </section>
                         <!--user profile info end-->
@@ -436,7 +436,7 @@
                                             }
                                             <li>
                                                 <a href="javascript:;">
-                                                    <input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayPrevious=true data-thickness=".1" data-fgColor="#34AADC" data-bgColor="#F7F7F7">
+                                                    <input class="knob" data-readonly="true" data-width="80" data-height="80" data-displayPrevious=true data-thickness=".1" data-fgColor="#34AADC" data-bgColor="#F7F7F7" value="@Html.Raw(@ViewBag.TicketCount)">
                                                     <p><i class="icon_datareport"></i> Assigned Ticket</p>
                                                 </a>
                                             </li>
@@ -470,7 +470,7 @@
 
                                             <td>
                                                 <span class="profile-ava">
-                                                    <img alt="" class="simple" src="../../../../img/avatar1_small.jpg">
+                                                    <img alt="" class="simple" src="~/img/avatar1_small.jpg">
                                                 </span>
                                             </td>
 
@@ -514,9 +514,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <span class="profile-ava pull-right">
-                                            <img alt="" class="simple" src="../../../../img/avatar1_small.jpg">
-                                            @((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).FirstOrDefault().FirstName)
-                                        </span>
+                                              </span>
                                     </div>
                                 </div>
                             </div>
@@ -651,7 +649,7 @@
       $(function() {
         $(".knob").knob({
           'draw' : function () {
-            $(this.i).val(this.cv + '%')
+            $(this.i).val(this.cv + '')
           }
         })
       });

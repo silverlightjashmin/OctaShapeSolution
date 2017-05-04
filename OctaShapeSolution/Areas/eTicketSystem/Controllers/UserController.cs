@@ -14,6 +14,21 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
     {
         private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
         // GET: User
+
+        public PartialViewResult CommonUser()   
+        {
+            string UserName = Session["User_Name"].ToString();
+            int UserId = Convert.ToInt32(Session["User_Id"]);
+
+            var UserDetails = db.GetAllUserDetails(UserName).ToList();
+            var pendingtickets = db.GetPendingTicketsByUser(UserId).ToList();
+
+            ViewBag.UserDetails = UserDetails;
+            ViewBag.PendingTickets = pendingtickets;
+            ViewBag.Ticketcount = pendingtickets.Count();
+
+            return PartialView();
+        }
         public ActionResult DashBoard()
         {
             if (Session["User_Name"] != null)
@@ -76,6 +91,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             }
 
         }
+       
 
         public ActionResult ViewMyTicket()
         {

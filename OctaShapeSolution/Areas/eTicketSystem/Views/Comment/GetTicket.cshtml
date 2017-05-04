@@ -28,13 +28,21 @@
             <div class="panel panel-default">
                 <div class="profile-widget profile-widget-info ">
 
-                    <b class="col-lg-4 col-sm-4">Ticket # : @ViewBag.TicketDetails.id</b>
+                    <b class="col-lg-4 col-sm-4">Ticket # : @ViewBag.TicketDetails.id</b><b class="col-lg-4 col-sm-4 ">Assigned By :@{ if (@ViewBag.TicketDetails.AssignedBy == null)
+                        {
+                            <b> Not Assigned</b>
+                        }
+                        else
+                        {
+                            @ViewBag.AssignedBy
+                        }
+                    }</b>
 
                     <br />
-                    <b class="col-lg-4 col-sm-4 follow-info">Ticket Title : @ViewBag.TicketDetails.Title</b> <b class="col-lg-8 col-sm-8 follow-info"> Ticket Create By : @ViewBag.TicketDetails.User.UserName</b>
+                    <b class="col-lg-4 col-sm-4 follow-info">Ticket Title : @ViewBag.TicketDetails.Title</b> <b class="col-lg-8 col-sm-8 follow-info"> Ticket Create By : @ViewBag.TicketDetails.User1.UserName</b>
 
                     <br />
-                    <b class="col-lg-4 col-sm-4 follow-info"> Ticket Status : @ViewBag.TicketDetails.TicketStatus.TicketStatus1</b><b class="col-lg-8 col-sm-8 follow-info"> User Email Id : @ViewBag.TicketDetails.User.Email</b>
+                    <b class="col-lg-4 col-sm-4 follow-info"> Ticket Status : @ViewBag.TicketDetails.TicketStatus.TicketStatus1</b><b class="col-lg-8 col-sm-8 follow-info"> User Email Id : @ViewBag.TicketDetails.User1.Email</b>
 
                     <br />
                     <b class="col-lg-4 col-sm-4 follow-info"> Ticket Priority : @ViewBag.TicketDetails.TicketPriority.TicketPriority1 </b><b class="col-lg-8 col-sm-8 follow-info"> Source : Web(Your Ip)</b>
@@ -43,7 +51,17 @@
                     <b class="col-lg-4 col-sm-4 follow-info"> Ticket Category : @ViewBag.TicketDetails.TicketCategory.CategoryName</b><b class="col-lg-8 col-sm-8 follow-info"> Last Message On : @ViewBag.TicketDetails.LastEditedOn</b>
 
                     <br />
-                    <b class="col-lg-4 col-sm-4 follow-info"> Ticket Create Date: @ViewBag.TicketDetails.CreatedDate</b>   <b class="col-lg-8 col-sm-8 follow-info"> Assigned To : @ViewBag.TicketDetails.User1.UserName</b>
+                    <b class="col-lg-4 col-sm-4 follow-info"> Ticket Create Date: @ViewBag.TicketDetails.CreatedDate</b>   <b class="col-lg-8 col-sm-8 follow-info">
+                        Assigned To : @{ if (@ViewBag.TicketDetails.AssignedTo == null)
+                            {
+                                <b> Not Assigned</b>
+                            }
+                            else
+                            {
+                                @ViewBag.TicketDetails.User.UserName
+                            }
+                        }
+                    </b>
                     <br />
                     <br />
                     <br />
@@ -90,26 +108,26 @@
                     </header>
                     <div class="panel-body">
                         <div class="form">
-                           
-                                <div class="form-group">
 
-                                    <div class="col-sm-12">
+                            <div class="form-group">
 
-
-
-                                        @Html.TextAreaFor(model => model.TicketComment1, new
-                                   {
-
-                                       @class = "form-control ",
-                                       rows = "6",
-                                       placeholder = "Insert Your Comment Here"
+                                <div class="col-sm-12">
 
 
-                                   })
-                                        @Html.ValidationMessageFor(model => model.TicketComment1, "", new { @class = "text-danger" })
-                                    </div>
+
+                                    @Html.TextAreaFor(model => model.TicketComment1, new
+                               {
+
+                                   @class = "form-control ",
+                                   rows = "6",
+                                   placeholder = "Insert Your Comment Here"
+
+
+                               })
+                                    @Html.ValidationMessageFor(model => model.TicketComment1, "", new { @class = "text-danger" })
                                 </div>
-                           
+                            </div>
+
                         </div>
                     </div>
                 </section>
@@ -136,63 +154,61 @@
 
         </div>
 
-
-        @foreach (var item in ViewBag.Comments)
-        {
-
-
-            <div class="col-lg-6">
-
-                <div class="panel panel-default">
-                    <div class="panel-heading profile-widget profile-widget-info">
-                        <i class="fa fa-clock-o fa-fw"></i> @item.CommentBy : Says
-                    </div>
-                    <!-- /.panel-heading -->
-                    <div class="panel-body">
-                        <ul class="timeline">
+    </div>
+    <br />
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                Comments
+            </header>
+            @foreach (var item in ViewBag.Comments)
+            {
 
 
+                <div class="panel-body">
+                    <div class="panel panel-primary" style="border:thin">
+                        <div class="panel-heading">@item.CommentBy   on @item.CommentDate</div>
+                        <div class="panel-content">@item.TicketComment</div>
+                        @{
+                            if (@item.ImageOn != null)
+                            {
+                                <span class="profile-ava">
+                                    <a href="~/img/Comment_Image/@item.ImageOn" target="_blank">
+                                        <!-- Call User Image in this box-->
+                                        <img alt="" src="~/img/Comment_Image/@item.ImageOn" height="40" width="40"> Click on Image to Enlarge
+                                    </a>
+                                </span>
+                            }
+                            else
+                            {
+                                <p style="font-size:x-small">No Attachment Available</p>;
+                            }
+                        }
 
-
-                            <li>
-                                <div class="timeline-badge">
-                                    <i class="fa fa-check"></i>
-                                </div>
-                                <div class="timeline-panel">
-                                    <div class="timeline-heading">
-                                        <h3 class="timeline-title">@item.TicketComment</h3>
-                                        <p>
-                                            <small class="text-muted"><i class="fa fa-clock-o"></i> @item.CommentDate - </small>
-                                        </p>
-                                    </div>
-                                    <div class="timeline-body">
-
-                                    </div>
-
-                                    <p>
-                                        <div class="follow-ava">
-                                            <a href="http://localhost:25586/img/Comment_Image/@item.ImageOn" target="_blank"> <img src="../../../../img/Comment_Image/@item.ImageOn" alt="" height="20" width="20" class="simple"></a>
-                                        </div>
-                                    </p>
-
-                                </div>
-                            </li>
-
-
-
-                        </ul>
 
 
 
                     </div>
-                    <!-- /.panel-body -->
+
                 </div>
-                <!-- /.panel -->
-            </div>
 
 
-        }
 
+
+
+                            }
+
+        </section>
     </div>
 
+
 </div>
+
+
+
+
+
+
+
+
+

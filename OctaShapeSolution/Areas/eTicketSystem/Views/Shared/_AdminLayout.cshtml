@@ -1,7 +1,4 @@
-﻿@{
-   
-    ViewBag.count = ((OctaShapeSolution.Areas.eTicketSystem.Models.LayoutData)this.Model).GetData();
-}
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +7,7 @@
     <meta name="description" content="eTicketSystem - A Complete Support Ticket System">
     <meta name="author" content="Jashmin Shrestha">
     <meta name="keyword" content="eTicketSysetm, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
-    <link rel="shortcut icon" href="../../../../img/favicon.png">
+    <link rel="shortcut icon" href="~/img/favicon.png">
     <title>eTicketySupportSystem</title>
 
 
@@ -59,6 +56,7 @@
                 <!--  search form end -->
             </div>
 
+        @*
             <div class="top-nav notification-row">
                 <!-- notificatoin dropdown start-->
                 <ul class="nav pull-right top-menu">
@@ -67,14 +65,16 @@
                     <li id="mail_notificatoin_bar" class="dropdown">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <i class="icon-envelope-l"></i>
-                            <span class="badge bg-important">@ViewBag.Pending.Count</span>
+                            <span class="badge bg-important">  @ViewBag.Ticketcount  </span>
                         </a>
                         <ul class="dropdown-menu extended inbox">
                             <div class="notify-arrow notify-arrow-blue"></div>
                             <li>
                                 <p class="blue"></p>
                             </li>
-                            @foreach (var item in ViewBag.Pending)
+                          
+
+                            @foreach (var item in ViewBag.PendingTickets)
                             {
 
 
@@ -113,7 +113,7 @@
 
                             <!--Call Username on this box-->
 
-                            <span class="username">@((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).First().UserName)</span>
+                            <span class="username"> @((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).First().UserName) </span>
 
                             <b class="caret"></b>
                         </a>
@@ -143,7 +143,8 @@
                 <!-- user login dropdown end -->
                 <!-- notificatoin dropdown end-->
             </div>
-
+*@
+            @Html.Action("CommonAdmin", "Admin")
         </header>
         <!--header end-->
 
@@ -298,7 +299,7 @@
       $(function() {
         $(".knob").knob({
           'draw' : function () {
-            $(this.i).val(this.cv + '%')
+            $(this.i).val(this.cv + '')
           }
         })
       });

@@ -330,12 +330,12 @@ namespace OctaShapeSolution.Controllers
 
             {
                 ViewBag.Status = "ON";
-                ViewBag.message = "Day End Operation Flag";
+                ViewBag.message = "Day End  Flag";
             }
             else
             {
                 ViewBag.Status = "OFF";
-                ViewBag.message = "Day End Operation Flag";
+                ViewBag.message = "Day End  Flag";
             }
 
             ViewBag.Data = exportdata;

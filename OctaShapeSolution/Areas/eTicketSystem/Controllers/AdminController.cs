@@ -183,7 +183,21 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             
         }
 
+     
+        public PartialViewResult CommonAdmin()
+        {
+            string UserName = Session["User_Name"].ToString();
+            int UserId = Convert.ToInt32(Session["User_Id"]);
 
+            var UserDetails = db.GetAllUserDetails(UserName).ToList();
+            var pendingtickets = db.GetPendingTicketsByUser(UserId).ToList();
+
+            ViewBag.UserDetails = UserDetails;
+            ViewBag.PendingTickets = pendingtickets;
+            ViewBag.Ticketcount = pendingtickets.Count();
+
+            return PartialView();
+        }
         public ActionResult DashBoard()
         {
             if (Session["User_Name"] != null)
@@ -224,10 +238,21 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
                 string hostname = Dns.GetHostName();
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostname);
-                IPAddress hostip = ipHostInfo.AddressList[2];
+                
+                if (ipHostInfo.AddressList.Count()<=2)
+                {
+                    IPAddress hostip = ipHostInfo.AddressList[1];
+                    ViewBag.HostIp = hostip.ToString();
+                }
+                else
+                {
+                    IPAddress hostip = ipHostInfo.AddressList[2];
+                    ViewBag.HostIp = hostip.ToString();
+                }
+                
 
                 ViewBag.HostName = hostname;
-                ViewBag.HostIp = hostip.ToString();
+                //ViewBag.HostIp = hostip.ToString();
 
                 ViewBag.UserDetails = UserDetails;
                 ViewBag.UserList = UserList;
