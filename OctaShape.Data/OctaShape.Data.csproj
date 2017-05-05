@@ -100,7 +100,7 @@
       <DependentUpon>OctaShape_eTicket_Model.tt</DependentUpon>
     </Compile>
     <Compile Include="GetRequestData_Result.cs">
-      <DependentUpon>OctaShape_Card_Model.tt</DependentUpon>
+      <DependentUpon>OctaShape_eTicket_Model.tt</DependentUpon>
     </Compile>
     <Compile Include="GetTicketCountByUser_Result.cs">
       <DependentUpon>OctaShape_eTicket_Model.tt</DependentUpon>

@@ -232,5 +232,14 @@ namespace OctaShape.Data
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<TicketBranch>("GetPendingBranch", mergeOption);
         }
+    
+        public virtual int DayEndStatOn(string branchcode)
+        {
+            var branchcodeParameter = branchcode != null ?
+                new ObjectParameter("branchcode", branchcode) :
+                new ObjectParameter("branchcode", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DayEndStatOn", branchcodeParameter);
+        }
     }
 }

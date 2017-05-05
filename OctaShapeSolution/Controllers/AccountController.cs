@@ -349,8 +349,23 @@ namespace OctaShapeSolution.Controllers
 
         public ActionResult AddDayEndStat()
         {
-            db.CallForDayEnd(Session["User_Name"].ToString(), Session["Branch_Code"].ToString()).ToList();
-            db.SaveChanges();
+            var TodayDate = DateTime.Now.Date;
+            var bc = Session["Branch_Code"].ToString();
+            var checkIsDayEnd = db.Day_EndDetail.Where(x => x.Branch_Code == bc && x.Request_Date == TodayDate).ToList();
+
+            if(checkIsDayEnd.Count()>=1)
+            {
+                //update old data
+                db.DayEndStatOn(Session["Branch_Code"].ToString());
+                db.SaveChanges();
+            }
+            else
+            {
+                db.CallForDayEnd(Session["User_Name"].ToString(), Session["Branch_Code"].ToString());
+                db.SaveChanges();
+            }
+
+            
 
             
 

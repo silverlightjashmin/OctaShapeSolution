@@ -315,6 +315,9 @@
         <Function Name="DayEndStatOff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="branchcode" Type="char" Mode="In" />
         </Function>
+        <Function Name="DayEndStatOn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="branchcode" Type="char" Mode="In" />
+        </Function>
         <Function Name="FindUserRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userid" Type="int" Mode="In" />
         </Function>
@@ -851,6 +854,9 @@
           <Parameter Name="branchcode" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="GetPendingBranch" EntitySet="TicketBranch" ReturnType="Collection(OctaShape_eTicket_Model.TicketBranch)" />
+          <FunctionImport Name="DayEndStatOn">
+            <Parameter Name="branchcode" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AdminUserList_Result">
           <Property Type="Int32" Name="id" Nullable="false" />
@@ -1316,6 +1322,7 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="DayEndStatOff" FunctionName="OctaShape_eTicket_Model.Store.DayEndStatOff" />
           <FunctionImportMapping FunctionImportName="GetPendingBranch" FunctionName="OctaShape_eTicket_Model.Store.GetPendingBranch" />
+          <FunctionImportMapping FunctionImportName="DayEndStatOn" FunctionName="OctaShape_eTicket_Model.Store.DayEndStatOn" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

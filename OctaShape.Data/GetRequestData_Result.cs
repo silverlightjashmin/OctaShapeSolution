@@ -13,11 +13,11 @@ namespace OctaShape.Data
     
     public partial class GetRequestData_Result
     {
+        public int Id { get; set; }
+        public Nullable<System.DateTime> Request_Date { get; set; }
         public string Branch_Code { get; set; }
         public string Account_No { get; set; }
         public string Customer_Name { get; set; }
-        public int Id { get; set; }
-        public Nullable<System.DateTime> Request_Date { get; set; }
         public string EmbossName { get; set; }
         public Nullable<int> Request_Id { get; set; }
         public string Created_By { get; set; }

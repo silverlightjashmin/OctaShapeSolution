@@ -193,6 +193,7 @@
     <Compile Include="Areas\eTicketSystem\Controllers\UserStatusController.cs" />
     <Compile Include="Areas\eTicketSystem\eTicketSystemAreaRegistration.cs" />
     <Compile Include="Areas\eTicketSystem\Models\ImageContent.cs" />
+    <Compile Include="Areas\IdeaBank\IdeaBankAreaRegistration.cs" />
     <Compile Include="Areas\PowerMIS\Controllers\AdminController.cs" />
     <Compile Include="Areas\PowerMIS\Controllers\BranchManagerController.cs" />
     <Compile Include="Areas\PowerMIS\Controllers\DepartmentHeadController.cs" />
@@ -897,6 +898,7 @@
     <Content Include="Areas\CardInformationSystem\Views\Card_ApprovalPending\PendingApprovalList.cshtml" />
     <Content Include="Areas\eTicketSystem\Views\Admin\CommonAdmin.cshtml" />
     <Content Include="Areas\eTicketSystem\Views\User\CommonUser.cshtml" />
+    <Content Include="Areas\IdeaBank\Views\web.config" />
     <None Include="Properties\PublishProfiles\OctaShapeSolution.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />
@@ -1076,6 +1078,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\IdeaBank\Controllers\" />
+    <Folder Include="Areas\IdeaBank\Models\" />
+    <Folder Include="Areas\IdeaBank\Views\Shared\" />
     <Folder Include="Areas\PowerMIS\Models\" />
     <Folder Include="assets\jquery-file-upload\server\php\files\thumbnail\" />
     <Folder Include="img\Comment_Image\" />
