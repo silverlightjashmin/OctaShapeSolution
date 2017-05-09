@@ -65,11 +65,14 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                  messageto = db.User.Find(ticket.CreatedBy).Email;
                  se.SendEmails(subject, Body, messageto);
 
-               
+                ViewBag.Message = "Ticket Issued Successfully";
 
-                return RedirectToAction("ViewTicket","Admin");
+                ViewBag.Categoryid = new SelectList(db.TicketCategory, "id", "CategoryName", ticket.Categoryid);
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "id", "TicketPriority1", ticket.TicketPriorityId);
+
+                return RedirectToAction("ViewTicket");
             }
-
+            ViewBag.Message = "Ticket Couldn't Be Issued";
             ViewBag.Categoryid = new SelectList(db.TicketCategory, "id", "CategoryName", ticket.Categoryid);
            ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "id", "TicketPriority1", ticket.TicketPriorityId);
             return View(ticket);
@@ -161,7 +164,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
 
 
-                return RedirectToAction("ViewTicket");
+                return RedirectToAction("GetTicketList");
             }
 
             ViewBag.AssignedBy = new SelectList(db.User, "id", "UserName", ticket.AssignedBy);
@@ -193,7 +196,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             var pendingtickets = db.GetPendingTicketsByUser(UserId).ToList();
 
             ViewBag.UserDetails = UserDetails;
-            ViewBag.PendingTickets = pendingtickets;
+            ViewBag.PendingTickets = pendingtickets.OrderByDescending(x => x.id).Take(5);
             ViewBag.Ticketcount = pendingtickets.Count();
 
             return PartialView();
@@ -262,7 +265,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 ViewBag.Country = cname;
                 ViewBag.TotalTickets = totaltickets;
 
-                ViewBag.PendingTickets = pendingtickets;
+                ViewBag.PendingTickets = pendingtickets.OrderByDescending(x => x.id).Take(5);
 
                 ViewBag.Ticketcount = pendingtickets.Count();
 

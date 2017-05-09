@@ -93,7 +93,7 @@
 
 
                                 <li>
-                                    <a href="#">
+                                    <a href="~/eTicketSystem/Comment/GetTicket/@item.id">
                                         <span class="subject">
                                             <span class="from">@item.Title</span>
                                             <span class="time">@item.AssignedBy</span>
@@ -144,7 +144,13 @@
                             @Html.ActionLink("Reset Password", "ChangePassword", "../Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
 
                         </li>
-                        
+                        <li>
+                            @Html.ActionLink("My Tickets", "ViewMyTicket", "User", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+
+
+
+
+                        </li>
 
                     </ul>
                 </li>
@@ -216,20 +222,20 @@
                                 <div class="panel-body">
                                     <div class="col-lg-4 col-sm-4 profile-widget-name">
 
-                                        <h4>@((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</h4>
+                                        <h4>@((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</h4>
                                         <div class="follow-ava">
                                             <img src="~/img/profile-widget-avatar.jpg" alt="">
                                         </div>
 
                                         <h6>
-                                            @((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().RoleName)
+                                            @((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).FirstOrDefault().RoleName)
                                         </h6>
 
                                     </div>
                                     <div class="col-lg-8 col-sm-8 follow-info">
 
-                                        <p>Welcome back @((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().FirstName), Please check your pending work.</p>
-                                        <p>@((ViewBag.UserDetails as ICollection<OctaShapeSolution.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</p>
+                                        <p>Welcome back @((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).FirstOrDefault().FirstName), Please check your pending work.</p>
+                                        <p>@((ViewBag.UserDetails as ICollection<OctaShape.Data.GetAllUserDetails_Result>).FirstOrDefault().FullName)</p>
                                         <h6>
                                             <span><i class="icon_clock_alt"></i>@ViewBag.Time</span>
                                             <span><i class="icon_calendar"></i>@ViewBag.Date</span>

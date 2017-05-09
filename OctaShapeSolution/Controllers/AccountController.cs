@@ -9,7 +9,7 @@ using OctaShape.Data;
 
 namespace OctaShapeSolution.Controllers
 {
-    [AuthorizeChecker]
+    
     public class AccountController : Controller
     {
         private OctaShape_eTicket_Entities db = new OctaShape_eTicket_Entities();
@@ -32,6 +32,14 @@ namespace OctaShapeSolution.Controllers
             return View();
 
 
+        }
+
+        [AuthorizeChecker]
+        public ActionResult RegisterUserByAdmin()
+        {
+            ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
+
+            return View();
         }
 
         // POST:User
@@ -74,15 +82,19 @@ namespace OctaShapeSolution.Controllers
                     string messageto = u.Email;
 
                     se.SendEmails(Subject, Body, messageto);
+                      
+                    ViewBag.Result = "Your User Has Been Created Successfully, Please Check Your Email";
+                    ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
 
-                    return RedirectToAction("Login", "Home");
+                    return View();
                 }
-                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName", u.BranchCode);
+                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
+                ViewBag.Result = "Error";
                 return View(RVM);
             }
             catch (Exception ex)
             {
-                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName", u.BranchCode);
+                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
 
                 ModelState.AddModelError("", ex.Message);
                 return View(RVM);
@@ -98,6 +110,73 @@ namespace OctaShapeSolution.Controllers
 
         }
 
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult RegisterUserByAdmin(RegisterUserViewModel RVM)  
+        {
+            User u = new User();
+            u.FirstName = RVM.FirstName;
+            u.LastName = RVM.LastName;
+            u.UserName = RVM.UserName;
+            u.Email = RVM.Email;
+            u.BranchCode = RVM.BranchCode;
+            u.UserStatusId = new GetStatus().Registerd;
+            u.EmailConfirmed = false;
+
+            //call encryption
+            var encyptedpassword = Encryption.Encrypt(RVM.UserName + RVM.Password, true);
+            u.HashPassword = encyptedpassword;
+
+            try
+            {
+
+
+
+                if (ModelState.IsValid)
+                {
+
+
+                    db.User.Add(u);
+                    db.SaveChanges();
+
+
+                    string Subject = "Please Confirm Your Email Id for eTicketSystem Application";
+                    string Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", u.UserName, Url.Action("VerifyEmail", "Account", new { id = u.id, Email = u.Email }, Request.Url.Scheme));
+
+                    SendEmail se = new SendEmail();
+
+                    string messageto = u.Email;
+
+                    se.SendEmails(Subject, Body, messageto);
+
+                    ViewBag.Result = "Your User Has Been Created Successfully, Please Check Your Email";
+                    ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
+
+                    return View();
+                }
+                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
+                ViewBag.Result = "Error";
+                return View(RVM);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.BranchCode = new SelectList(db.TicketBranch, "BranchCode", "BranchName");
+
+                ModelState.AddModelError("", ex.Message);
+                return View(RVM);
+            }
+
+
+
+
+
+
+
+
+
+        }
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -157,6 +236,7 @@ namespace OctaShapeSolution.Controllers
 
 
         //GET Change password page
+        [AuthorizeChecker]
         public ActionResult ChangePassword()
         {
             string username = Session["User_Name"].ToString();
@@ -168,7 +248,7 @@ namespace OctaShapeSolution.Controllers
             else
             {
 
-                ModelState.AddModelError("", "You are not logged in. Please Login First.");
+                
                 return RedirectToAction("Authenticate", "Login");
             }
 
@@ -178,10 +258,10 @@ namespace OctaShapeSolution.Controllers
 
 
 
+        [AuthorizeChecker]
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+         [ValidateAntiForgeryToken]     
         public ActionResult ChangePassword(ChangePasswordViewModel cpvm)
         {
             if (ModelState.IsValid)
@@ -197,18 +277,16 @@ namespace OctaShapeSolution.Controllers
                     //update password to default
                     db.ResetPassword(username, encyptedpassword);
 
-                    if (Session["User_Group"].ToString() == "Admin")
-                    {
-                        return RedirectToAction("DashBoard", "DashBoard");
-                    }
-                    else
-                        return RedirectToAction("UserDashBoard", "UserDashBoard");
+                    db.SaveChanges();
+
+                    ViewBag.Message = "Password Changed Successfully";
+                    return View();
 
                 }
                 else
                 {
                     ModelState.AddModelError("", "You are not logged in. Please Login First.");
-                    return RedirectToAction("Login", "Home");
+                    return RedirectToAction("Authenticate", "Login");
                 }
 
 
@@ -221,6 +299,7 @@ namespace OctaShapeSolution.Controllers
         }
 
 
+        [AuthorizeChecker]
         public ActionResult AssignRole()
         {
             ViewBag.UserId = new SelectList(db.User, "id", "UserName");
@@ -229,6 +308,7 @@ namespace OctaShapeSolution.Controllers
             return View();
         }
 
+        [AuthorizeChecker]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -249,16 +329,17 @@ namespace OctaShapeSolution.Controllers
                     ModelState.AddModelError("", ex.Message);
                 }
 
+
                 ViewBag.UserId = new SelectList(db.User, "id", "UserName");
                 ViewBag.RoleId = new SelectList(db.Roles, "Id", "RoleName");
-
+                ViewBag.Message = "Role Assigned To User Successfully";
                 return View();
 
             }
 
             ViewBag.UserId = new SelectList(db.User, "id", "UserName");
             ViewBag.RoleId = new SelectList(db.Roles, "Id", "RoleName");
-
+            ViewBag.Message = "Role Couldnot Be Assigned To User";
             return View();
         }
 
@@ -274,6 +355,7 @@ namespace OctaShapeSolution.Controllers
 
         }
 
+        [AuthorizeChecker]
         public ActionResult CallDayEnd()
         {
 
@@ -341,12 +423,14 @@ namespace OctaShapeSolution.Controllers
             ViewBag.Data = exportdata;
 
 
+           
             
 
             return View();
         }
 
 
+        [AuthorizeChecker]
         public ActionResult AddDayEndStat()
         {
             var TodayDate = DateTime.Now.Date;
@@ -365,15 +449,16 @@ namespace OctaShapeSolution.Controllers
                 db.SaveChanges();
             }
 
-            
-
-            
 
 
+
+
+            ViewBag.Message1 = "Day End Notification Send";
 
             return RedirectToAction("CallDayEnd");
         }
 
+        [AuthorizeChecker]
         public ActionResult DayEndStatOff()
         {
 

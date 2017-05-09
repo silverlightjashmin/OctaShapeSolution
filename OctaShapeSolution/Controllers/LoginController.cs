@@ -70,11 +70,7 @@ namespace OctaShapeSolution.Controllers
                         
                     }
 
-                    //get role details for user
-                    var groupinfo = db.FindUserRole(User_Id).ToList().FirstOrDefault();
-
-                    //Check is admin 
-                    IsAdmin = Convert.ToBoolean(groupinfo.IsAdmin);
+                   
 
                     //check user is registered only
                     if (Status_Name == "Registered")
@@ -85,6 +81,12 @@ namespace OctaShapeSolution.Controllers
                     //check user is verified
                     else if (Status_Name == "Verified")
                     {
+                        //get role details for user
+                        var groupinfo = db.FindUserRole(User_Id).ToList().FirstOrDefault();
+
+                        //Check is admin 
+                        IsAdmin = Convert.ToBoolean(groupinfo.IsAdmin);
+
                         //check if user had verfired its email address
                         Session["User_Id"] = User_Id;
                         Session["User_Name"] = User_Name;

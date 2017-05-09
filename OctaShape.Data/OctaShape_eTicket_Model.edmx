@@ -855,7 +855,7 @@
           </FunctionImport>
           <FunctionImport Name="GetPendingBranch" EntitySet="TicketBranch" ReturnType="Collection(OctaShape_eTicket_Model.TicketBranch)" />
           <FunctionImport Name="DayEndStatOn">
-            <Parameter Name="branchcode" Mode="In" Type="String" />
+          <Parameter Name="branchcode" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AdminUserList_Result">
@@ -912,6 +912,7 @@
           <Property Type="String" Name="TicketPriority" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="AssignedBy" Nullable="false" MaxLength="500" />
           <Property Type="String" Name="BranchName" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="id" Nullable="false" />
         </ComplexType>
         <ComplexType Name="GetRequestData_Result">
           <Property Type="Int32" Name="Id" Nullable="false" />
@@ -1210,6 +1211,7 @@
                 <ScalarProperty Name="TicketPriority" ColumnName="TicketPriority" />
                 <ScalarProperty Name="AssignedBy" ColumnName="AssignedBy" />
                 <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

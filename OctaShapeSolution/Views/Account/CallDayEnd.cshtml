@@ -1,7 +1,7 @@
 ﻿@{
 
     Layout = "~/Views/Shared/_UserLayout.cshtml";
-  
+
 
 }
 <!DOCTYPE html>
@@ -54,7 +54,26 @@
 </head>
 <body>
     <div id="page-wrapper">
+
+
+
         <div class="row">
+
+@{
+    if (ViewBag.Message1 != null)
+    {
+
+        <div class="container col-lg-8">
+            <div class="alert alert-success fade in ">
+                <button data-dismiss="alert" class="close close-sm" type="button">
+                    <i class="icon-remove"></i>
+                </button>
+                <strong>Thank You , @ViewBag.Message1</strong>
+            </div>
+        </div>
+
+        }
+    }
             <div class="col-lg-12">
                 <h1 class="page-header">Day End DashBoard</h1>
             </div>

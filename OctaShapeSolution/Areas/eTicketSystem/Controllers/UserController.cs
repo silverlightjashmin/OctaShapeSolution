@@ -38,7 +38,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
 
 
-                var UserDetails = db.GetAllUserDetails(UserName).FirstOrDefault();
+                var UserDetails = db.GetAllUserDetails(UserName).ToList();
                 
                 var ticketlist = db.Ticket.OrderByDescending(x => x.TicketPriorityId).Where(x => x.TicketStatusId == 1 && x.CreatedBy==UserId).ToList();
 
@@ -60,10 +60,21 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
                 string hostname = Dns.GetHostName();
                 IPHostEntry ipHostInfo = Dns.GetHostEntry(hostname);
-                IPAddress hostip = ipHostInfo.AddressList[2];
+
+                if (ipHostInfo.AddressList.Count() <= 2)
+                {
+
+                    IPAddress hostip = ipHostInfo.AddressList[1];
+                    ViewBag.HostIp = hostip.ToString();
+                }
+                else
+                {
+                    IPAddress hostip = ipHostInfo.AddressList[2];
+                    ViewBag.HostIp = hostip.ToString();
+                }
 
                 ViewBag.HostName = hostname;
-                ViewBag.HostIp = hostip.ToString();
+             
 
                 ViewBag.UserDetails = UserDetails;
                 
@@ -97,10 +108,9 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
         {
             //id for ticket closed in ticketstatus table is 4
             int ticketclosed = 4;
-            
-            int userid = Convert.ToInt32(Session["User_Id"]);
 
-            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.CreatedBy == userid);
+            int userid = Convert.ToInt32(Session["User_Id"]);
+            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.AssignedTo == userid);
             return View(ticket.ToList());
         }
 
@@ -108,10 +118,8 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
         {
             //id for ticket closed in ticketstatus table is 4
             int ticketclosed = 4;
-            string Branch_Code = Session["Branch_Code"].ToString();
-            
-
-            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.BranchCode == Branch_Code);
+            string branchcode = Session["Branch_Code"].ToString();
+            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.BranchCode==branchcode);
             return View(ticket.ToList());
         }
 
@@ -133,6 +141,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             ticket.BranchCode = Session["Branch_Code"].ToString();
             ticket.CreatedDate = DateTime.Now;
 
+            string name = Session["User_Name"].ToString();
 
 
             if (ModelState.IsValid)
@@ -143,7 +152,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
 
                 //send email to admin for new ticket raised
                 string subject = "New Ticket Has Been Raised By :" + Session["User_Name"].ToString();
-                string Body = string.Format("Dear Admin,<BR/><br/>A New Ticket Has Been Raised By :{0}.<br/><br/> please click on the below link to View the ticket : <a href=\"{1}\" title=\"User Email Confirm\">{2}</a>", ticket.User.UserName, Url.Action("GetTicket", "Comment", new { id = ticket.id }, Request.Url.Scheme));
+                string Body = string.Format("Dear Admin,<BR/><br/>A New Ticket Has Been Raised By :{0}.<br/><br/> please click on the below link to View the ticket : <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", name, Url.Action("GetTicket", "Comment", new { id = ticket.id }, Request.Url.Scheme));
 
                 var adminemaillist = db.AdminUserList().ToList();
 
@@ -162,11 +171,15 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
                 messageto = db.User.Find(ticket.CreatedBy).Email;
                 se.SendEmails(subject, Body, messageto);
 
+                ViewBag.Message = "Ticket Issued Successfully";
 
+                ViewBag.Categoryid = new SelectList(db.TicketCategory, "id", "CategoryName", ticket.Categoryid);
+                ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "id", "TicketPriority1", ticket.TicketPriorityId);
 
-                return RedirectToAction("ViewTicket", "User");
+                return RedirectToAction("ViewTickets");
             }
 
+            ViewBag.Message = "Ticket Couldn't Be Issued";
             ViewBag.Categoryid = new SelectList(db.TicketCategory, "id", "CategoryName", ticket.Categoryid);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriority, "id", "TicketPriority1", ticket.TicketPriorityId);
             return View(ticket);

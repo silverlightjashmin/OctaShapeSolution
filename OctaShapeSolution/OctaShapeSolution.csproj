@@ -1075,6 +1075,7 @@
     <Content Include="Views\Account\CallDayEnd.cshtml" />
     <Content Include="Views\Account\AddDayEndStat.cshtml" />
     <Content Include="Views\Account\DayEndStatOff.cshtml" />
+    <Content Include="Views\Account\RegisterUserByAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

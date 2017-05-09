@@ -22,7 +22,7 @@
 
 
                     <li>
-                        <a href="#">
+                        <a href="~/eTicketSystem/Comment/GetTicket/@item.id">
                             <span class="subject">
                                 <span class="from">@item.Title</span>
                                 <span class="time">@item.AssignedBy</span>
@@ -72,11 +72,12 @@
 
                 </li>
                 <li>
-                    @Html.ActionLink("Reset Password", "ChangePassword", "../Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+                    @Html.ActionLink("Change Password", "ChangePassword", "../Account", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
 
                 </li>
                 <li>
-                    <a href="../Admin/ViewMyTicket"><i class="icon_key_alt"></i> My Tickets</a>
+                    @Html.ActionLink("My Tickets", "ViewMyTicket", "User", null, new { htmlAttributes = new { @class = "icon_key_alt" } })
+
 
                 </li>
 

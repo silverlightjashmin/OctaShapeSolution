@@ -18,5 +18,6 @@ namespace OctaShape.Data
         public string TicketPriority { get; set; }
         public string AssignedBy { get; set; }
         public string BranchName { get; set; }
+        public int id { get; set; }
     }
 }

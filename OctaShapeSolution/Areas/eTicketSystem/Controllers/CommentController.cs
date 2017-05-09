@@ -147,7 +147,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             ViewBag.Comments = Comments;
        
             ViewBag.TicketDetails = ticket;
-            ViewBag.AssignedBy = db.User.Find(ticket.AssignedBy).UserName;
+           
 
             return View(); 
         }
