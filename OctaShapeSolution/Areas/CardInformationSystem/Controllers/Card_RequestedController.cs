@@ -185,6 +185,15 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
             return RedirectToAction("DownloadCardRequest");
         }
+
+
+        public ActionResult ViewCards(int? id)
+        {
+            var ExportData = db.Card_RequestDetail.Where(x => x.Card_RequestId == id).ToList();
+            
+           
+            return View(ExportData);
+        }
     }
 
     

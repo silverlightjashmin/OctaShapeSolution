@@ -194,6 +194,7 @@ namespace OctaShapeSolution.Controllers
 
             if (ModelState.IsValid)
             {
+                
                 var finduser = db.SearchUser(FPVM.Email).FirstOrDefault();
 
                 if (finduser != null)

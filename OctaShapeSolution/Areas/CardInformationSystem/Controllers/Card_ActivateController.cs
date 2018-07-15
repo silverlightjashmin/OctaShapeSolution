@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using OctaShape.Data;
 using OctaShapeSolution.Models;
 using OctaShape.Common;
+using OctaShapeSolution.Areas.CardInformationSystem.Models;
 
 namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 {
@@ -60,25 +61,26 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
 
 
-            Card_Activate d = new Card_Activate();
+            CardActivateDate d = new CardActivateDate();
 
 
             if (RequestStartDatevar == null)
             {
-                d.Activate_Start = DateTime.Now.Date;
-                d.Activate_End = DateTime.Now.Date;
+                d.StartDate = DateTime.Now.Date;
+                d.EndDate = DateTime.Now.Date;
             }
             else
             {
-                d.Activate_Start = RequestStartDatevar.Activate_Start.Value.Date;
-                d.Activate_End = DateTime.Now.Date;
+                d.StartDate = RequestStartDatevar.Activate_End.Value.Date;
+                d.EndDate = DateTime.Now.Date;
 
 
             }
-            d.Card_ReceivedDetails = new List<Card_ReceivedDetails>();
+
+            d.Card_ReceivedDetail = new List<Card_ReceivedDetails>();
 
 
-            ViewBag.sdate = d.Activate_Start;
+            ViewBag.sdate = d.StartDate;
 
 
 
@@ -87,18 +89,20 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
 
 
         [HttpPost]
-        public ActionResult DownloadActivationRequest(Card_Activate Card_Activate)
+        public ActionResult DownloadActivationRequest(CardActivateDate CardActivateDate)    
         {
-          
-
-            var ExportData = db.GetActivationData(Card_Activate.Activate_Start, Card_Activate.Activate_End, Session["User_Name"].ToString()).ToList();
 
 
-            Card_Activate d = new Card_Activate();
+            // var ExportData = db.GetActivationData(CardActivateDate.StartDate, CardActivateDate.EndDate, Session["User_Name"].ToString()).ToList();
+            var exportdata = db.Card_ReceivedDetails.Where(x => x.Delivered_Date >= CardActivateDate.StartDate && x.Delivered_Date <= CardActivateDate.EndDate).ToList();
 
-            d.Activate_Start = Card_Activate.Activate_Start;
-            d.Activate_End = Card_Activate.Activate_End;
-            d.Card_ReceivedDetails = ExportData;
+
+
+            CardActivateDate d = new CardActivateDate();
+
+            d.StartDate = CardActivateDate.StartDate;
+            d.EndDate = CardActivateDate.EndDate;
+            d.Card_ReceivedDetail = exportdata;
 
 
 
@@ -112,17 +116,17 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult DumpData(Card_Activate Card_Activate)
+        public ActionResult DumpData(CardActivateDate Card_Activate)
         {
 
-            var ExportData = db.GetActivationData(Card_Activate.Activate_Start, Card_Activate.Activate_End, Session["User_Name"].ToString()).ToList();
+            var ExportData = db.GetActivationData(Card_Activate.StartDate, Card_Activate.EndDate, Session["User_Name"].ToString()).ToList();
 
             //call notepad trf code
             ExportToText ett = new ExportToText();
 
             //ToString("yyyy-MM-dd")
 
-            ett.Export<Card_ReceivedDetails>(ExportData, Card_Activate.Activate_Start.ToString());
+            ett.Export<Card_ReceivedDetails>(ExportData, Card_Activate.StartDate.ToString());
             return RedirectToAction("DownloadActivationRequest");
         }
     }

@@ -42,7 +42,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         // GET: CardInformationSystem/Card_RequestDetail/Create
         public ActionResult Create()
         {
-            ViewBag.BranchCode = new SelectList(db1.TicketBranch, "BranchCode", "BranchName");
+            ViewBag.Branch_Code = new SelectList(db1.TicketBranch, "BranchCode", "BranchName");
             ViewBag.Request_Id = new SelectList(db.Card_RequestType, "Request_Id", "Request_Name");
             return View();
         }
@@ -56,6 +56,7 @@ namespace OctaShapeSolution.Areas.CardInformationSystem.Controllers
         {
             if (ModelState.IsValid)
             {
+                card_RequestDetail.Created_By = Session["User_Name"].ToString();
                 db.Card_RequestDetail.Add(card_RequestDetail);
                 db.SaveChanges();
                 return RedirectToAction("Index");

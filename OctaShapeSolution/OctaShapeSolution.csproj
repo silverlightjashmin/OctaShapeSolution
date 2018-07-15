@@ -177,6 +177,7 @@
     <Compile Include="Areas\CardInformationSystem\Controllers\Card_StockDetailController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\HomeController.cs" />
     <Compile Include="Areas\CardInformationSystem\Controllers\UserController.cs" />
+    <Compile Include="Areas\CardInformationSystem\Models\CardActivateDate.cs" />
     <Compile Include="Areas\CardInformationSystem\Models\CardRequestDate.cs" />
     <Compile Include="Areas\eTicketSystem\Controllers\AdminController.cs" />
     <Compile Include="Areas\eTicketSystem\Controllers\CommentController.cs" />
@@ -899,6 +900,8 @@
     <Content Include="Areas\eTicketSystem\Views\Admin\CommonAdmin.cshtml" />
     <Content Include="Areas\eTicketSystem\Views\User\CommonUser.cshtml" />
     <Content Include="Areas\IdeaBank\Views\web.config" />
+    <Content Include="Areas\CardInformationSystem\Views\Card_Requested\ViewCards.cshtml" />
+    <Content Include="Areas\CardInformationSystem\Views\Card_Received\Create.cshtml" />
     <None Include="Properties\PublishProfiles\OctaShapeSolution.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Chart.js" />

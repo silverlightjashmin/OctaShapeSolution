@@ -12,53 +12,64 @@
         <!-- /.col-lg-12 -->
     </div>
 
-    <p>
-        @Html.ActionLink("Download New Card Activation Request", "DownloadActivationRequest", null, new { @class = "btn btn-primary" })
-    </p>>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Activate_Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activate_Start)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activate_End)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.No_ofCards)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Activated_By)
-            </th>
-            <th></th>
-        </tr>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.ActionLink("Download New Card Activation Request", "DownloadActivationRequest", null, new { @class = "btn btn-primary" })
+                </div>
+                <div class="panel-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Activate_Date)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Activate_Start)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Activate_End)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.No_ofCards)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Activated_By)
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Activate_Date)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Activate_Start)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Activate_End)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.No_ofCards)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Activated_By)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Cards List", "Details", new { id = item.Id }) |
 
-        @foreach (var item in Model)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activate_Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activate_Start)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activate_End)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.No_ofCards)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Activated_By)
-        </td>
-        <td>
-            @Html.ActionLink("Cards List", "Details", new { id = item.Id }) |
-          
-        </td>
-    </tr>
-    }
-
-    </table>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.panel -->
 </div>

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OctaShape.Data.Card_Activate>
+﻿@model OctaShapeSolution.Areas.CardInformationSystem.Models.CardActivateDate    
+
 @{
     ViewBag.Title = "Card Information System - Download Activation Request ";
     Layout = "~/Areas/CardInformationSystem/Views/Shared/_AdminLayout.cshtml";
@@ -31,7 +32,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
 
-                        @using (Html.BeginForm("DownloadCardRequest", "Card_Requested", null, FormMethod.Post))
+                        @using (Html.BeginForm("DownloadActivationRequest", "Card_Activate", null, FormMethod.Post))
 
                         {
 
@@ -42,20 +43,19 @@
                             <div class="form-horizontal">
 
 
-
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FirstOrDefault().Activate_Start, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-4">
-                                        @Html.EditorFor(model => model.FirstOrDefault().Activate_Start, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.sdate } })
-                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().Activate_Start, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.FirstOrDefault().Activate_End, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
                                     <div class="col-md-4">
-                                        @Html.EditorFor(model => model.FirstOrDefault().Activate_End, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.FirstOrDefault().Activate_End, "", new { @class = "text-danger" })
+                                        @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
 
@@ -81,46 +81,46 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Activate_Date)
+                                        @Html.DisplayNameFor(model => model.Card_ReceivedDetail.FirstOrDefault().Received_Id)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Activate_Start)
+                                        @Html.DisplayNameFor(model => model.Card_ReceivedDetail.FirstOrDefault().Branch_Code)
 
 
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Activate_End)
+                                        @Html.DisplayNameFor(model => model.Card_ReceivedDetail.FirstOrDefault().Card_No)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.No_ofCards)
+                                        @Html.DisplayNameFor(model => model.Card_ReceivedDetail.FirstOrDefault().Account_No)
                                     </th>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Activated_By)
+                                        @Html.DisplayNameFor(model => model.Card_ReceivedDetail.FirstOrDefault().Delivered_Date)
                                     </th>
 
                                 </tr>
                             </thead>
                             <tbody>
 
-                                @foreach (var item in Model.FirstOrDefault().Card_ReceivedDetails)
+                                @foreach (var item in Model.Card_ReceivedDetail)
             {
                                     <tr>
 
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Card_Activate.Activate_Date)
+                                            @Html.DisplayFor(modelItem => item.Received_Id)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Card_Activate.Activate_Start)
+                                            @Html.DisplayFor(modelItem => item.Branch_Code)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Card_Activate.Activate_End)
+                                            @Html.DisplayFor(modelItem => item.Card_No)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Card_Activate.No_ofCards)
+                                            @Html.DisplayFor(modelItem => item.Account_No)
                                         </td>
 
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Card_Activate.Activated_By)
+                                            @Html.DisplayFor(modelItem => item.Delivered_Date)
                                         </td>
 
 

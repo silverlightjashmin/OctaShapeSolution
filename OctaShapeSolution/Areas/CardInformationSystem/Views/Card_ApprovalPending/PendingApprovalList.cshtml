@@ -145,16 +145,16 @@
 <script src="~/vendor/datatables-responsive/dataTables.responsive.js"></script>
   <script>
 $(document).ready(function() {
-    var table = $('#dataTables-example').DataTable();
+    //var table = $('#dataTables-example').DataTable();
 
     $('#dataTables-example tbody').on('click', 'button', function () {
 
-        var data = table.row($(this).parents('tr')).data();
+        var data = $('#dataTables-example').DataTable().row($(this).parents('tr')).data();
 
          var sid = data[0];
         var number = data[3];
 
-        console.log(sid);
+       
 
         $.ajax({
             type: "GET",

@@ -110,8 +110,11 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             int ticketclosed = 4;
 
             int userid = Convert.ToInt32(Session["User_Id"]);
-            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.AssignedTo == userid);
+            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.CreatedBy == userid ).OrderByDescending(x=>x.CreatedDate
+           
+            );
             return View(ticket.ToList());
+
         }
 
         public ActionResult ViewTickets()
@@ -119,7 +122,7 @@ namespace OctaShapeSolution.Areas.eTicketSystem.Controllers
             //id for ticket closed in ticketstatus table is 4
             int ticketclosed = 4;
             string branchcode = Session["Branch_Code"].ToString();
-            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.BranchCode==branchcode);
+            var ticket = db.Ticket.Include(t => t.TicketBranch).Include(t => t.TicketCategory).Include(t => t.User).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Where(x => x.TicketStatusId != ticketclosed && x.BranchCode==branchcode).OrderByDescending(x => x.CreatedDate);
             return View(ticket.ToList());
         }
 

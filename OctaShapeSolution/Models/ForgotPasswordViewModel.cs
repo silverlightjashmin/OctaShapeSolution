@@ -9,9 +9,9 @@ namespace OctaShapeSolution.Models
 {
     public class ForgotPasswordViewModel
     {
-        [Required(ErrorMessage = "Email Id Cannot be Blank")]
+        [Required(ErrorMessage = "UserName Cannot be Blank")]
 
-        [Display(Name = "Email or UserName")]
+        [Display(Name = "UserName")]
         public string Email { get; set; }
     }
 }
